@@ -1,6 +1,5 @@
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Users, Rocket, Code, Trophy, Lightbulb, HeartHandshake, Gem } from "lucide-react";
+import { Users, Rocket, Code, Trophy, Lightbulb, HeartHandshake } from "lucide-react";
 
 import { motion } from "motion/react";
 

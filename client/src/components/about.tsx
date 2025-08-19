@@ -4,9 +4,9 @@ import { motion } from 'framer-motion';
 import { Card, CardContent } from './ui/card';
 import { Code, Users, Rocket, Sparkles } from "lucide-react";
 import { HoverEffect } from './ui/card-hover-effect';
-import Activities from './activities';
 import { Features } from './why-us';
 import { Badge } from './ui/badge';
+import { Activities } from './activities';
 
 
 export default function About() {

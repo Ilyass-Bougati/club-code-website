@@ -64,7 +64,7 @@ export function Features() {
   };
 
   return (
-    <section id="features" className="relative isolate w-full py-10 md:py-20">
+    <section id="features" className="relative isolate w-full ">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(from_var(--primary)_r_g_b_/_0.03),transparent_70%)]"></div>
 
       <div className="container mx-auto px-4 md:px-6">
@@ -109,7 +109,7 @@ export function Features() {
               variants={item}
               whileHover={{ y: -5, transition: { duration: 0.2 } }}
             >
-              <Card className="border-border/40 from-card to-card/50 hover:border-primary/20 group h-full overflow-hidden bg-gradient-to-b backdrop-blur transition-all hover:shadow-lg">
+              <Card className="border-border from-card to-card/50 hover:border-primary/20 group h-full overflow-hidden bg-gradient-to-b backdrop-blur transition-all hover:shadow-lg">
                 <CardContent className="flex h-full flex-col p-6">
                   <div className="bg-primary/10 text-primary group-hover:bg-primary/20 mb-4 flex size-12 items-center justify-center rounded-full transition-colors duration-300">
                     {feature.icon}

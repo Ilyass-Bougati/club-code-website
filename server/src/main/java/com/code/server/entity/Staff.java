@@ -10,6 +10,8 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -36,6 +38,14 @@ public class Staff {
     @Enumerated(EnumType.STRING)
     @NotNull
     private StaffRole role = StaffRole.ADMIN;
+
+    @Builder.Default
+    @OneToMany(mappedBy="staff")
+    private Set<Event> addedEvents = new HashSet<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy="staff")
+    private Set<News> addedNews = new HashSet<>();
 
     @CreationTimestamp
     private LocalDateTime createdAt;

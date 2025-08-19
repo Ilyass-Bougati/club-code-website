@@ -1,12 +1,11 @@
 package com.code.server.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -24,4 +23,12 @@ public class AreaOfInterest {
 
     @NotBlank
     private String name;
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "areaOfInterests")
+    private Set<Event> events;
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<RegistrationRequest> registrationRequests;
 }

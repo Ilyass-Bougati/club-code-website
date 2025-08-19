@@ -1,9 +1,12 @@
 package com.code.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -33,6 +36,10 @@ public class RegistrationRequest {
     @Min(1)
     @Max(5)
     private Integer year;
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<AreaOfInterest> areaOfInterests = new HashSet<>();
 
     @NotEmpty
     private String major;

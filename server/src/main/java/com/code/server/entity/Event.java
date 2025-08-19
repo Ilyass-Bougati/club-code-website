@@ -46,7 +46,7 @@ public class Event {
     // This could become eagerly fetched later on
     @Builder.Default
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "events_area_of_interests",
             joinColumns = @JoinColumn(name = "events_id"),
@@ -57,7 +57,7 @@ public class Event {
     // This could become eagerly fetched later on
     @Builder.Default
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "events_sponsors",
             joinColumns = @JoinColumn(name = "events_id"),

@@ -1,5 +1,8 @@
-package com.code.server.dto;
+package com.code.server.dto.event;
 
+import com.code.server.dto.areaOfInterest.AreaOfInterestDto;
+import com.code.server.dto.image.ImageDto;
+import com.code.server.dto.sponsor.SponsorDto;
 import com.code.server.enums.EventType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -8,9 +11,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 
 @Getter
@@ -36,11 +37,11 @@ public class EventDto {
 
     @NotNull
     @Builder.Default
-    private Set<AreaOfInterestDto> areaOfInterests = new HashSet<>();
+    private List<AreaOfInterestDto> areaOfInterests = new ArrayList<>();
 
     @NotNull
     @Builder.Default
-    private Set<SponsorDto> sponsors = new HashSet<>();
+    private List<SponsorDto> sponsors = new ArrayList<>();
 
     @NotNull
     private Boolean sponsored;

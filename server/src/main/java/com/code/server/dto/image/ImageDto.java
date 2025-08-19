@@ -1,4 +1,4 @@
-package com.code.server.dto;
+package com.code.server.dto.image;
 
 import com.code.server.enums.ImageHost;
 import jakarta.persistence.*;

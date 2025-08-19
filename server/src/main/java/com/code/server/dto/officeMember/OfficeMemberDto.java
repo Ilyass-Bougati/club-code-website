@@ -1,5 +1,6 @@
-package com.code.server.dto;
+package com.code.server.dto.officeMember;
 
+import com.code.server.dto.image.ImageDto;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

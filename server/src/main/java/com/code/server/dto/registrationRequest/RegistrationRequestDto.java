@@ -1,11 +1,10 @@
-package com.code.server.dto;
+package com.code.server.dto.registrationRequest;
 
+import com.code.server.dto.areaOfInterest.AreaOfInterestDto;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -32,7 +31,7 @@ public class RegistrationRequestDto {
 
     @NotNull
     @Builder.Default
-    private Set<AreaOfInterestDto> areaOfInterests = new HashSet<>();
+    private List<AreaOfInterestDto> areaOfInterests = new ArrayList<>();
 
     @NotEmpty
     private String major;

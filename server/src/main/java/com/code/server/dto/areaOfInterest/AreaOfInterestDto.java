@@ -1,4 +1,4 @@
-package com.code.server.dto;
+package com.code.server.dto.areaOfInterest;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;

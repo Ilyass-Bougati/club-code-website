@@ -1,5 +1,6 @@
-package com.code.server.dto;
+package com.code.server.dto.news;
 
+import com.code.server.dto.image.ImageDto;
 import com.code.server.enums.NewsType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

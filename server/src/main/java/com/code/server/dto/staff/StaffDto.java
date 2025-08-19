@@ -1,7 +1,5 @@
-package com.code.server.dto;
+package com.code.server.dto.staff;
 
-import com.code.server.entity.Event;
-import com.code.server.entity.News;
 import com.code.server.enums.StaffRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;

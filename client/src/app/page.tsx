@@ -1,11 +1,8 @@
-import { Button } from "@/components/ui/button";
+import Hero from "@/components/home/hero";
+
 
 export default function Home() {
-  return (
-    <div>
-      <Button>
-        click me
-      </Button>
-    </div>
-  );
+  return <main className="w-full flex-1">
+    <Hero />
+  </main>;
 }

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { Analytics } from "@vercel/analytics/next"
+import Header from "@/components/layouts/header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,7 +17,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "code",
-  description: "A university club website that provides news, events, and training updates for students, manages yearly registration, and showcases the leadership team.",
+  description:
+    "A university club website that provides news, events, and training updates for students, manages yearly registration, and showcases the leadership team.",
 };
 
 export default function RootLayout({

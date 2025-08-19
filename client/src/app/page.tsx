@@ -1,5 +1,6 @@
 import Footer from "@/components/Footer/Footer";
 import { JoinUs } from "@/components/Footer/JoinUs";
+import About from "@/components/about";
 import Hero from "@/components/home/hero";
 
 
@@ -8,5 +9,6 @@ export default function Home() {
     <Hero />
          <JoinUs />
      <Footer />
+    <About />
   </main>;
-}
+} 

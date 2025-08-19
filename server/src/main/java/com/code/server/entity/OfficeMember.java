@@ -7,8 +7,6 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -18,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity(name = "office_members")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class OfficeMembers {
+public class OfficeMember {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @EqualsAndHashCode.Include

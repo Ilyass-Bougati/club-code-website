@@ -1,7 +1,5 @@
-package com.code.server.entity;
+package com.code.server.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -12,14 +10,9 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "registration_requests")
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class RegistrationRequest {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @EqualsAndHashCode.Include
+@AllArgsConstructor
+public class RegistrationRequestDto {
     private UUID id;
 
     @NotEmpty
@@ -37,9 +30,9 @@ public class RegistrationRequest {
     @Max(value = 10, message = "Number of years for a registration request can't be more than 10")
     private Integer year;
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
-    private Set<AreaOfInterest> areaOfInterests = new HashSet<>();
+    @NotNull
+    @Builder.Default
+    private Set<AreaOfInterestDto> areaOfInterests = new HashSet<>();
 
     @NotEmpty
     private String major;

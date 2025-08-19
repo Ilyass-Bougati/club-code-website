@@ -1,9 +1,8 @@
-import About from "@/components/about";
+import Hero from "@/components/home/hero";
+
 
 export default function Home() {
-  return (
-    <div>
-      <About />
-    </div>
-  );
+  return <main className="w-full flex-1">
+    <Hero />
+  </main>;
 }

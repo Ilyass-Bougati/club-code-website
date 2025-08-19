@@ -34,6 +34,12 @@ public class EventMapperImpl implements EventMapper {
                 .build();
     }
 
+    /**
+     * This function maps an event DTO to an even entity, but it doesn't map the sponsors, areas of interests, images, and staff
+     * those should be added separately.
+     * @param eventDto The event DTO to turn into an even entity
+     * @return an event entity
+     */
     @Override
     public Event toEntity(EventDto eventDto) {
         return Event.builder()
@@ -44,9 +50,6 @@ public class EventMapperImpl implements EventMapper {
                 .registrationOpen(eventDto.getRegistrationOpen())
                 .registrationDeadline(eventDto.getRegistrationDeadline())
                 .sponsored(eventDto.getSponsored())
-                // TODO : add sponsors
-                // TODO : add areas of interests
-                // TODO : add image
                 .build();
     }
 }

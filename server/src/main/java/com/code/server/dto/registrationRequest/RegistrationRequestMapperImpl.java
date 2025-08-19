@@ -4,13 +4,12 @@ import com.code.server.dto.areaOfInterest.AreaOfInterestMapper;
 import com.code.server.entity.RegistrationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class RegisterRequestMapperImpl implements RegistrationRequestMapper {
+public class RegistrationRequestMapperImpl implements RegistrationRequestMapper {
 
     private final AreaOfInterestMapper areaOfInterestMapper;
 

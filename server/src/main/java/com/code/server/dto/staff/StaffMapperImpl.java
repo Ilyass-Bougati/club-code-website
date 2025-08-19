@@ -1,7 +1,9 @@
 package com.code.server.dto.staff;
 
 import com.code.server.entity.Staff;
+import org.springframework.stereotype.Service;
 
+@Service
 public class StaffMapperImpl implements StaffMapper {
     @Override
     public StaffDto toDTO(Staff staff) {
@@ -12,10 +14,13 @@ public class StaffMapperImpl implements StaffMapper {
                 .build();
     }
 
-    // TODO : implement this later
-    // make sure to take security into account
+
     @Override
     public Staff toEntity(StaffDto staffDto) {
-        return null;
+        return Staff.builder()
+                .email(staffDto.getEmail())
+                .role(staffDto.getRole())
+                // hash the password then save it
+                .build();
     }
 }

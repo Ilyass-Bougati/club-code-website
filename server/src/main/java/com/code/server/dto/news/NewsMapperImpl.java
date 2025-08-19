@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class NewMapperImpl implements NewsMapper {
+public class NewsMapperImpl implements NewsMapper {
 
     private final ImageMapper imageMapper;
 

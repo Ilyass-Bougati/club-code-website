@@ -3,8 +3,10 @@
 import { Sparkles, Mail, Linkedin, Instagram, Phone, MapPin } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { Variants } from "framer-motion";
 
-const fadeUp = {
+// Update the fadeUp animation type
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: (i = 0) => ({
     opacity: 1,
@@ -13,7 +15,8 @@ const fadeUp = {
   }),
 };
 
-const containerStagger = {
+// Update the containerStagger type
+const containerStagger: Variants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.2 } },
 };
@@ -86,9 +89,7 @@ export default function Footer() {
                hover:scale-105"
               style={{
                 boxShadow: "0 0 0 rgba(0,0,0,0)",
-                "&:hover": {
-                  boxShadow: `0 0 20px ${contact.shadowColor}`
-                }
+               
               }}
             >
               <div className="flex items-center gap-3">

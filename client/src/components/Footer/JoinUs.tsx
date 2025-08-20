@@ -1,11 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { Rocket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const fadeInUp = {
+const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 50 },
   visible: (i = 0) => ({
     opacity: 1,
@@ -14,7 +14,7 @@ const fadeInUp = {
   }),
 };
 
-const containerStagger = {
+const containerStagger: Variants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.08, delayChildren: 0.15 } },
 };

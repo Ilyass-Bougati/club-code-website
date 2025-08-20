@@ -9,7 +9,7 @@ export type MarqueeProps = HTMLAttributes<HTMLDivElement>;
 
 export const Marquee = ({ className, ...props }: MarqueeProps) => (
   <div
-    className={cn("relative w-full  overflow-hidden", className)}
+    className={cn("relative w-full bg-transparent  overflow-hidden", className)}
     {...props}
   />
 );

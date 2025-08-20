@@ -23,7 +23,7 @@ export default function MeetTheTeam() {
     >
       <motion.div
         initial={{ opacity: 0 }}
-        className="absolute inset-0 -z-20"
+        className="absolute inset-0 -z-20 hidden md:block"
         style={{
           background:
             "radial-gradient(circle at center, var(--muted), transparent 70%)",

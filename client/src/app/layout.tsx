@@ -38,7 +38,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <div className="bg-background text-foreground flex min-h-[100dvh] flex-col items-center justify-items-center">
+            <Header />
+            {children}
+          </div>
           <Analytics />
         </ThemeProvider>
       </body>

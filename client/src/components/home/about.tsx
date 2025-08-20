@@ -1,11 +1,11 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Card, CardContent } from './ui/card';
+import { Card, CardContent } from '../ui/card';
 import { Code, Users, Rocket, Sparkles } from "lucide-react";
-import { HoverEffect } from './ui/card-hover-effect';
+import { HoverEffect } from '../ui/card-hover-effect';
 import { Features } from './why-us';
-import { Badge } from './ui/badge';
+import { Badge } from '../ui/badge';
 import { Activities } from './activities';
 
 

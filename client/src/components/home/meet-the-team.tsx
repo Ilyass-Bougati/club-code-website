@@ -118,7 +118,7 @@ export default function MeetTheTeam() {
                       href={member.linkedin || "#"}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex flex-col items-center gap-2"
+                      className="flex flex-col items-center gap-2 group"
                     >
                       <Avatar className="size-20 md:size-40 border-2 border-primary shadow-lg">
                         <AvatarImage src={member.avatar} alt={member.author} />

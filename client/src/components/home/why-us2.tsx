@@ -1,3 +1,5 @@
+"use client"
+
 import React from 'react';
 import { motion, TargetAndTransition, Variants } from "framer-motion";
 import Image from 'next/image';

@@ -1,5 +1,3 @@
-"use client"
-
 import Footer from "@/components/Footer/Footer";
 import { JoinUs } from "@/components/Footer/JoinUs";
 import About from "@/components/home/about";

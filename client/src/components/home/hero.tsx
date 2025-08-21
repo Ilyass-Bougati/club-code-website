@@ -63,10 +63,10 @@ export default function Hero() {
 
         {/* Cursor on top */}
         <div className="absolute inset-0 left-[120%] top-1/5 flex items-center justify-center">
-          <Cursor className=" hidden md:block" color="#000000">
+          <Cursor className=" hidden md:block" >
             <CursorPointer />
             <CursorBody>
-              <CursorMessage>
+              <CursorMessage className="text-primary">
                 <span className="text-primary mr-1">✦</span> That looks great!
               </CursorMessage>
             </CursorBody>

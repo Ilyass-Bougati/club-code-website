@@ -41,10 +41,13 @@ const faqs = [
 
 export function FAQ() {
   return (
-    <section id="faq" className="w-full py-20 md:py-32 relative isolate bg-muted/50 ">
-    <motion.div
+    <section
+      id="faq"
+      className="w-full py-20 md:py-32 relative isolate bg-muted/50 "
+    >
+      <motion.div
         initial={{ opacity: 0 }}
-            animate={{
+        animate={{
           backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
           opacity: 1,
           transition: { delay: 0.5, duration: 2 },
@@ -56,7 +59,6 @@ export function FAQ() {
         }}
         className="absolute inset-0 pointer-events-none overflow-hidden  bg-gray-950/[2.5%] after:absolute after:inset-0  after:inset-ring after:inset-ring-gray-950/5 dark:after:inset-ring-white/10 bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed [--pattern-fg:var(--color-gray-950)]/5 dark:[--pattern-fg:var(--color-white)]/10"
       ></motion.div>
-
 
       <motion.div
         initial={{ opacity: 0 }}
@@ -154,7 +156,7 @@ export function FAQ() {
                   value={`item-${i}`}
                   className="data-[state=open]:bg-card dark:data-[state=open]:bg-muted peer rounded-xl border-none px-7 py-1 data-[state=open]:shadow-sm"
                 >
-                  <AccordionTrigger className="cursor-pointer text-base hover:underline underline-offset-2 transition-all duration-300">
+                  <AccordionTrigger className="cursor-pointer text-base hover:underline underline-offset-2 transition-all duration-300 hover:text-primary">
                     {faq.question}
                   </AccordionTrigger>
                   <AccordionContent>

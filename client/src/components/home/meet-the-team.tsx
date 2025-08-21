@@ -107,11 +107,11 @@ export default function MeetTheTeam() {
                       rel="noopener noreferrer"
                       className="flex flex-col items-center gap-2 group"
                     >
-                      <Avatar className="size-20 md:size-40 border-2 border-primary shadow-lg">
+                      <Avatar className="size-20 md:size-40 border-4 border-primary shadow-lg">
                         <AvatarImage src={member.avatar} alt={member.author} />
                         <AvatarFallback className="text-4xl  lg:text-7xl">{member.fallback}</AvatarFallback>
                       </Avatar>
-                      <h3 className="text-sm font-semibold text-center transition-all duration-300  group-hover:underline underline-offset-2">
+                      <h3 className="text-sm font-semibold text-center transition-all duration-300  group-hover:underline underline-offset-2 group-hover:text-primary">
                         {member.author}
                       </h3>
                       <p className="text-xs text-muted-foreground text-center">
@@ -138,11 +138,11 @@ export default function MeetTheTeam() {
                       rel="noopener noreferrer"
                       className="flex flex-col items-center gap-2 group"
                     >
-                      <Avatar className="size-20 md:size-40 border-2 border-primary shadow-lg">
+                      <Avatar className="size-20 md:size-40 border-4 border-primary shadow-lg">
                         <AvatarImage src={member.avatar} alt={member.author} />
                         <AvatarFallback>{member.fallback}</AvatarFallback>
                       </Avatar>
-                      <h3 className="text-sm font-semibold text-center transition-all duration-300  group-hover:underline underline-offset-2">
+                      <h3 className="text-sm font-semibold text-center transition-all duration-300  group-hover:underline underline-offset-2 group-hover:text-primary">
                         {member.author}
                       </h3>
                       <p className="text-xs text-muted-foreground text-center">

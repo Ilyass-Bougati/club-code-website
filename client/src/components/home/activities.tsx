@@ -1,9 +1,18 @@
-"use client"
+"use client";
 
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "motion/react";
-import { Code, Lightbulb, Users, Github, BookOpen, Monitor, Handshake } from "lucide-react";
+import {
+  Code,
+  Lightbulb,
+  Users,
+  BookOpen,
+  Monitor,
+  Handshake,
+  Briefcase,
+} from "lucide-react";
+import { FaGithub } from "react-icons/fa";
 import { Badge } from "../ui/badge";
 
 const activities = [
@@ -39,7 +48,7 @@ const activities = [
   },
   {
     title: "Open Source Contributions",
-    icon: Github,
+    icon: FaGithub,
     steps: [
       "Collaborate on GitHub projects.",
       "Learn teamwork, version control, and community impact.",
@@ -57,9 +66,11 @@ const activities = [
   {
     title: "Tech Showcases / Demos",
     icon: Monitor,
-    steps: ["Members present their projects.", "Knowledge-sharing within the community."],
-    description:
-      "Showcase your work and exchange ideas with fellow students.",
+    steps: [
+      "Members present their projects.",
+      "Knowledge-sharing within the community.",
+    ],
+    description: "Showcase your work and exchange ideas with fellow students.",
   },
   {
     title: "Community Events & Networking",
@@ -67,6 +78,16 @@ const activities = [
     steps: ["Team-building activities.", "Collaborations with other clubs."],
     description:
       "Connect, collaborate, and grow your network within the tech community.",
+  },
+  {
+    title: "Career Preparation & Soft Skills",
+    icon: Briefcase,
+    steps: [
+      "Workshops on CV writing, LinkedIn, and interviews.",
+      "Develop communication, leadership, and teamwork skills.",
+    ],
+    description:
+      "Prepare for internships and jobs by building essential professional and interpersonal skills.",
   },
 ];
 
@@ -96,8 +117,6 @@ const item = {
 };
 
 export function Activities() {
-  
-
   return (
     <section className="relative w-full py-20 md:py-32 isolate overflow-hidden">
       {/* Animated Background */}
@@ -113,7 +132,7 @@ export function Activities() {
             transition={{
               duration: 20,
               repeat: Infinity,
-              ease: "linear"
+              ease: "linear",
             }}
           />
           <motion.div
@@ -125,7 +144,7 @@ export function Activities() {
             transition={{
               duration: 25,
               repeat: Infinity,
-              ease: "linear"
+              ease: "linear",
             }}
           />
           <motion.div
@@ -137,10 +156,10 @@ export function Activities() {
             transition={{
               duration: 30,
               repeat: Infinity,
-              ease: "linear"
+              ease: "linear",
             }}
           />
-          
+
           {/* Animated floating squares */}
           <motion.div
             className="absolute top-1/6 left-1/5 w-6 h-6 bg-primary/20 rounded-sm"
@@ -152,7 +171,7 @@ export function Activities() {
             transition={{
               duration: 15,
               repeat: Infinity,
-              ease: "linear"
+              ease: "linear",
             }}
           />
           <motion.div
@@ -165,7 +184,7 @@ export function Activities() {
             transition={{
               duration: 18,
               repeat: Infinity,
-              ease: "linear"
+              ease: "linear",
             }}
           />
           <motion.div
@@ -178,7 +197,7 @@ export function Activities() {
             transition={{
               duration: 12,
               repeat: Infinity,
-              ease: "linear"
+              ease: "linear",
             }}
           />
           <motion.div
@@ -191,7 +210,7 @@ export function Activities() {
             transition={{
               duration: 20,
               repeat: Infinity,
-              ease: "linear"
+              ease: "linear",
             }}
           />
           <motion.div
@@ -204,18 +223,21 @@ export function Activities() {
             transition={{
               duration: 16,
               repeat: Infinity,
-              ease: "linear"
+              ease: "linear",
             }}
           />
 
           {/* Subtle pattern overlay using primary color */}
-          <div className="absolute inset-0 opacity-5 " style={{
-            backgroundImage: `
+          <div
+            className="absolute inset-0 opacity-5 "
+            style={{
+              backgroundImage: `
               linear-gradient(hsl(var(--primary) / 0.3) 1px, transparent 1px),
               linear-gradient(90deg, hsl(var(--primary) / 0.3) 1px, transparent 1px)
             `,
-            backgroundSize: '50px 50px'
-          }} />
+              backgroundSize: "50px 50px",
+            }}
+          />
         </div>
       </div>
 
@@ -227,7 +249,7 @@ export function Activities() {
               whileInView="show"
               viewport={{ once: true }}
               variants={container}
-               className="mb-12 flex flex-col items-center justify-center space-y-4 text-center"
+              className="mb-12 flex flex-col items-center justify-center space-y-4 text-center"
             >
               <motion.div
                 variants={item}
@@ -268,23 +290,7 @@ export function Activities() {
               <motion.div
                 variants={container}
                 className="flex flex-wrap items-center gap-6"
-              >
-
-              </motion.div>
-              <motion.div
-                className="absolute inset-0 pointer-events-none z-0"
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{
-                  duration: 1.5,
-                }}
-                style={{
-                  background:
-                    "radial-gradient(ellipse at 30% 70%, oklch(0.44 0 0), transparent 30%)",
-                  filter: "blur(80px)",
-                  mixBlendMode: "screen",
-                }}
-              />
+              ></motion.div>
             </motion.div>
           </div>
         </div>
@@ -305,10 +311,10 @@ export function Activities() {
               <Card className="group h-full  overflow-hidden bg-gradient-to-b from-card to-card/50 border-border hover:border-primary/20 hover:shadow-lg transition-all border ">
                 <CardContent className="flex flex-col p-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <activity.icon className="w-10 h-8 p-1 bg-primary/10 text-primary group-hover:bg-primary/20  flex items-center justify-center rounded-full transition-colors duration-300" />
-                    <p className="text-xl font-bold text-primary">{activity.title}</p>
+                    <activity.icon className="size-10 p-2 bg-primary/10 text-primary group-hover:bg-primary/20  flex items-center justify-center rounded-full transition-colors duration-300" />
+                    <p className="text-lg font-bold ">{activity.title}</p>
                   </div>
-                  <ul className="list-none mt-2 space-y-2 text-primary/90">
+                  <ul className="list-none mt-2 space-y-2 ">
                     {activity.steps.map((step, i) => (
                       <li key={i} className="flex items-start gap-2">
                         <CheckIcon />
@@ -316,7 +322,9 @@ export function Activities() {
                       </li>
                     ))}
                   </ul>
-                  <p className="text-primary/70 mt-4 text-sm">{activity.description}</p>
+                  <p className="text-muted-foreground text-pretty mt-4 text-sm">
+                    {activity.description}
+                  </p>
                 </CardContent>
               </Card>
             </motion.div>
@@ -334,7 +342,7 @@ const CheckIcon = () => (
     height="24"
     viewBox="0 0 24 24"
     fill="currentColor"
-    className="h-4 w-4 text-primary mt-1 shrink-0"
+    className="h-5 w-5 text-primary mt-1 shrink-0"
   >
     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
     <path

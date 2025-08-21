@@ -43,7 +43,7 @@ const faqs = [
 
 export function FAQ() {
   return (
-    <section id="faq" className="w-full py-20 md:py-32 relative isolate border">
+    <section id="faq" className="w-full py-20 md:py-32 relative isolate ">
 
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(from_var(--muted)_r_g_b_/_0.03),transparent_70%)]"></div>
 

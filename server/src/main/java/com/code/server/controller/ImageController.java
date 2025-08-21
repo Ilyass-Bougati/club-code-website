@@ -17,7 +17,6 @@ import java.util.UUID;
 public class ImageController {
 
     private final ImageService imageService;
-    private final UploadImageService uploadImageService;
 
     @GetMapping("/{id}")
     public ResponseEntity<ImageDto> getImage(@PathVariable UUID id) {

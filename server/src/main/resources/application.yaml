@@ -29,4 +29,4 @@ storage:
   location: temp-dir
 
 cloudinary:
-  url: ${CLOUDINARY_URL}
+  url: ${CLOUDINARY_URL:NO_CLOUDINARY_URL_WAS_PROVIDED}

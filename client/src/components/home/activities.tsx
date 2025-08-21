@@ -97,13 +97,13 @@ export function Activities() {
   
 
   return (
-    <section className="relative w-full py-10 md:py-20 min-h-screen overflow-hidden">
+    <section className="relative w-full py-20 md:py-32 isolate">
       {/* Animated Background */}
       <div className="absolute inset-0 bg-background">
         <div className="absolute inset-0">
           {/* Floating orbs using primary and secondary colors */}
           <motion.div
-            className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/10 rounded-full blur-3xl"
+            className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/10 rounded-full blur-3xl "
             animate={{
               x: [0, 100, 0],
               y: [0, -50, 0],
@@ -207,7 +207,7 @@ export function Activities() {
           />
 
           {/* Subtle pattern overlay using primary color */}
-          <div className="absolute inset-0 opacity-5" style={{
+          <div className="absolute inset-0 opacity-5 " style={{
             backgroundImage: `
               linear-gradient(hsl(var(--primary) / 0.3) 1px, transparent 1px),
               linear-gradient(90deg, hsl(var(--primary) / 0.3) 1px, transparent 1px)
@@ -217,7 +217,7 @@ export function Activities() {
         </div>
       </div>
 
-      <div className="relative z-10">
+      <div className="relative z-10 container mx-auto px-4 md:px-6">
         <div className="flex flex-col items-center mb-10">
           <div className="mx-auto lg:mx-0">
             <motion.div
@@ -225,7 +225,7 @@ export function Activities() {
               whileInView="show"
               viewport={{ once: true }}
               variants={container}
-              className=" relative flex flex-col items-center gap-6"
+               className="mb-12 flex flex-col items-center justify-center space-y-4 text-center"
             >
               <motion.div
                 variants={item}
@@ -242,7 +242,7 @@ export function Activities() {
 
               <motion.h2
                 variants={item}
-                className="bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-transparent"
+                className="from-foreground to-foreground/80 bg-gradient-to-r bg-clip-text text-3xl font-bold tracking-tight text-transparent md:text-4xl"
               >
                 Are designed to inspire creativity
               </motion.h2>
@@ -292,7 +292,7 @@ export function Activities() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
-          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+          className="grid gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         >
           {activities.map((activity, idx) => (
             <motion.div

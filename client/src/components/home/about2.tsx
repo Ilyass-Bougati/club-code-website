@@ -72,7 +72,7 @@ export default function About2() {
                     className="rounded-full px-4 py-1.5 text-sm font-medium shadow-sm"
                     variant="secondary"
                   >
-                    <span className="text-primary mr-1">✦</span> About Code
+                    <span className="text-primary mr-1">✦</span> About CODE
                   </Badge>
                 </motion.div>
 
@@ -87,7 +87,7 @@ export default function About2() {
                   className="max-w-[800px] text-muted-foreground md:text-lg leading-relaxed"
                 >
                   <span className="font-medium text-foreground font-serif">
-                    Code
+                    CODE
                   </span>
                   {"  "}
                   is a student-driven club dedicated to nurturing programming

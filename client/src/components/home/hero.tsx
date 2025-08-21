@@ -177,7 +177,7 @@ export default function Hero() {
           >
             Welcome to the{" "}
             <span className="font-serif text-primary  font-light italic inline-flex items-center gap-2">
-              code club
+              CODE club
               <span className="ml-2 inline-flex items-center justify-center gap-2 align-bottom bg-primary/10 rounded-full p-1  bg-gradient-to-br from-primary to-primary/10 text-primary-foreground text-xl font-bold shadow-lg relative">
                 {theme === "light" ? (
                   <Image

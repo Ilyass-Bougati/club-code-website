@@ -48,7 +48,7 @@ export default function Header() {
           >
            <Logo />
             <span className="select-none flex items-center gap-1">
-              code
+              CODE
             </span>
           </motion.div>
         </Link>

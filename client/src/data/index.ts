@@ -5,7 +5,7 @@ export const members = [
     role: "President",
     shortBio: "Leads the club vision, builds partnerships, and mentors members.",
     avatar:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face",
+      "https://avatars.githubusercontent.com/u/142616946?s=60&v=4",
     fallback: "AJ",
     preview:
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=600&fit=crop&crop=face",
@@ -21,7 +21,7 @@ export const members = [
       "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop&crop=face",
     fallback: "SC",
     preview:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=600&fit=crop&crop=face",
+      "https://avatars.githubusercontent.com/u/56744841?s=64&v=4",
     linkedin: "https://www.linkedin.com/in/sarahchen",
     github: "https://github.com/sarahchen",
   },
@@ -31,7 +31,7 @@ export const members = [
     role: "Event Manager",
     shortBio: "Organizes hackathons, coding competitions, and workshops.",
     avatar:
-      "https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?w=40&h=40&fit=crop&crop=face",
+      "https://avatars.githubusercontent.com/u/69192557?v=4",
     fallback: "MA",
     preview:
       "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=400&h=600&fit=crop&crop=face",
@@ -44,7 +44,7 @@ export const members = [
     role: "Training Lead",
     shortBio: "Runs coding bootcamps and helps new members upskill.",
     avatar:
-      "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=40&h=40&fit=crop&crop=face",
+      "https://avatars.githubusercontent.com/u/3146835?v=4",
     fallback: "EW",
     preview:
       "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=600&fit=crop&crop=face",
@@ -57,7 +57,7 @@ export const members = [
     role: "Technical Lead",
     shortBio: "Loves backend systems, cloud, and mentoring in Spring Boot.",
     avatar:
-      "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=40&h=40&fit=crop&crop=face",
+      "https://avatars.githubusercontent.com/u/124599?v=4",
     fallback: "DK",
     preview:
       "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=400&h=600&fit=crop&crop=face",
@@ -70,7 +70,7 @@ export const members = [
     role: "Community Manager",
     shortBio: "Engages members, manages social media, and builds community spirit.",
     avatar:
-      "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=40&h=40&fit=crop&crop=face",
+      "https://avatars.githubusercontent.com/u/110248648?v=4",
     fallback: "LM",
     preview:
       "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&h=600&fit=crop&crop=face",
@@ -94,7 +94,7 @@ export const members = [
     author: "Mouad Sadik",
     role: "Front-end Developer",
     shortBio: "Specializes in React, Next.js and modern UI design.",
-    avatar: "https://placehold.co/40x40?text=MS",
+    avatar: "https://avatars.githubusercontent.com/u/130237852?v=4",
     fallback: "MS",
     preview: "https://placehold.co/400x600?text=Mouad+Sadik",
     linkedin: "#",

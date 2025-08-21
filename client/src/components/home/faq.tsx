@@ -9,9 +9,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { TableOfContents } from "lucide-react";
 import { motion } from "motion/react";
-import {
-  FaQuestion,
-} from "react-icons/fa";
+import { FaQuestion } from "react-icons/fa";
 
 const faqs = [
   {
@@ -44,27 +42,24 @@ const faqs = [
 export function FAQ() {
   return (
     <section id="faq" className="w-full py-20 md:py-32 relative isolate ">
-
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(from_var(--muted)_r_g_b_/_0.03),transparent_70%)]"></div>
-
-
-      <div className="absolute inset-0 -z-10">
-
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(var(--muted)),transparent_70%)]"></div>
-
-        <motion.div
-          className="absolute w-[500px] h-[500px] rounded-full bg-primary/10 blur-3xl"
-          animate={{
-            x: ["-20%", "20%", "-15%"],
-            y: ["-10%", "10%", "-5%"],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      </div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        className="absolute inset-0 -z-20 hidden md:block"
+        style={{
+          background:
+            "radial-gradient(circle at center, var(--muted), transparent 70%)",
+        }}
+        animate={{
+          backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
+          opacity: 1,
+          transition: { delay: 0.5, duration: 2 },
+        }}
+        transition={{
+          duration: 15,
+          repeat: Infinity,
+          ease: "linear",
+        }}
+      />
 
       <motion.div
         initial={{ opacity: 0 }}
@@ -120,7 +115,6 @@ export function FAQ() {
           ></div>
         </div>
       </motion.div>
-
 
       <div className="container mx-auto px-4 md:px-6">
         <motion.div

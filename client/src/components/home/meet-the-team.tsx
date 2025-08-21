@@ -23,12 +23,7 @@ export default function MeetTheTeam() {
     >
       <motion.div
         initial={{ opacity: 0 }}
-        className="absolute inset-0 -z-20 hidden md:block"
-        style={{
-          background:
-            "radial-gradient(circle at center, var(--muted), transparent 70%)",
-        }}
-        animate={{
+            animate={{
           backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
           opacity: 1,
           transition: { delay: 0.5, duration: 2 },
@@ -38,7 +33,9 @@ export default function MeetTheTeam() {
           repeat: Infinity,
           ease: "linear",
         }}
-      />
+        className="absolute inset-0 pointer-events-none overflow-hidden  bg-gray-950/[2.5%] after:absolute after:inset-0  after:inset-ring after:inset-ring-gray-950/5 dark:after:inset-ring-white/10 bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed [--pattern-fg:var(--color-gray-950)]/5 dark:[--pattern-fg:var(--color-white)]/10"
+      ></motion.div>
+
       <div className="container mx-auto px-4 md:px-6 relative">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -122,7 +119,7 @@ export default function MeetTheTeam() {
                     >
                       <Avatar className="size-20 md:size-40 border-2 border-primary shadow-lg">
                         <AvatarImage src={member.avatar} alt={member.author} />
-                        <AvatarFallback>{member.fallback}</AvatarFallback>
+                        <AvatarFallback className="text-4xl  lg:text-7xl">{member.fallback}</AvatarFallback>
                       </Avatar>
                       <h3 className="text-sm font-semibold text-center transition-all duration-300  group-hover:underline underline-offset-2">
                         {member.author}

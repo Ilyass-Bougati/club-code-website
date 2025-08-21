@@ -3,7 +3,6 @@
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
 interface ModeToggleProps {
@@ -12,7 +11,6 @@ interface ModeToggleProps {
 
 export function ModeToggle({ className }: ModeToggleProps) {
   const { theme, setTheme } = useTheme();
-  const isMobile = useIsMobile();
 
   const toggleTheme = (e: React.MouseEvent<HTMLButtonElement>) => {
     const newTheme = theme === "dark" ? "light" : "dark";

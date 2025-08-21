@@ -160,7 +160,7 @@ export default function Hero() {
           className="mb-12 flex flex-col items-start md:items-center justify-center space-y-4 text-left md:text-center"
         >
           {/* Badge / Intro */}
-          <motion.div variants={item}>
+          <motion.div variants={item} className="justify-left relative flex flex-col items-start gap-4">
             <Badge
               className="rounded-full px-4 py-1.5 text-sm font-medium shadow-sm"
               variant="secondary"

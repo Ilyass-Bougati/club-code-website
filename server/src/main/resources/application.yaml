@@ -13,3 +13,10 @@ spring:
       ddl-auto: create
     show-sql: true
     open-in-view: true
+
+# temporary storage location
+storage:
+  location: temp-dir
+
+cloudinary:
+  url: ${CLOUDINARY_URL}

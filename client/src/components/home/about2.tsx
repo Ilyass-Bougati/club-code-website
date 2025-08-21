@@ -35,7 +35,7 @@ const container = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.3,
+      staggerChildren: 0.4,
     },
   },
 };
@@ -51,12 +51,10 @@ export default function About2() {
       id="about"
       className="bg-muted/35 relative isolate w-full overflow-hidden pt-20 md:pt-32"
     >
-      <div
-        className="relative isolate"
-      >
+      <div className="relative isolate">
         <div className="relative z-10 container mx-auto w-full px-4 md:px-6">
           <div className="relative grid items-center gap-12 lg:grid-cols-2">
-            {/* Left Column */}
+
             <div className="mx-auto max-w-2xl lg:mx-0">
               <motion.div
                 initial="hidden"
@@ -135,7 +133,7 @@ export default function About2() {
               </motion.div>
             </div>
 
-            {/* Right Column - Image */}
+
             <div className="relative hidden md:flex items-center justify-center">
               <motion.img
                 variants={item}
@@ -158,22 +156,19 @@ export default function About2() {
           </div>
         </div>
 
-        {/* Cards Section */}
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          variants={container}
-          className="relative mt-16 mx-auto grid divide-x divide-y divide-foreground/50 border-y md:border border-foreground/50 sm:grid-cols-2 lg:grid-cols-4 container  w-full "
-        >
+
+        <div className="relative mt-16 mx-auto grid divide-x divide-y divide-foreground/50 border-y border-foreground/50 sm:grid-cols-2 lg:grid-cols-4 container  w-full ">
           {cards.map((card, i) => (
             <motion.div
               key={i}
-              variants={item}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: (i * 0.1) + 0.5 }}
               className="relative z-10 flex flex-col items-center text-center space-y-4 p-10 
                  transition-all duration-300 hover:shadow-xl hover:bg-muted/30"
             >
-              {/* Icon avec background stylisé */}
+
               <div
                 className="flex items-center justify-center w-16 h-16 rounded-2xl 
                       bg-gradient-to-tr from-primary/20 via-primary/10 to-primary/30 
@@ -182,7 +177,6 @@ export default function About2() {
                 <card.icon className="size-8" />
               </div>
 
-              {/* Lettre CODE améliorée */}
               <h3
                 className="text-3xl font-extrabold tracking-wider capitalize 
                    bg-gradient-to-r from-primary to-foreground 
@@ -196,7 +190,7 @@ export default function About2() {
               </p>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
 
         <div
           className={cn(

@@ -51,11 +51,7 @@ export default function About2() {
       id="about"
       className="bg-muted/35 relative isolate w-full overflow-hidden pt-20 md:pt-32"
     >
-      <motion.div
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true }}
-        variants={container}
+      <div
         className="relative isolate"
       >
         <div className="relative z-10 container mx-auto w-full px-4 md:px-6">
@@ -228,7 +224,7 @@ export default function About2() {
           )}
         />
         {/* ----- Background effects ----- */}
-      </motion.div>
+      </div>
     </section>
   );
 }

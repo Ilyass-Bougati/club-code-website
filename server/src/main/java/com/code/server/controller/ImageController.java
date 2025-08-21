@@ -32,14 +32,7 @@ public class ImageController {
     // TODO : change this later
     @PostMapping("/upload")
     public ResponseEntity<ImageDto> uploadImage(@RequestParam("file") MultipartFile file) {
-        // checking if the file uploaded is a image
-        String[] splitName = file.getOriginalFilename().split("\\.");
-        String suffix = splitName[splitName.length - 1];
-        if (suffix.equals("jpg") || suffix.equals("png")) {
-            return ResponseEntity.ok(uploadImageService.uploadImage(file));
-        } else {
-            return ResponseEntity.status(400).build();
-        }
+        return ResponseEntity.ok(imageService.uploadImage(file));
     }
 
     @PutMapping

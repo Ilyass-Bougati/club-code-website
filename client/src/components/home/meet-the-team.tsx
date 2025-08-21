@@ -21,26 +21,12 @@ export default function MeetTheTeam() {
       id="meet-the-team"
       className="w-full py-20 md:py-32  relative overflow-hidden  isolate"
     >
-            <motion.div
-        initial={{ opacity: 0 }}
-        className="absolute inset-0 -z-20 hidden md:block"
-        style={{
-          background:
-            "radial-gradient(circle at center, var(--muted), transparent 70%)",
-        }}
-        animate={{
-          backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
-          opacity: 1,
-          transition: { delay: 0.5, duration: 2 },
-        }}
-        transition={{
-          duration: 15,
-          repeat: Infinity,
-          ease: "linear",
-        }}
-      />
+
+      
+       
   
       <div className="container mx-auto px-4 md:px-6 relative">
+        
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

@@ -45,7 +45,7 @@ const item = {
   show: { opacity: 1, y: 0 },
 };
 
-export default function About2() {
+export default function About() {
   return (
     <section
       id="about"

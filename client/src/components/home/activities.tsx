@@ -97,7 +97,7 @@ export function Activities() {
   
 
   return (
-    <section className="relative w-full py-20 md:py-32 isolate">
+    <section className="relative w-full py-20 md:py-32 isolate overflow-hidden">
       {/* Animated Background */}
       <div className="absolute inset-0 bg-background">
         <div className="absolute inset-0">

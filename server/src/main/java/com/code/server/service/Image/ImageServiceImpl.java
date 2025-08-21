@@ -6,6 +6,8 @@ import com.code.server.entity.Image;
 import com.code.server.exception.NotFoundException;
 import com.code.server.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,7 @@ public class ImageServiceImpl implements ImageService {
     private final UploadImageService uploadImageService;
 
     @Override
+    @Cacheable(value = "avionCache", key = "#imageDto.id")
     public ImageDto save(ImageDto imageDto) {
         // making sure the imageDto doesn't have an id
         imageDto.setId(null);
@@ -38,6 +41,7 @@ public class ImageServiceImpl implements ImageService {
      * @return the updated image
      */
     @Deprecated(forRemoval = false)
+    @CachePut(value = "avionCache", key = "#imageDto.id")
     @Override
     public ImageDto update(ImageDto imageDto) {
         Image image = imageRepository.findById(imageDto.getId())
@@ -55,6 +59,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "avionCache", key = "#id")
     public ImageDto findById(UUID id) {
         return imageRepository.findById(id)
                 .map(imageMapper::toDTO)

@@ -12,6 +12,8 @@ spring:
     redis:
       host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:6379}
+      ssl:
+        enabled: true
       repositories:
         enabled: false
 

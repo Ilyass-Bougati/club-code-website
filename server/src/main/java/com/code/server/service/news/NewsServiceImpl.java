@@ -31,6 +31,7 @@ public class NewsServiceImpl implements NewsService{
 
     @Override
     public NewsDto save(NewsDto dto) {
+        dto.setId(null);
         News news = newsMapper.toEntity(dto);
         News saved = newsRepository.save(news);
         return newsMapper.toDTO(saved);
@@ -38,9 +39,9 @@ public class NewsServiceImpl implements NewsService{
 
     @Override
     public void delete(UUID id) {
-        News news = newsRepository.findById(id)
+         newsRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("News not found with UUID: " + id));
-        newsRepository.deleteById(id);
+         newsRepository.deleteById(id);
 
     }
 

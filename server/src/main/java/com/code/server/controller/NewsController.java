@@ -1,7 +1,7 @@
 package com.code.server.controller;
 
 import com.code.server.dto.news.NewsDto;
-import com.code.server.service.news.NewsServiceImpl;
+import com.code.server.service.news.NewsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class NewsController {
 
-    private final NewsServiceImpl newsService;
+    private final NewsService newsService;
 
 
 

@@ -7,13 +7,25 @@ spring:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/code}
     username: ${SPRING_DATASOURCE_USERNAME:postgres}
     password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+    hikari:
+      pool-name: code-pool
+      maximum-pool-size: ${HIKARI_MAX_POOL_SIZE:10}
+      allow-pool-suspension: false
 
   data:
     redis:
-      host: ${REDIS_HOST:localhost}
-      port: ${REDIS_PORT:6379}
+      url: ${REDIS_URL}
+      ssl:
+        enabled: true
       repositories:
         enabled: false
+
+      jedis:
+        pool:
+          enabled: true
+          min-idle: ${REDIS_MIN_IDLE:1}
+          max-active: ${REDIS_MAX_ACTIVE:3}
+          max-idle: ${REDIS_MAX_IDLE:1}
 
   cache:
     type: redis

@@ -107,7 +107,7 @@ const CreativeWhyUs = () => {
             </div>
 
             {/* Header */}
-            <div className="flex flex-col items-center mb-10 mx-4">
+            <div className="flex flex-col items-center mb mx-4">
                 <div className="mx-auto lg:mx-0">
                     <motion.div
                         initial="hidden"

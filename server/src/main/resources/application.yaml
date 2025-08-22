@@ -10,7 +10,7 @@ spring:
 
   data:
     redis:
-      url: ${REDIS_URL}
+      url: ${REDIS_URL:redis://localhost:6379}
       ssl:
         enabled: true
       repositories:

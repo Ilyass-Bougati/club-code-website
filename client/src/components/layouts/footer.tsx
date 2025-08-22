@@ -12,10 +12,9 @@ import {
   Linkedin,
   Youtube,
   Github,
-  ArrowRight,
   SquareArrowOutUpRight,
 } from "lucide-react";
-import Logo from "../layouts/logo";
+import Logo from "./logo";
 import Link from "next/link";
 
 // ✅ Define types
@@ -54,7 +53,7 @@ export const navLinks = [
   },
 ];
 
-const SecondFooter = () => {
+const Footer = () => {
   const [floatingShapes, setFloatingShapes] = useState<FloatingShape[]>([]);
   const [particles, setParticles] = useState<Particle[]>([]);
 
@@ -273,4 +272,4 @@ const SecondFooter = () => {
   );
 };
 
-export default SecondFooter;
+export default Footer;

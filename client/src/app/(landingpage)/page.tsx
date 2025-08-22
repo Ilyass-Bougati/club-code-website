@@ -1,11 +1,10 @@
-import { JoinUs } from "@/components/Footer/JoinUs";
+import { JoinUs } from "@/components/home/join-us";
 import About from "@/components/home/about";
 import { Activities } from "@/components/home/activities";
 import { FAQ } from "@/components/home/faq";
-import SecondFooter from "@/components/home/footer2";
 import Hero from "@/components/home/hero";
 import MeetTheTeam from "@/components/home/meet-the-team";
-import CreativeWhyUs from "@/components/home/why-us2";
+import WhyUs from "@/components/home/why-us";
 
 export default function Home() {
   return (
@@ -13,11 +12,10 @@ export default function Home() {
       <Hero />
       <About />
       <Activities />
-      <CreativeWhyUs />
+      <WhyUs />
       <MeetTheTeam />
       <FAQ />
       <JoinUs />
-      <SecondFooter />
     </main>
   );
 }

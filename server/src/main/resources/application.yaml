@@ -37,4 +37,4 @@ storage:
   location: temp-dir
 
 cloudinary:
-  url: ${CLOUDINARY_URL:NO_CLOUDINARY_URL_WAS_PROVIDED}
+  url: ${CLOUDINARY_URL:cloudinary://API_KEY:API_SECRET@CLOUD_NAME}

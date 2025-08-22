@@ -1,6 +1,7 @@
 "use client";
-import React from 'react';
-import { motion } from 'framer-motion';
+
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import {
     Mail,
     Phone,
@@ -11,30 +12,47 @@ import {
     Linkedin,
     Youtube,
     Github,
-    ArrowRight
-} from 'lucide-react';
+    ArrowRight,
+} from "lucide-react";
+import Logo from "../layouts/logo";
 
 const SecondFooter = () => {
+    const [floatingShapes, setFloatingShapes] = useState<any[]>([]);
+    const [particles, setParticles] = useState<any[]>([]);
+
+    useEffect(() => {
+        // Generate random shapes 
+        const shapes = Array.from({ length: 6 }, (_, i) => ({
+            id: i,
+            size: Math.random() * 80 + 40,
+            x: Math.random() * 100,
+            y: Math.random() * 100,
+            duration: Math.random() * 8 + 12,
+            delay: Math.random() * 3,
+        }));
+        setFloatingShapes(shapes);
+
+        // Generate random particles 
+        const parts = Array.from({ length: 15 }, (_, i) => ({
+            id: i,
+            left: Math.random() * 100,
+            duration: Math.random() * 4 + 3,
+            delay: Math.random() * 3,
+        }));
+        setParticles(parts);
+    }, []);
+
     const socialLinks = [
-        { icon: Twitter, href: '#' },
-        { icon: Facebook, href: '#' },
-        { icon: Instagram, href: '#' },
-        { icon: Linkedin, href: '#' },
-        { icon: Youtube, href: '#' },
-        { icon: Github, href: '#' }
+        { icon: Twitter, href: "#" },
+        { icon: Facebook, href: "#" },
+        { icon: Instagram, href: "#" },
+        { icon: Linkedin, href: "#" },
+        { icon: Youtube, href: "#" },
+        { icon: Github, href: "#" },
     ];
 
-    const floatingShapes = Array.from({ length: 6 }, (_, i) => ({
-        id: i,
-        size: Math.random() * 80 + 40,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        duration: Math.random() * 8 + 12,
-        delay: Math.random() * 3
-    }));
-
     return (
-        <footer className="relative bg-primary/87 overflow-hidden">
+        <footer className="relative overflow-hidden">
             {/* Animated Background */}
             <div className="absolute inset-0 opacity-10">
                 {floatingShapes.map((shape) => (
@@ -50,13 +68,13 @@ const SecondFooter = () => {
                         animate={{
                             y: [0, -150, 0],
                             scale: [1, 1.3, 1],
-                            opacity: [0.3, 0.8, 0.3]
+                            opacity: [0.3, 0.8, 0.3],
                         }}
                         transition={{
                             duration: shape.duration,
                             delay: shape.delay,
                             repeat: Infinity,
-                            ease: "easeInOut"
+                            ease: "easeInOut",
                         }}
                     />
                 ))}
@@ -66,29 +84,31 @@ const SecondFooter = () => {
             <motion.div
                 className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/10 to-transparent"
                 animate={{
-                    y: [-100, 100, -100]
+                    y: [-100, 100, -100],
                 }}
                 transition={{
                     duration: 15,
                     repeat: Infinity,
-                    ease: "easeInOut"
+                    ease: "easeInOut",
                 }}
             />
 
-            <div className="relative z-10 max-w-7xl mx-auto px-6 py-16">
+            <div className="relative z-10  mx-auto px-4 md:px-20 py-16">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-
+                    {/* Logo + Description */}
                     <div className="lg:col-span-2">
-                        <h3 className="text-3xl font-bold text-secondary/90 mb-6">
-                            C{"</>"}de
+                        <h3 className="text-2xl flex font-bold gap-2  mb-6">
+                            <Logo />
+                            CODE
                         </h3>
-                        <p className="text-secondary/80 text-lg leading-relaxed mb-8">
-                            We inspire students to explore technology, collaborate on projects, and develop practical skills that make an impact.
-                            Our club fosters creativity, and learning, .
+                        <p className="text- text-lg leading-relaxed mb-8">
+                            We inspire students to explore technology, collaborate on
+                            projects, and develop practical skills that make an impact. Our
+                            club fosters creativity and learning.
                         </p>
 
                         {/* Social media */}
-                        <div className="flex flex-wrap gap-4">
+                        <div className="flex  gap-4">
                             {socialLinks.map((social, index) => {
                                 const IconComponent = social.icon;
                                 return (
@@ -99,7 +119,7 @@ const SecondFooter = () => {
                                     >
                                         <IconComponent
                                             size={20}
-                                            className="text-secondary group-hover:text-primary transition-colors duration-300"
+                                            className=" group-hover:text-primary transition-colors duration-300"
                                         />
                                     </a>
                                 );
@@ -109,53 +129,63 @@ const SecondFooter = () => {
 
                     {/* Contact Info */}
                     <div>
-                        <h4 className="text-xl font-semibold text-secondary/90 mb-6">
+                        <h4 className="text-xl font-semibold  mb-6">
                             Contact Info
                         </h4>
 
                         <div className="flex items-center mb-4 group cursor-pointer">
                             <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center mr-4 group-hover:bg-secondary transition-colors duration-300">
-                                <Mail size={18} className="text-secondary group-hover:text-primary transition-colors duration-300" />
+                                <Mail
+                                    size={18}
+                                    className=" group-hover:text-primary transition-colors duration-300"
+                                />
                             </div>
-                            <span className="text-secondary group-hover:text-secondary/80 transition-colors duration-300">
+                            <span className=" transition-colors duration-300">
                                 code@gmail.com
                             </span>
                         </div>
 
                         <div className="flex items-center mb-4 group cursor-pointer">
                             <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center mr-4 group-hover:bg-secondary transition-colors duration-300">
-                                <Phone size={18} className="text-secondary group-hover:text-primary transition-colors duration-300" />
+                                <Phone
+                                    size={18}
+                                    className="group-hover:text-primary  transition-colors duration-300"
+                                />
                             </div>
-                            <span className="text-secondary group-hover:text-secondary/80 transition-colors duration-300">
+                            <span className="  transition-colors duration-300">
                                 +212 629291313
                             </span>
                         </div>
 
                         <div className="flex items-center group cursor-pointer">
                             <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center mr-4 group-hover:bg-secondary transition-colors duration-300">
-                                <MapPin size={18} className="text-secondary group-hover:text-primary transition-colors duration-300" />
+                                <MapPin
+                                    size={18}
+                                    className=" group-hover:text-primary transition-colors duration-300"
+                                />
                             </div>
-                            <span className="text-secondary group-hover:text-secondary/80 transition-colors duration-300">
-                                FSTS, Settat<br />
+                            <span className=" transition-colors duration-300">
+                                FSTS, Settat
+                                <br />
                                 Morocco
                             </span>
                         </div>
                     </div>
 
-                    {/*  Links */}
+                    {/* Quick Links */}
                     <div>
-                        <h4 className="text-xl font-semibold text-secondary/90 mb-6">
+                        <h4 className="text-xl font-semibold  mb-6">
                             Quick Links
                         </h4>
                         <div className="space-y-3">
-                            {['About Code', 'News', 'Events', 'Team'].map((link) => (
+                            {["About Code", "News", "Events", "Team"].map((link) => (
                                 <a
                                     key={link}
                                     href="#"
-                                    className="block text-secondary hover:text-secondary/80 transition-all duration-300 group"
+                                    className="block  hover:text-secondary/80 transition-all duration-300 group"
                                 >
-                                    <span className="group-hover:text-secondary/80 transition-colors duration-300 flex items-center">
-                                        <ArrowRight className='h-5 w-5 mr-2' />
+                                    <span className="group-hover:text-primary transition-colors duration-300 flex items-center">
+                                        <ArrowRight className="h-5 w-5 mr-2" />
                                         <p>{link}</p>
                                     </span>
                                 </a>
@@ -167,20 +197,22 @@ const SecondFooter = () => {
                 {/* Bottom Section */}
                 <div className="mt-16 pt-8 border-t border-secondary">
                     <div className="flex flex-col md:flex-row justify-between items-center">
-                        <p className="text-secondary text-sm mb-4 md:mb-0">
-                            © 2024 CODE. All rights reserved.
+                        <p className=" text-sm mb-4 md:mb-0">
+                            © 2025 CODE. All rights reserved.
                         </p>
 
                         <div className="flex space-x-6">
-                            {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map((item) => (
-                                <a
-                                    key={item}
-                                    href="#"
-                                    className="text-secondary hover:text-secondary/80 text-sm transition-colors duration-300"
-                                >
-                                    {item}
-                                </a>
-                            ))}
+                            {["Privacy Policy", "Terms of Service", "Cookie Policy"].map(
+                                (item) => (
+                                    <a
+                                        key={item}
+                                        href="#"
+                                        className=" hover:text-primary text-sm transition-colors duration-300"
+                                    >
+                                        {item}
+                                    </a>
+                                )
+                            )}
                         </div>
                     </div>
                 </div>
@@ -188,23 +220,23 @@ const SecondFooter = () => {
 
             {/* Floating Particles - Vertical Movement */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                {Array.from({ length: 15 }).map((_, i) => (
+                {particles.map((p) => (
                     <motion.div
-                        key={i}
+                        key={p.id}
                         className="absolute w-1 h-1 bg-secondary rounded-full opacity-40"
                         style={{
-                            left: `${Math.random() * 100}%`,
-                            top: '100%',
+                            left: `${p.left}%`,
+                            top: "100%",
                         }}
                         animate={{
                             y: [-20, -800],
                             opacity: [0, 0.6, 0],
                         }}
                         transition={{
-                            duration: Math.random() * 4 + 3,
+                            duration: p.duration,
                             repeat: Infinity,
-                            delay: Math.random() * 3,
-                            ease: "easeInOut"
+                            delay: p.delay,
+                            ease: "easeInOut",
                         }}
                     />
                 ))}

@@ -47,9 +47,6 @@ export default function Header() {
             transition={{ duration: 0.5, ease: "easeOut" }}
           >
            <Logo />
-            <span className="select-none flex items-center gap-1">
-              CODE
-            </span>
           </motion.div>
         </Link>
         <>

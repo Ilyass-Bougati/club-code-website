@@ -1,79 +1,86 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { motion, Variants } from "framer-motion";
-import { Rocket } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
-const fadeInUp: Variants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: (i = 0) => ({
+const container = {
+  hidden: { opacity: 0 },
+  show: {
     opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.08, duration: 0.6, ease: "easeOut" },
-  }),
+    transition: {
+      staggerChildren: 0.3,
+    },
+  },
 };
 
-const containerStagger: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.15 } },
+const item = {
+  hidden: { opacity: 0, y: 15 },
+  show: { opacity: 1, y: 0 },
 };
 
 export function JoinUs() {
-  const router = useRouter();
-  const goToLogin = () => router.push("/login");
-
   return (
-    <section id="join" className="py-24 bg-black text-white relative overflow-hidden">
-     
-      <div className="absolute inset-0  opacity-60 animate-pulse" />
+    <section
+      id="join-us"
+      className="w-full py-20 md:py-32 bg-gradient-to-br from-primary to-primary/80 text-primary-foreground relative overflow-hidden isolate"
+    >
+      <div className="absolute -top-24 -left-24 w-64 h-64 bg-foreground/15 rounded-full blur-3xl animate-pulse"></div>
+      <div
+        className="absolute -bottom-24 -right-24 w-64 h-64 bg-foreground/15 rounded-full blur-3xl animate-pulse"
+        style={{ animationDelay: "1.5s" }}
+      ></div>
 
-      <div className="relative mx-auto max-w-3xl px-6 text-center">
+      <div className="container mx-auto px-4 md:px-6 relative">
         <motion.div
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          variants={containerStagger}
+          whileInView="show"
+          variants={container}
+          className="flex flex-col items-center justify-center space-y-6 text-center"
         >
-        
-          <motion.h3
-            variants={fadeInUp}
-            className="text-3xl md:text-4xl font-extrabold text-white tracking-tight"
+          <motion.h2
+            variants={item}
+            className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight relative  "
           >
-            Join us now
-          </motion.h3>
+            Ready to Join the{" "}
+            <span className=" text-secondary px-1.5 font-serif italic ">
+              CODE
+            </span>{" "}
+            club?
+            <div className="absolute -top-8 right-28 w-16 h-16 border-2 border-primary-foreground/30 rounded-full animate-ping"></div>
+          </motion.h2>
 
           <motion.p
-            variants={fadeInUp}
-            className="mt-4 text-gray-300 text-lg md:text-xl max-w-xl mx-auto leading-relaxed"
+            variants={item}
+            className="mx-auto max-w-[700px] text-primary-foreground/80 md:text-xl"
           >
-            Be part of our community and start your journey today.
+            Share your ideas, learn from your peers, and work on{" "}
+            <span className="font-semibold">real programming projects</span>.
+            The CODE Club is a community of students passionate about tech,
+            innovation, and collaboration.
           </motion.p>
 
-       
           <motion.div
-            variants={fadeInUp}
-            className="mt-10 flex items-center justify-center"
+            variants={item}
+            className="flex flex-col sm:flex-row gap-4 mt-4"
           >
-            <motion.div
-              animate={{ scale: [1, 1.1, 1] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            <Link
+              href="/register"
+              className="group relative inline-flex items-center gap-4 md:px-12 px-8 md:py-6 py-4 bg-secondary text-foreground rounded-full font-bold text-lg hover:scale-105 transition-all duration-300"
             >
-              <Button
-                size="lg"
-                onClick={goToLogin} 
-                className="rounded-3xl relative overflow-hidden bg-white
-                           text-black px-12 py-5 text-lg font-bold shadow-white/50 
-                           transition duration-500 hover:shadow-white/50"
-              >
-                <span className="absolute inset-0 bg-gradient-to-r from-blue-400 to-transparent opacity-20 animate-pulse" />
-                <span className="relative flex items-center gap-3">
-                  Get Started
-                  <Rocket className="h-6 w-6 text-black animate-bounce" />
-                </span>
-              </Button>
-            </motion.div>
+              <span>JOIN THE CLUB TODAY</span>
+              <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center group-hover:rotate-90 transition-transform">
+                <ArrowRight className="w-4 h-4" />
+              </div>
+            </Link>
           </motion.div>
+
+          <motion.p
+            variants={item}
+            className="text-sm text-primary-foreground/80 mt-4"
+          >
+            Open to all students. Free to join. No prior experience required.
+          </motion.p>
         </motion.div>
       </div>
     </section>

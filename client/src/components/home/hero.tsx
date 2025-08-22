@@ -63,10 +63,10 @@ export default function Hero() {
 
         {/* Cursor on top */}
         <div className="absolute inset-0 left-[120%] top-1/5 flex items-center justify-center">
-          <Cursor className=" hidden md:block" color="#000000">
+          <Cursor className=" hidden md:block" >
             <CursorPointer />
             <CursorBody>
-              <CursorMessage>
+              <CursorMessage className="text-primary">
                 <span className="text-primary mr-1">✦</span> That looks great!
               </CursorMessage>
             </CursorBody>
@@ -160,7 +160,7 @@ export default function Hero() {
           className="mb-12 flex flex-col items-start md:items-center justify-center space-y-4 text-left md:text-center"
         >
           {/* Badge / Intro */}
-          <motion.div variants={item}>
+          <motion.div variants={item} className="justify-left relative flex flex-col items-start gap-4">
             <Badge
               className="rounded-full px-4 py-1.5 text-sm font-medium shadow-sm"
               variant="secondary"
@@ -177,7 +177,7 @@ export default function Hero() {
           >
             Welcome to the{" "}
             <span className="font-serif text-primary  font-light italic inline-flex items-center gap-2">
-              code club
+              CODE club
               <span className="ml-2 inline-flex items-center justify-center gap-2 align-bottom bg-primary/10 rounded-full p-1  bg-gradient-to-br from-primary to-primary/10 text-primary-foreground text-xl font-bold shadow-lg relative">
                 {theme === "light" ? (
                   <Image

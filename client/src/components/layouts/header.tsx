@@ -48,7 +48,7 @@ export default function Header() {
           >
            <Logo />
             <span className="select-none flex items-center gap-1">
-              code
+              CODE
             </span>
           </motion.div>
         </Link>
@@ -65,8 +65,8 @@ export default function Header() {
                   <Link
                     href={link.href}
                     className={cn(
-                      " font-medium text-muted-foreground transition-colors hover:text-foreground relative group border-r h-full w-full  block py-4 px-5    ",
-                      pathname === link.href && "text-foreground"
+                      " font-medium text-foreground transition-colors hover:text-primary relative group border-r h-full w-full  block py-4 px-5    ",
+                      pathname === link.href && "text-primary"
                     )}
                   >
                     {link.name}
@@ -88,7 +88,7 @@ export default function Header() {
               <Link
                 href={"/register"}
                 className={cn(
-                  " font-medium text-muted-foreground transition-colors hover:text-foreground relative group border-r h-full w-full flex items-center gap-2   py-4 px-5    ",
+                  " font-medium text-foreground transition-colors hover:text-primary relative group border-r h-full w-full flex items-center gap-2   py-4 px-5    ",
                   pathname === "/register" && "text-foreground"
                 )}
               >

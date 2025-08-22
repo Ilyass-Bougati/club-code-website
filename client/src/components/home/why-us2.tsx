@@ -107,7 +107,7 @@ const CreativeWhyUs = () => {
             </div>
 
             {/* Header */}
-            <div className="flex flex-col items-center mb-10">
+            <div className="flex flex-col items-center mb mx-4">
                 <div className="mx-auto lg:mx-0">
                     <motion.div
                         initial="hidden"
@@ -195,7 +195,7 @@ const CreativeWhyUs = () => {
                                 whileHover={{ x: 10, transition: { duration: 0.3 } }}
                             >
                                 <div className={`absolute inset-0 bg-gradient-to-r ${feature.color} opacity-0 group-hover:opacity-20 rounded-2xl blur transition-opacity duration-300`}></div>
-                                <div className="relative bg-secondary  backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg hover:shadow-2xl transition-all duration-300">
+                                <div className="relative bg-muted  backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg hover:shadow-2xl transition-all duration-300">
                                     <div className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${feature.color} text-white mb-4`}>
                                         {feature.icon}
                                     </div>
@@ -277,7 +277,7 @@ const CreativeWhyUs = () => {
                                 whileHover={{ x: -10, transition: { duration: 0.3 } }}
                             >
                                 <div className={`absolute inset-0 bg-gradient-to-l ${feature.color} opacity-0 group-hover:opacity-20 rounded-2xl blur transition-opacity duration-300`}></div>
-                                <div className="relative bg-secondary  backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg hover:shadow-2xl transition-all duration-300">
+                                <div className="relative bg-muted  backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg hover:shadow-2xl transition-all duration-300">
                                     <div className="flex justify-end">
                                         <div className={`inline-flex p-3 rounded-xl bg-gradient-to-l ${feature.color} text-white mb-4 ml-auto `}>
                                             {feature.icon}

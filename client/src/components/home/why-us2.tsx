@@ -96,8 +96,10 @@ const CreativeWhyUs = () => {
 
 
     return (
-        <section className="relative min-h-screen flex flex-col justify-center items-center py-16 overflow-hidden">
+        <section className="relative isolate min-h-screen flex flex-col justify-center items-center py-16 overflow-hidden">
             {/* Animated background elements */}
+
+            
             <div className="absolute inset-0 overflow-hidden">
                 <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-full blur-xl"></div>
                 <div className="absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-l from-secondary/20 to-primary/20 rounded-full blur-xl"></div>

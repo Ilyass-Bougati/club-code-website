@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface NewsService extends CrudDtoService<UUID, NewsDto> {
-    public List<NewsDto> getAllNews();
+    List<NewsDto> getAllNews();
 }

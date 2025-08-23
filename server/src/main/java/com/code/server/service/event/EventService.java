@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface EventService extends CrudDtoService<UUID, EventDto> {
-    public List<EventDto> findAll();
+    List<EventDto> findAll();
 }

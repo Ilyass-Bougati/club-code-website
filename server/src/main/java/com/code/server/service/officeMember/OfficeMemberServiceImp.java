@@ -17,11 +17,12 @@ import java.util.stream.Collectors;
 @Transactional
 @RequiredArgsConstructor
 public class OfficeMemberServiceImp implements OfficeMemberService{
+
     private final OfficeMemberRepository officeMemberRepository;
     private final OfficeMemberMapper officeMemberMapper;
+
     @Override
     public OfficeMemberDto save(OfficeMemberDto officeMemberDto) {
-
         officeMemberDto.setId(null);
         return officeMemberMapper.toDTO(
                 officeMemberRepository.save(officeMemberMapper.toEntity(officeMemberDto))
@@ -30,44 +31,37 @@ public class OfficeMemberServiceImp implements OfficeMemberService{
 
     @Override
     public OfficeMemberDto update(OfficeMemberDto officeMemberDto) {
-
-      OfficeMember officeMember=officeMemberRepository.findById(officeMemberDto.getId())
+        OfficeMember officeMember=officeMemberRepository.findById(officeMemberDto.getId())
               .orElseThrow(() -> new NotFoundException("Member doesn't exist"));
-      officeMember.setFirstName(officeMemberDto.getFirstName());
-      officeMember.setLastName(officeMemberDto.getLastName());
-      officeMember.setInstagram(officeMemberDto.getInstagram());
-      officeMember.setLinkedin(officeMemberDto.getLinkedin());
-      officeMember.setPosition(officeMemberDto.getPosition());
-      //TODO
-      //officeMember.setImage(officeMemberDto.getImage().getHost().name());
-    OfficeMember saved=officeMemberRepository.save(officeMember);
-
+        officeMember.setFirstName(officeMemberDto.getFirstName());
+        officeMember.setLastName(officeMemberDto.getLastName());
+        officeMember.setInstagram(officeMemberDto.getInstagram());
+        officeMember.setLinkedin(officeMemberDto.getLinkedin());
+        officeMember.setPosition(officeMemberDto.getPosition());
+        //TODO
+        //officeMember.setImage(officeMemberDto.getImage().getHost().name());
+        OfficeMember saved=officeMemberRepository.save(officeMember);
         return officeMemberMapper.toDTO(saved);
-
     }
 
     @Override
     public void delete(UUID uuid) {
-
         OfficeMember officeMember = officeMemberRepository.findById(uuid)
                 .orElseThrow(()->new NotFoundException("member not found"));
-      officeMemberRepository.deleteById(uuid);
-
-
+        officeMemberRepository.deleteById(uuid);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public OfficeMemberDto findById(UUID uuid) {
-
         OfficeMember officeMember = officeMemberRepository.findById(uuid)
                 .orElseThrow(()->new NotFoundException("member not found"));
         return officeMemberMapper.toDTO(officeMember);
-
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<OfficeMemberDto> findAll() {
-
         return officeMemberRepository.findAll()
                 .stream()
                 .map(officeMemberMapper::toDTO)

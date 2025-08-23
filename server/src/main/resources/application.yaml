@@ -10,12 +10,18 @@ spring:
 
   data:
     redis:
-      url: ${REDIS_URL}
+      url: ${REDIS_URL:redis://localhost:6379}
       ssl:
         enabled: true
       repositories:
         enabled: false
 
+      jedis:
+        pool:
+          enabled: true
+          min-idle: ${REDIS_MIN_IDLE:1}
+          max-active: ${REDIS_MAX_ACTIVE:3}
+          max-idle: ${REDIS_MAX_IDLE:1}
 
   cache:
     type: redis
@@ -31,4 +37,4 @@ storage:
   location: temp-dir
 
 cloudinary:
-  url: ${CLOUDINARY_URL:NO_CLOUDINARY_URL_WAS_PROVIDED}
+  url: ${CLOUDINARY_URL:cloudinary://API_KEY:API_SECRET@CLOUD_NAME}

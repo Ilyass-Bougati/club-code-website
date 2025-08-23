@@ -43,6 +43,7 @@ public class EventMapperImpl implements EventMapper {
     @Override
     public Event toEntity(EventDto eventDto) {
         return Event.builder()
+                .image(imageMapper.toEntity(eventDto.getImage()))
                 .id(eventDto.getId())
                 .eventType(eventDto.getEventType())
                 .description(eventDto.getDescription())

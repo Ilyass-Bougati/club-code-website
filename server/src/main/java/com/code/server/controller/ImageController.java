@@ -2,7 +2,6 @@ package com.code.server.controller;
 
 import com.code.server.dto.image.ImageDto;
 import com.code.server.service.Image.ImageService;
-import com.code.server.service.Image.UploadImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

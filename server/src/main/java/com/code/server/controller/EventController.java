@@ -4,6 +4,7 @@ package com.code.server.controller;
 import com.code.server.dto.event.EventDto;
 import com.code.server.service.event.EventService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,13 +24,12 @@ public class EventController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteEvent(@PathVariable UUID id){
-       eventService.delete(id);
-        return ResponseEntity.noContent().build();
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteEvent(@PathVariable UUID id){
+        eventService.delete(id);
     }
-    @PutMapping("/update/{id}")
-    public ResponseEntity<EventDto> updateEvent(@PathVariable UUID id,@RequestBody  EventDto eventDto){
-        eventDto.setId(id);
+    @PutMapping("/{id}")
+    public ResponseEntity<EventDto> updateEvent(@RequestBody  EventDto eventDto){
         return ResponseEntity.ok(eventService.update(eventDto));
     }
 

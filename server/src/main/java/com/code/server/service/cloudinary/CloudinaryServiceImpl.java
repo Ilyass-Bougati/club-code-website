@@ -3,6 +3,7 @@ package com.code.server.service.cloudinary;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.code.server.properties.CloudinaryProperties;
+import com.code.server.utils.CloudinaryUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,9 +31,13 @@ public class CloudinaryServiceImpl implements CloudinaryService {
         return null;
     }
 
-    // TODO : implement this later
     @Override
-    public void delete(Long id) {
-
+    public void delete(String uri) {
+        String publicId = CloudinaryUtils.extractPublicId(uri);
+        try {
+            cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
+        } catch (IOException e) {
+            throw new RuntimeException("Couldn't delete image");
+        }
     }
 }

@@ -24,9 +24,7 @@ public class OfficeMemberServiceImp implements OfficeMemberService{
     @Override
     public OfficeMemberDto save(OfficeMemberDto officeMemberDto) {
         officeMemberDto.setId(null);
-        return officeMemberMapper.toDTO(
-                officeMemberRepository.save(officeMemberMapper.toEntity(officeMemberDto))
-        );
+        return officeMemberMapper.toDTO(officeMemberRepository.save(officeMemberMapper.toEntity(officeMemberDto)));
     }
 
     @Override

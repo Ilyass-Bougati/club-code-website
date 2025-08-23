@@ -6,6 +6,7 @@ import com.code.server.entity.Image;
 import com.code.server.exception.NotFoundException;
 import com.code.server.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class ImageServiceImpl implements ImageService {
     private final UploadImageService uploadImageService;
 
     @Override
-    @Cacheable(value = "avionCache", key = "#imageDto.id")
+    @Cacheable(value = "imageCache", key = "#imageDto.id")
     public ImageDto save(ImageDto imageDto) {
         // making sure the imageDto doesn't have an id
         imageDto.setId(null);
@@ -41,7 +42,7 @@ public class ImageServiceImpl implements ImageService {
      * @return the updated image
      */
     @Deprecated(forRemoval = false)
-    @CachePut(value = "avionCache", key = "#imageDto.id")
+    @CachePut(value = "imageCache", key = "#imageDto.id")
     @Override
     public ImageDto update(ImageDto imageDto) {
         Image image = imageRepository.findById(imageDto.getId())
@@ -53,8 +54,15 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
+    @CacheEvict(value = "imageCache", key = "#id")
     public void delete(UUID id) {
-        imageRepository.deleteById(id);
+        // we don't need caching for this, this won't be happening often
+        Image image = imageRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Image not found"));
+
+        // deleting the image from cloudinary
+        uploadImageService.deleteImage(image.getUri());
+        imageRepository.delete(image);
     }
 
     @Override
@@ -67,6 +75,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
+    @CachePut(value = "imageCache", key = "#result.id")
     public ImageDto uploadImage(MultipartFile file) {
         String[] splitName = file.getOriginalFilename().split("\\.");
         String suffix = splitName[splitName.length - 1];

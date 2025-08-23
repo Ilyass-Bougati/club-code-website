@@ -5,5 +5,5 @@ import java.util.Map;
 
 public interface CloudinaryService {
     Map<String, Object> upload(File file);
-    void delete(Long id);
+    void delete(String uri);
 }

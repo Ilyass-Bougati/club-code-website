@@ -35,11 +35,11 @@ public class News {
     // separately through the service, which will cache it
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @PrimaryKeyJoinColumn
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image image;
 
     @ManyToOne
-    @PrimaryKeyJoinColumn
+    @JoinColumn(name = "staff_id", referencedColumnName = "id")
     private Staff staff;
 
     // might remove this later if it proves unneeded

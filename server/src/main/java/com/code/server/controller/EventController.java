@@ -17,12 +17,12 @@ import java.util.UUID;
 public class EventController {
 
     private final EventService eventService;
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<EventDto> addEvent(@RequestBody EventDto eventDto){
         return ResponseEntity.ok(eventService.save(eventDto));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteEvent(@PathVariable UUID id){
        eventService.delete(id);
         return ResponseEntity.noContent().build();
@@ -32,11 +32,13 @@ public class EventController {
         eventDto.setId(id);
         return ResponseEntity.ok(eventService.update(eventDto));
     }
-    @GetMapping("/all")
-    public ResponseEntity<List<EventDto>> getAllEventss(){
+
+    @GetMapping
+    public ResponseEntity<List<EventDto>> getAllEvents(){
         return ResponseEntity.ok(eventService.findAll());
     }
-    @GetMapping("/get/{id}")
+
+    @GetMapping("/{id}")
     public ResponseEntity<EventDto> getEvent(@PathVariable UUID id){
         return ResponseEntity.ok(eventService.findById(id));
     }

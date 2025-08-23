@@ -32,9 +32,14 @@ spring:
     show-sql: true
     open-in-view: true
 
+
 # temporary storage location
 storage:
   location: temp-dir
 
 cloudinary:
   url: ${CLOUDINARY_URL:cloudinary://API_KEY:API_SECRET@CLOUD_NAME}
+
+springdoc:
+  api-docs:
+    enabled: ${SWAGGER_UI:true}

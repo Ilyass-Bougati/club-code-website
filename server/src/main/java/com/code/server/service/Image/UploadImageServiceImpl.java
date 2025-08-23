@@ -75,7 +75,7 @@ public class UploadImageServiceImpl implements UploadImageService {
     }
 
     @Override
-    public void deleteImage(UUID id) {
-        // TODO fix this later
+    public void deleteImage(String uri) {
+        cloudinaryService.delete(uri);
     }
 }

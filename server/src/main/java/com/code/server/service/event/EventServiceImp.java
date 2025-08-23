@@ -5,14 +5,21 @@ import com.code.server.dto.event.EventDto;
 import com.code.server.dto.event.EventMapperImpl;
 import com.code.server.dto.image.ImageMapper;
 import com.code.server.dto.sponsor.SponsorMapper;
+import com.code.server.entity.AreaOfInterest;
 import com.code.server.entity.Event;
+import com.code.server.entity.Image;
+import com.code.server.entity.Sponsor;
 import com.code.server.exception.NotFoundException;
+import com.code.server.repository.AreasOfInterestRepository;
 import com.code.server.repository.EventRepository;
+import com.code.server.repository.ImageRepository;
+import com.code.server.repository.SponsorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -23,10 +30,10 @@ public class EventServiceImp implements EventService{
 
     private final EventRepository eventRepository;
     private final EventMapperImpl eventMapper;
-    private final SponsorMapper sponsorMapper;
-    private final AreaOfInterestMapper areaOfInterestMapper;
+    private final SponsorRepository sponsorRepository;
+    private final AreasOfInterestRepository areasOfInterestRepository;
     private final ImageMapper imageMapper;
-
+    private final ImageRepository imageRepository;
     @Override
     public EventDto save(EventDto eventDto) {
         eventDto.setId(null);
@@ -38,23 +45,45 @@ public class EventServiceImp implements EventService{
     @Override
     public EventDto update(EventDto eventDto) {
         Event event=eventRepository.findById(eventDto.getId())
-                .orElseThrow(()->new NotFoundException("Member not found"));
-        event.setTitle(eventDto.getTitle());
-        event.setEventType(eventDto.getEventType());
-        event.setDescription(eventDto.getDescription());
-        event.setRegistrationOpen(eventDto.getRegistrationOpen());
+                .orElseThrow(()->new NotFoundException("event not found"));
+        if (eventDto.getTitle() != null) {
+            event.setTitle(eventDto.getTitle());
+        }
+        if (eventDto.getEventType() != null) {
+            event.setEventType(eventDto.getEventType());
+        }
+        if (eventDto.getDescription() != null) {
+            event.setDescription(eventDto.getDescription());
+        }
+        if (eventDto.getSponsored() != null) {
+            event.setSponsored(eventDto.getSponsored());
+        }
+        if (eventDto.getRegistrationDeadline() != null) {
+            event.setRegistrationDeadline(eventDto.getRegistrationDeadline());
+        }
+        if (eventDto.getRegistrationOpen() != null) {
+            event.setRegistrationOpen(eventDto.getRegistrationOpen());
+        }
+        if(eventDto.getSponsors() != null && !eventDto.getSponsors().isEmpty()) {
 
-        event.setSponsors(eventDto.getSponsors()
-                .stream()
-                .map(sponsorMapper::toEntity)
-                .collect(Collectors.toSet()) );
-        event.setAreaOfInterests(eventDto.getAreaOfInterests()
-                .stream()
-                .map(areaOfInterestMapper::toEntity)
-                .collect(Collectors.toSet()));
-        event.setSponsored(eventDto.getSponsored());
+            Set<Sponsor> sponsors = eventDto.getSponsors().stream()
+                    .map(dto -> sponsorRepository.findById(dto.getId())
+                            .orElseThrow(() -> new NotFoundException("Sponsor not found with id: " + dto.getId())))
+                    .collect(Collectors.toSet());
+            event.setSponsors(sponsors);
+        }
+        if(eventDto.getAreaOfInterests() != null && !eventDto.getAreaOfInterests().isEmpty()) {
+        Set<AreaOfInterest> areas = eventDto.getAreaOfInterests().stream()
+                .map(dto -> areasOfInterestRepository.findById(dto.getId())
+                        .orElseThrow(() -> new NotFoundException("Area not found with id: " + dto.getId())))
+                .collect(Collectors.toSet());
+        event.setAreaOfInterests(areas);}
         //TODO
-        event.setImage(imageMapper.toEntity(eventDto.getImage()));
+        if (eventDto.getImage() != null) {
+            Image image = imageRepository.findById(eventDto.getImage().getId())
+                    .orElseThrow(() -> new NotFoundException("Image not found"));
+            event.setImage(image);
+        }
 
         return null;
 

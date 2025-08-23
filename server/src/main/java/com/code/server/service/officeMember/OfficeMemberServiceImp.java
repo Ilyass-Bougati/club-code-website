@@ -44,7 +44,7 @@ public class OfficeMemberServiceImp implements OfficeMemberService{
 
     @Override
     public void delete(UUID uuid) {
-        OfficeMember officeMember = officeMemberRepository.findById(uuid)
+        officeMemberRepository.findById(uuid)
                 .orElseThrow(()->new NotFoundException("member not found"));
         officeMemberRepository.deleteById(uuid);
     }

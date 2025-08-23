@@ -23,6 +23,7 @@ public class NewsServiceImpl implements NewsService{
     private final NewsMapperImpl newsMapper;
 
     @Override
+    @Transactional(readOnly = true)
     public NewsDto findById(UUID id) {
         return newsRepository.findById(id)
                 .map(newsMapper::toDTO)
@@ -47,6 +48,7 @@ public class NewsServiceImpl implements NewsService{
 
 
     @Override
+    @Transactional(readOnly = true)
     public List<NewsDto> getAllNews() {
         return newsRepository.findAll()
                 .stream()
@@ -66,6 +68,4 @@ public class NewsServiceImpl implements NewsService{
         News updated = newsRepository.save(existing);
         return newsMapper.toDTO(updated);
     }
-
-
 }

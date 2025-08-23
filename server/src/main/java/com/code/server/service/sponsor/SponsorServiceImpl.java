@@ -5,9 +5,9 @@ import com.code.server.dto.sponsor.SponsorMapperImpl;
 import com.code.server.entity.Sponsor;
 import com.code.server.exception.NotFoundException;
 import com.code.server.repository.SponsorRepository;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -18,6 +18,7 @@ public class SponsorServiceImpl implements SponsorService {
 
     SponsorRepository sponsorRepository;
     SponsorMapperImpl sponsorMapper;
+
     @Override
     public SponsorDto save(SponsorDto sponsorDto) {
         sponsorDto.setId(null);
@@ -42,6 +43,7 @@ public class SponsorServiceImpl implements SponsorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public SponsorDto findById(UUID uuid) {
         Sponsor sponsor = sponsorRepository.findById(uuid)
                 .orElseThrow(()-> new NotFoundException("Sponsor not found with UUID: " + uuid));

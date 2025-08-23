@@ -21,6 +21,7 @@ public class AreasOfInterestServiceImp implements AreasOfInterestService{
 
     private final AreasOfInterestRepository areasOfInterestRepository;
     private final AreaOfInterestMapper areaOfInterestMapper;
+
     @Override
     public AreaOfInterestDto save(AreaOfInterestDto areaOfInterestDto) {
      areaOfInterestDto.setId(null);
@@ -47,12 +48,14 @@ public class AreasOfInterestServiceImp implements AreasOfInterestService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public AreaOfInterestDto findById(UUID uuid) {
      return areasOfInterestRepository.findById(uuid).map(areaOfInterestMapper::toDTO)
               .orElseThrow(() -> new NotFoundException("area of interest not found"));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<AreaOfInterestDto> findAll() {
         return areasOfInterestRepository.findAll()
                 .stream()

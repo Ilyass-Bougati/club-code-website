@@ -6,6 +6,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface AreasOfInterestService extends CrudDtoService<UUID,AreaOfInterestDto> {
-
-    public List<AreaOfInterestDto> findAll();
+    List<AreaOfInterestDto> findAll();
 }

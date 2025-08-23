@@ -29,7 +29,6 @@ public class EventServiceImp implements EventService{
 
     @Override
     public EventDto save(EventDto eventDto) {
-
         eventDto.setId(null);
         return eventMapper.toDTO(
                 eventRepository.save(eventMapper.toEntity(eventDto))
@@ -66,17 +65,19 @@ public class EventServiceImp implements EventService{
         eventRepository.findById(uuid)
                 .orElseThrow(() -> new NotFoundException("event not found  "));
         eventRepository.deleteById(uuid);
-
     }
 
     @Override
+    @Transactional(readOnly = true)
     public EventDto findById(UUID uuid) {
         return eventRepository.findById(uuid)
                 .map(eventMapper::toDTO)
                 .orElseThrow(() -> new NotFoundException("event not found"));
     }
 
+    // TODO : add pagination
     @Override
+    @Transactional(readOnly = true)
     public List<EventDto> findAll() {
         return eventRepository.findAll()
                 .stream()

@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface OfficeMemberService extends CrudDtoService<UUID, OfficeMemberDto> {
-    public List<OfficeMemberDto> findAll();
+    List<OfficeMemberDto> findAll();
 }

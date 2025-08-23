@@ -6,7 +6,6 @@ import com.code.server.entity.Image;
 import com.code.server.exception.NotFoundException;
 import com.code.server.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +25,7 @@ public class ImageServiceImpl implements ImageService {
     private final UploadImageService uploadImageService;
 
     @Override
-    @CachePut(value = "imagesCache", key = "#imageDto.id")
+    @Cacheable(value = "avionCache", key = "#imageDto.id")
     public ImageDto save(ImageDto imageDto) {
         // making sure the imageDto doesn't have an id
         imageDto.setId(null);
@@ -42,7 +41,7 @@ public class ImageServiceImpl implements ImageService {
      * @return the updated image
      */
     @Deprecated(forRemoval = false)
-    @CachePut(value = "imagesCache", key = "#imageDto.id")
+    @CachePut(value = "avionCache", key = "#imageDto.id")
     @Override
     public ImageDto update(ImageDto imageDto) {
         Image image = imageRepository.findById(imageDto.getId())
@@ -54,20 +53,13 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    @CacheEvict(value = "imagesCache", key = "#id")
     public void delete(UUID id) {
-        // we don't need caching for this, this won't be happening often
-        Image image = imageRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Image not found"));
-
-        // deleting the image from cloudinary
-        uploadImageService.deleteImage(image.getUri());
-        imageRepository.delete(image);
+        imageRepository.deleteById(id);
     }
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(value = "imagesCache", key = "#id")
+    @Cacheable(value = "avionCache", key = "#id")
     public ImageDto findById(UUID id) {
         return imageRepository.findById(id)
                 .map(imageMapper::toDTO)
@@ -75,14 +67,13 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    @CachePut(value = "imagesCache", key = "#result.id")
     public ImageDto uploadImage(MultipartFile file) {
         String[] splitName = file.getOriginalFilename().split("\\.");
         String suffix = splitName[splitName.length - 1];
         if (suffix.equals("jpg") || suffix.equals("png")) {
             return save(uploadImageService.uploadImage(file));
         } else {
-            throw new RuntimeException("Unsupported image format (JPG and PNG are the only supported)");
+            throw new RuntimeException("Unsupported image format");
         }
     }
 }

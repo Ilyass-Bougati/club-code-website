@@ -8,5 +8,5 @@ import java.util.UUID;
 
 public interface UploadImageService {
     ImageDto uploadImage(MultipartFile file) throws StorageException;
-    void deleteImage(String uri);
+    void deleteImage(UUID id);
 }

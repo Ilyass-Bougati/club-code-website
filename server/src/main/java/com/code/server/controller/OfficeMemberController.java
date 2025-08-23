@@ -16,26 +16,26 @@ public class OfficeMemberController {
 
     private final OfficeMemberService officeMemberService;
 
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<OfficeMemberDto> addMember(@RequestBody OfficeMemberDto officeMemberDto){
         return ResponseEntity.ok(officeMemberService.save(officeMemberDto));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteMember(@PathVariable UUID id){
       officeMemberService.delete(id);
         return ResponseEntity.noContent().build();
     }
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<OfficeMemberDto> updateMember(@PathVariable UUID id,@RequestBody OfficeMemberDto officeMemberDto){
         officeMemberDto.setId(id);
         return ResponseEntity.ok(officeMemberService.update(officeMemberDto));
     }
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<OfficeMemberDto>> getAllMembers(){
         return ResponseEntity.ok(officeMemberService.findAll());
     }
-    @GetMapping("/get/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<OfficeMemberDto> getMember(@PathVariable UUID id){
         return ResponseEntity.ok(officeMemberService.findById(id));
     }

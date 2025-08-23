@@ -67,7 +67,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(value = "avionCache", key = "#id")
+    @Cacheable(value = "imageCache", key = "#id")
     public ImageDto findById(UUID id) {
         return imageRepository.findById(id)
                 .map(imageMapper::toDTO)

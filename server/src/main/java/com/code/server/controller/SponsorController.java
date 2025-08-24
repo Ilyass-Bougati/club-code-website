@@ -1,7 +1,6 @@
 package com.code.server.controller;
 
-import com.code.server.dto.image.ImageDto;
-import com.code.server.dto.news.NewsDto;
+
 import com.code.server.dto.sponsor.SponsorDto;
 import com.code.server.service.sponsor.SponsorService;
 import lombok.RequiredArgsConstructor;

@@ -75,7 +75,7 @@ public class Event {
     @NotNull
     private Boolean registrationOpen;
 
-    @NotNull
+
     private LocalDateTime registrationDeadline;
 
     @CreationTimestamp

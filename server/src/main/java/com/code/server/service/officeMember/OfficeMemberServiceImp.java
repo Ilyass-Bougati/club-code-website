@@ -2,8 +2,10 @@ package com.code.server.service.officeMember;
 
 import com.code.server.dto.officeMember.OfficeMemberDto;
 import com.code.server.dto.officeMember.OfficeMemberMapper;
+import com.code.server.entity.Image;
 import com.code.server.entity.OfficeMember;
 import com.code.server.exception.NotFoundException;
+import com.code.server.repository.ImageRepository;
 import com.code.server.repository.OfficeMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ public class OfficeMemberServiceImp implements OfficeMemberService{
 
     private final OfficeMemberRepository officeMemberRepository;
     private final OfficeMemberMapper officeMemberMapper;
+    private final ImageRepository imageRepository;
 
     @Override
     public OfficeMemberDto save(OfficeMemberDto officeMemberDto) {
@@ -31,20 +34,33 @@ public class OfficeMemberServiceImp implements OfficeMemberService{
     public OfficeMemberDto update(OfficeMemberDto officeMemberDto) {
         OfficeMember officeMember=officeMemberRepository.findById(officeMemberDto.getId())
               .orElseThrow(() -> new NotFoundException("Member doesn't exist"));
+        if(officeMemberDto.getFirstName() != null)
         officeMember.setFirstName(officeMemberDto.getFirstName());
+
+        if(officeMemberDto.getLastName() != null)
         officeMember.setLastName(officeMemberDto.getLastName());
+
+        if(officeMemberDto.getInstagram() != null)
         officeMember.setInstagram(officeMemberDto.getInstagram());
+
+        if(officeMemberDto.getLinkedin() != null)
         officeMember.setLinkedin(officeMemberDto.getLinkedin());
+
+        if(officeMemberDto.getPosition() != null)
         officeMember.setPosition(officeMemberDto.getPosition());
-        //TODO
-        //officeMember.setImage(officeMemberDto.getImage().getHost().name());
+
+        if (officeMemberDto.getImage() != null) {
+            Image image = imageRepository.findById(officeMemberDto.getImage().getId())
+                    .orElseThrow(() -> new NotFoundException("Image not found"));
+            officeMember.setImage(image);
+        }
         OfficeMember saved=officeMemberRepository.save(officeMember);
         return officeMemberMapper.toDTO(saved);
     }
 
     @Override
     public void delete(UUID uuid) {
-        OfficeMember officeMember = officeMemberRepository.findById(uuid)
+        officeMemberRepository.findById(uuid)
                 .orElseThrow(()->new NotFoundException("member not found"));
         officeMemberRepository.deleteById(uuid);
     }

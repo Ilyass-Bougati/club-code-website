@@ -26,7 +26,7 @@ public class OfficeMember {
     // separately through the service, which will cache it
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @PrimaryKeyJoinColumn
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image image;
 
     @NotEmpty

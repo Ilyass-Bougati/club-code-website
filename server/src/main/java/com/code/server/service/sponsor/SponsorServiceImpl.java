@@ -5,7 +5,6 @@ import com.code.server.dto.sponsor.SponsorMapper;
 import com.code.server.entity.Sponsor;
 import com.code.server.exception.NotFoundException;
 import com.code.server.repository.SponsorRepository;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

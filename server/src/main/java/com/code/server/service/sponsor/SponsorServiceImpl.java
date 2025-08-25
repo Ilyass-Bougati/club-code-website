@@ -1,10 +1,11 @@
 package com.code.server.service.sponsor;
 
 import com.code.server.dto.sponsor.SponsorDto;
-import com.code.server.dto.sponsor.SponsorMapperImpl;
+import com.code.server.dto.sponsor.SponsorMapper;
 import com.code.server.entity.Sponsor;
 import com.code.server.exception.NotFoundException;
 import com.code.server.repository.SponsorRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +18,8 @@ import java.util.UUID;
 public class SponsorServiceImpl implements SponsorService {
 
     SponsorRepository sponsorRepository;
-    SponsorMapperImpl sponsorMapper;
+
+    SponsorMapper sponsorMapper;
 
     @Override
     public SponsorDto save(SponsorDto sponsorDto) {

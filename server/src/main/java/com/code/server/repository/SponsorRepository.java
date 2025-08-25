@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
+
 @Repository
 public interface SponsorRepository extends JpaRepository<Sponsor,UUID> {
 }

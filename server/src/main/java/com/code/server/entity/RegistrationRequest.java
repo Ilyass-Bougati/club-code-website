@@ -39,6 +39,7 @@ public class RegistrationRequest {
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
+    @Builder.Default
     private Set<AreaOfInterest> areaOfInterests = new HashSet<>();
 
     @NotEmpty

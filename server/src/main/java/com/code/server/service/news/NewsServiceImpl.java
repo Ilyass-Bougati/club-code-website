@@ -5,6 +5,7 @@ import com.code.server.dto.news.NewsMapper;
 import com.code.server.entity.News;
 import com.code.server.exception.NotFoundException;
 import com.code.server.repository.NewsRepository;
+import com.code.server.service.Image.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,9 +21,14 @@ import java.util.stream.Collectors;
 public class NewsServiceImpl implements NewsService{
 
     private final NewsRepository newsRepository;
+
     private final NewsMapper newsMapper;
 
+    private final ImageService imageService;
+
+
     @Override
+    @Transactional(readOnly = true)
     public NewsDto findById(UUID id) {
         return newsRepository.findById(id)
                 .map(newsMapper::toDTO)
@@ -39,14 +45,15 @@ public class NewsServiceImpl implements NewsService{
 
     @Override
     public void delete(UUID id) {
-         newsRepository.findById(id)
+         News news = newsRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("News not found with UUID: " + id));
+         imageService.delete(news.getImage().getId());
          newsRepository.deleteById(id);
-
     }
 
 
     @Override
+    @Transactional(readOnly = true)
     public List<NewsDto> getAllNews() {
         return newsRepository.findAll()
                 .stream()
@@ -66,6 +73,4 @@ public class NewsServiceImpl implements NewsService{
         News updated = newsRepository.save(existing);
         return newsMapper.toDTO(updated);
     }
-
-
 }

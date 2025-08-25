@@ -3,6 +3,7 @@ package com.code.server.controller;
 import com.code.server.dto.news.NewsDto;
 import com.code.server.service.news.NewsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +17,6 @@ import java.util.UUID;
 public class NewsController {
 
     private final NewsService newsService;
-
-
 
     @PostMapping
     public ResponseEntity<NewsDto> createNews(@RequestBody NewsDto dto) {
@@ -43,7 +42,7 @@ public class NewsController {
     }
 
 
-    @PutMapping("/{id}")
+    @PutMapping
     public ResponseEntity<NewsDto> updateNews( @RequestBody NewsDto dto) {
         NewsDto updated = newsService.update(dto);
         return updated != null
@@ -52,9 +51,9 @@ public class NewsController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteNews(@PathVariable UUID id) {
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteNews(@PathVariable UUID id) {
         newsService.delete(id);
-        return ResponseEntity.noContent().build();
     }
 
 

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -24,6 +25,12 @@ public class ImageController {
     @PostMapping
     public ResponseEntity<ImageDto> createImage(@RequestBody ImageDto imageDto) {
         return ResponseEntity.ok(imageService.save(imageDto));
+    }
+
+    // TODO : change this later
+    @PostMapping("/upload")
+    public ResponseEntity<ImageDto> uploadImage(@RequestParam("file") MultipartFile file) {
+        return ResponseEntity.ok(imageService.uploadImage(file));
     }
 
     @PutMapping

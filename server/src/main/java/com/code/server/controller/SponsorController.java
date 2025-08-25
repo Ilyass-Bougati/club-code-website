@@ -35,6 +35,7 @@ public class SponsorController {
     public void deleteSponsor(@PathVariable UUID id) {
         sponsorService.delete(id);
     }
+
     @PutMapping
     public ResponseEntity<SponsorDto> updateImage(@RequestBody SponsorDto sponsorDto) {
         return ResponseEntity.ok(sponsorService.update(sponsorDto));

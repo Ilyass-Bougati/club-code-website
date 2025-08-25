@@ -2,6 +2,7 @@ package com.code.server.dto.news;
 
 import com.code.server.dto.image.ImageMapper;
 import com.code.server.entity.News;
+import com.code.server.service.Image.ImageEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 public class NewsMapperImpl implements NewsMapper {
 
     private final ImageMapper imageMapper;
+    private final ImageEntityService imageEntityService;
 
     @Override
     public NewsDto toDTO(News news) {
@@ -30,7 +32,7 @@ public class NewsMapperImpl implements NewsMapper {
                 .title(newsDto.getTitle())
                 .description(newsDto.getDescription())
                 .type(newsDto.getType())
-                .image(imageMapper.toEntity(newsDto.getImage()))
+                .image(imageEntityService.findById(newsDto.getImage().getId()))
                 .publishedAt(newsDto.getPublishedAt())
                 .build();
     }

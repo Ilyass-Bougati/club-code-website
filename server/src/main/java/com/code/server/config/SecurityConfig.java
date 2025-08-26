@@ -29,6 +29,7 @@ public class SecurityConfig {
                 .requestMatchers("/swagger").permitAll()
                 .requestMatchers("/swagger-ui/*").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/v1/register").permitAll()
                 .anyRequest().hasRole("ADMIN");
         });
 

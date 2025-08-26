@@ -1,5 +1,7 @@
 package com.code.server.config;
 
+import com.code.server.service.staff.security.CustomUserDetailsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,7 +13,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final CustomUserDetailsService customUserDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -26,6 +31,9 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
                 .anyRequest().hasRole("ADMIN");
         });
+
+        // configuring the UserDetailsService
+        http.userDetailsService(customUserDetailsService);
 
         http.httpBasic(Customizer.withDefaults());
 

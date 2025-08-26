@@ -71,7 +71,7 @@ public class ImageServiceImpl implements ImageService {
     public ImageDto findById(UUID id) {
         return imageRepository.findById(id)
                 .map(imageMapper::toDTO)
-                .orElseThrow(() -> new RuntimeException("Image not found"));
+                .orElseThrow(() -> new NotFoundException("Image not found"));
     }
 
     @Override

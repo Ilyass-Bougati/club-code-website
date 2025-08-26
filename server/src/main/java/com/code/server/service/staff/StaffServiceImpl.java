@@ -7,6 +7,7 @@ import com.code.server.entity.Staff;
 import com.code.server.exception.NotFoundException;
 import com.code.server.repository.StaffRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,7 @@ public class StaffServiceImpl implements StaffService {
 
     private final StaffRepository staffRepository;
     private final StaffMapper staffMapper;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * This method isn't meant to be used, the creation of staff
@@ -59,10 +61,9 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public StaffDto register(StaffRegisterRequest request) {
         // Creating the staff entity
-        // TODO : HASH THE PASSWORD
         Staff staff = Staff.builder()
                 .email(request.getEmail())
-                .password(request.getPassword())
+                .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
                 .build();
 

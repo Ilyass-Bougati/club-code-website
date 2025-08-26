@@ -1,7 +1,6 @@
 package com.code.server.exception;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,14 +12,13 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleAllExceptions(Exception ex) {
-        logger.error(ex.getMessage(), ex);
+        log.error(ex.getMessage(), ex);
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("error", ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
@@ -52,6 +50,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(StorageException.class)
     public ResponseEntity<Map<String, String>> handleStorageException(StorageException ex) {
         Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("error", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Map<String, String>> handleRuntimeException(RuntimeException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        log.error(ex.getMessage(), ex);
         errorResponse.put("error", ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }

@@ -1,7 +1,7 @@
 package com.code.server.service.news;
 
 import com.code.server.dto.news.NewsDto;
-import com.code.server.dto.news.NewsMapperImpl;
+import com.code.server.dto.news.NewsMapper;
 import com.code.server.entity.News;
 import com.code.server.exception.NotFoundException;
 import com.code.server.repository.NewsRepository;
@@ -21,8 +21,11 @@ import java.util.stream.Collectors;
 public class NewsServiceImpl implements NewsService{
 
     private final NewsRepository newsRepository;
-    private final NewsMapperImpl newsMapper;
+
+    private final NewsMapper newsMapper;
+
     private final ImageService imageService;
+
 
     @Override
     @Transactional(readOnly = true)

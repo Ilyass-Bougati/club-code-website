@@ -66,8 +66,8 @@ public class Event {
     private Set<Sponsor> sponsors = new HashSet<>();
 
     @ManyToOne
-    @JoinColumn(name = "staff_id", referencedColumnName = "id")
-    private Staff staff;
+    @JoinColumn(name = "member_id", referencedColumnName = "id")
+    private Member member;
 
     @NotNull
     private Boolean sponsored;

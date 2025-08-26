@@ -1,7 +1,7 @@
-package com.code.server.service.staff.security;
+package com.code.server.service.member.security;
 
-import com.code.server.entity.Staff;
-import com.code.server.enums.StaffRole;
+import com.code.server.entity.Member;
+import com.code.server.enums.UserRole;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -17,15 +17,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
-    private final Staff staff;
+    private final Member member;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<StaffGrantedAuthority> staffGrantedAuthorities = new ArrayList<>();
-        staffGrantedAuthorities.add(new StaffGrantedAuthority("ADMIN"));
+        List<MemberGrantedAuthority> staffGrantedAuthorities = new ArrayList<>();
+        staffGrantedAuthorities.add(new MemberGrantedAuthority("ADMIN"));
 
-        if (staff.getRole() == StaffRole.SUPER_ADMIN) {
-            staffGrantedAuthorities.add(new StaffGrantedAuthority("SUPER_ADMIN"));
+        if (member.getRole() == UserRole.SUPER_ADMIN) {
+            staffGrantedAuthorities.add(new MemberGrantedAuthority("SUPER_ADMIN"));
         }
 
         return staffGrantedAuthorities;
@@ -33,11 +33,11 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return staff.getPassword();
+        return member.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return staff.getEmail();
+        return member.getEmail();
     }
 }

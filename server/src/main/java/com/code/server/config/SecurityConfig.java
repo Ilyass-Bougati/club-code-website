@@ -1,6 +1,6 @@
 package com.code.server.config;
 
-import com.code.server.service.staff.security.CustomUserDetailsService;
+import com.code.server.service.member.security.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

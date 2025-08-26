@@ -1,6 +1,6 @@
-package com.code.server.service.staff;
+package com.code.server.service.member;
 
-import com.code.server.entity.Staff;
+import com.code.server.entity.Member;
 import com.code.server.exception.NotFoundException;
 import com.code.server.repository.StaffRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,20 +11,20 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class StaffEntityServiceImpl implements StaffEntityService {
+public class MemberEntityServiceImpl implements MemberEntityService {
 
     private final StaffRepository staffRepository;
 
     @Override
     @Transactional(readOnly = true)
-    public Staff findById(UUID uuid) {
+    public Member findById(UUID uuid) {
         return staffRepository.findById(uuid)
                 .orElseThrow(() -> new NotFoundException("Staff not found"));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Staff findByEmail(String email) {
+    public Member findByEmail(String email) {
         return staffRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("Staff not found"));
     }

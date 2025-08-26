@@ -1,28 +1,35 @@
-package com.code.server.dto.registrationRequest;
+package com.code.server.dto.member;
 
 import com.code.server.dto.areaOfInterest.AreaOfInterestDto;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class RegistrationRequestDto {
-    private UUID id;
+@NoArgsConstructor
+public class MemberRegisterRequest {
+    @Email
+    @NotBlank
+    private String email;
 
-    @NotEmpty
+    @NotBlank
+    private String password;
+
+    @NotBlank
     private String firstName;
 
-    @NotEmpty
+    @NotBlank
     private String lastName;
 
-    @NotEmpty
-    @Email
-    private String email;
+    @NotBlank
+    @Size(min = 10, max = 10, message = "Phone number must be 10 characters long")
+    private String phoneNumber;
 
     @NotNull
     @Min(value = 1, message = "Number of years for a registration request can't be less than 1")
@@ -31,7 +38,7 @@ public class RegistrationRequestDto {
 
     @NotNull
     @Builder.Default
-    private List<AreaOfInterestDto> areaOfInterests = new ArrayList<>();
+    private List<UUID> areaOfInterests = new ArrayList<>();
 
     @NotEmpty
     private String major;

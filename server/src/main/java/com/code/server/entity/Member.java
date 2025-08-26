@@ -1,11 +1,9 @@
 package com.code.server.entity;
 
-import com.code.server.enums.StaffRole;
+import com.code.server.enums.UserRole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jdk.jfr.Timestamp;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -19,9 +17,9 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "staffs")
+@Entity(name = "members")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Staff {
+public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @EqualsAndHashCode.Include
@@ -32,12 +30,23 @@ public class Staff {
     private String email;
 
     @NotBlank
+    private String firstName;
+
+    @NotBlank
+    private String lastName;
+
+    @NotBlank
     private String password;
+
+    @NotBlank
+    @Column(unique = true)
+    @Size(min = 10, max = 10)
+    private String phoneNumber;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @NotNull
-    private StaffRole role = StaffRole.ADMIN;
+    private UserRole role = UserRole.USER;
 
     @Builder.Default
     @OneToMany(mappedBy="staff")
@@ -46,6 +55,19 @@ public class Staff {
     @Builder.Default
     @OneToMany(mappedBy="staff")
     private Set<News> addedNews = new HashSet<>();
+
+    @NotNull
+    @Min(value = 1, message = "Number of years for a registration request can't be less than 1")
+    @Max(value = 10, message = "Number of years for a registration request can't be more than 10")
+    private Integer year;
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Builder.Default
+    private Set<AreaOfInterest> areaOfInterests = new HashSet<>();
+
+    @NotEmpty
+    private String major;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

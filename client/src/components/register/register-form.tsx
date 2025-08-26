@@ -2,7 +2,6 @@
 
 import React from "react";
 import { motion, Variants } from "framer-motion";
-import { Badge } from "../ui/badge";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -103,30 +102,38 @@ const RegisterForm = () => {
                     className="space-y-4"
                 >
                     <motion.div variants={item}>
-                        <Badge className="rounded-full px-4 py-1.5 text-sm font-medium shadow-sm" variant="secondary">
-                            <span className="text-primary mr-1">✦</span> Register
-                        </Badge>
+
                     </motion.div>
 
                     <motion.h2
                         variants={item}
                         className="from-foreground to-foreground/80 bg-gradient-to-r bg-clip-text text-3xl font-bold tracking-tight text-transparent md:text-4xl"
                     >
-                        Fill this form if you wanna join CODE
+                        Register Now
                     </motion.h2>
 
-                    <motion.p variants={item} className="max-w-[800px] text-muted-foreground md:text-lg leading-relaxed">
-                        <span className="font-medium text-foreground font-serif">Code</span> is a student-driven club{" "}
-                        <span className="font-medium text-foreground">
-                            focused on skill-building, collaboration, and real-world projects.
-                        </span>
+                    <motion.p
+                        variants={item}
+                        className="max-w-[800px] text-muted-foreground md:text-lg leading-relaxed"
+                    >
+                        Join our <span className="font-medium text-foreground font-serif">Code Club</span> today and be part of a
+                        <span className="font-medium text-foreground"> community that learns, collaborates, and builds real-world projects together.</span>
+                        Fill this form to start your journey.
                     </motion.p>
+
                 </motion.div>
             </div>
 
             {/* Form */}
             <div className="flex flex-col md:flex-row items-center justify-center gap-12">
-                <Image src="/form.svg" alt="student" width={400} height={500} className="hidden md:block" />
+                <Image
+                    src="/form.svg"
+                    alt="student"
+                    width={400}
+                    height={500}
+                    className="hidden md:block w-[400px] h-auto"
+                />
+
 
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}

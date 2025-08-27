@@ -66,15 +66,18 @@ public class Event {
     private Set<Sponsor> sponsors = new HashSet<>();
 
     @ManyToOne
-    @JoinColumn(name = "staff_id", referencedColumnName = "id")
-    private Staff staff;
+    @JoinColumn(name = "member_id", referencedColumnName = "id")
+    private Member member;
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<Member> members;
 
     @NotNull
     private Boolean sponsored;
 
     @NotNull
     private Boolean registrationOpen;
-
 
     private LocalDateTime registrationDeadline;
 

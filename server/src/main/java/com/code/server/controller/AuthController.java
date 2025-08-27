@@ -1,0 +1,51 @@
+package com.code.server.controller;
+
+import com.code.server.service.jwt.Token;
+import com.code.server.service.jwt.TokenService;
+import com.code.server.dto.member.MemberRegisterRequest;
+import com.code.server.dto.member.RefreshRequest;
+import com.code.server.service.member.MemberService;
+import com.code.server.service.member.security.CustomUserDetails;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+
+@RestController
+@RequestMapping("/api/v1/auth")
+@RequiredArgsConstructor
+public class AuthController {
+
+    private final TokenService tokenService;
+    private final MemberService memberService;
+
+    @PostMapping("/login")
+    public ResponseEntity<Token> token(Authentication authentication) {
+        return ResponseEntity.ok(tokenService.generateToken(authentication));
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<Token> refreshToken(@RequestBody RefreshRequest request) {
+        return ResponseEntity.ok(tokenService.refreshToken(request.getRefreshToken()));
+    }
+
+    @PostMapping("/logout")
+    public void logout(@AuthenticationPrincipal CustomUserDetails principal) {
+        tokenService.revokeToken(principal);
+    }
+
+    @PostMapping("/register")
+    @ResponseStatus(HttpStatus.OK)
+    public void saveClient(Principal principal, @RequestBody @Valid MemberRegisterRequest registerRequest) {
+        if (principal != null) {
+            throw new RuntimeException("Already logged in");
+        }
+        memberService.register(registerRequest);
+    }
+
+}

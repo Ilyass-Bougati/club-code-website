@@ -1,4 +1,4 @@
-package com.code.server.service.staff.security;
+package com.code.server.service.member.security;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class StaffGrantedAuthority implements GrantedAuthority {
+public class MemberGrantedAuthority implements GrantedAuthority {
 
     private final String role;
 

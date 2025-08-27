@@ -39,8 +39,8 @@ public class News {
     private Image image;
 
     @ManyToOne
-    @JoinColumn(name = "staff_id", referencedColumnName = "id")
-    private Staff staff;
+    @JoinColumn(name = "member_id", referencedColumnName = "id")
+    private Member member;
 
     // might remove this later if it proves unneeded
     // otherwise I'll need to add a default value

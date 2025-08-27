@@ -1,25 +1,4 @@
 services:
-  code:
-    container_name: code_backend
-    build:
-      context: .
-      target: builder
-    ports:
-      - '8080:8080'
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://code_db:5432/code
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
-      REDIS_URL: redis://code_redis_cache:6379
-    depends_on:
-      postgres_container:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    volumes:
-      - .:/code
-
-
   postgres_container:
     image: postgres:15
     container_name: code_db

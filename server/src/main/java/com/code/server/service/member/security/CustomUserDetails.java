@@ -22,10 +22,15 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<MemberGrantedAuthority> staffGrantedAuthorities = new ArrayList<>();
-        staffGrantedAuthorities.add(new MemberGrantedAuthority("ADMIN"));
+        staffGrantedAuthorities.add(new MemberGrantedAuthority("USER"));
+
+        if (member.getRole() == UserRole.ADMIN) {
+            staffGrantedAuthorities.add(new MemberGrantedAuthority("ADMIN"));
+        }
 
         if (member.getRole() == UserRole.SUPER_ADMIN) {
             staffGrantedAuthorities.add(new MemberGrantedAuthority("SUPER_ADMIN"));
+            staffGrantedAuthorities.add(new MemberGrantedAuthority("ADMIN"));
         }
 
         return staffGrantedAuthorities;

@@ -46,9 +46,3 @@ cloudinary:
 springdoc:
   api-docs:
     enabled: ${SWAGGER_UI:true}
-
-logging:
-  level:
-    org:
-      springframework:
-        security: trace

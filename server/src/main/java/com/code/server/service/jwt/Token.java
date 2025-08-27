@@ -1,4 +1,4 @@
-package com.code.server.config;
+package com.code.server.service.jwt;
 
 import lombok.*;
 

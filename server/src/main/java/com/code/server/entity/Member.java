@@ -74,6 +74,7 @@ public class Member {
     @NotEmpty
     private String major;
 
+    @Column(length = 1024)
     private String refreshToken;
 
     @CreationTimestamp

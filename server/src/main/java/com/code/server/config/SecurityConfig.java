@@ -1,6 +1,7 @@
 package com.code.server.config;
 
 import com.code.server.properties.JwtProperties;
+import com.code.server.service.jwt.JwtAuthConverter;
 import com.code.server.service.member.security.CustomUserDetailsService;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -16,7 +17,6 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,6 +33,7 @@ public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtProperties jwtProperties;
+    private final JwtAuthConverter jwtAuthConverter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -47,14 +48,17 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-ui/*").permitAll()
                         .requestMatchers("/api/v1/auth/login").permitAll()
                         .requestMatchers("/api/v1/auth/register").permitAll()
-                        .requestMatchers("/api/v1/auth/refresh").authenticated()
+                        .requestMatchers("/api/v1/auth/refresh").permitAll()
+                        .requestMatchers("/api/v1/auth/logout").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/register").permitAll()
                         .anyRequest().hasRole("ADMIN");
                 })
-                .oauth2ResourceServer(oauth2 -> {
-                    oauth2.jwt(Customizer.withDefaults());
-                })
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(
+                        jwtConfigurer -> {
+                            jwtConfigurer.jwtAuthenticationConverter(jwtAuthConverter);
+                        }
+                ))
                 // configuring the UserDetailsService
                 .userDetailsService(customUserDetailsService)
                 .httpBasic(Customizer.withDefaults())

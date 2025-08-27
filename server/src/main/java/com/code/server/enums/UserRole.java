@@ -1,6 +1,7 @@
 package com.code.server.enums;
 
-public enum StaffRole {
+public enum UserRole {
     SUPER_ADMIN,
-    ADMIN
+    ADMIN,
+    USER
 }

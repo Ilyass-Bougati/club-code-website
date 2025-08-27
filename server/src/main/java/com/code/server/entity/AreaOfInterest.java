@@ -30,5 +30,5 @@ public class AreaOfInterest {
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
-    private Set<RegistrationRequest> registrationRequests;
+    private Set<Member> members;
 }

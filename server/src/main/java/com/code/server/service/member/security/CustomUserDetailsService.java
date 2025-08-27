@@ -1,7 +1,7 @@
-package com.code.server.service.staff.security;
+package com.code.server.service.member.security;
 
-import com.code.server.entity.Staff;
-import com.code.server.service.staff.StaffEntityService;
+import com.code.server.entity.Member;
+import com.code.server.service.member.MemberEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final StaffEntityService staffEntityService;
+    private final MemberEntityService memberEntityService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Staff staff = staffEntityService.findByEmail(username);
-        return new CustomUserDetails(staff);
+        Member member = memberEntityService.findByEmail(username);
+        return new CustomUserDetails(member);
     }
 }

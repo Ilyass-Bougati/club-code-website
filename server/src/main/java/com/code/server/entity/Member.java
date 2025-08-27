@@ -1,10 +1,13 @@
 package com.code.server.entity;
 
+import com.code.server.enums.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -14,23 +17,44 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "registration_requests")
+@Entity(name = "members")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class RegistrationRequest {
+public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @EqualsAndHashCode.Include
     private UUID id;
 
-    @NotEmpty
+    @Email
+    @NotBlank
+    private String email;
+
+    @NotBlank
     private String firstName;
 
-    @NotEmpty
+    @NotBlank
     private String lastName;
 
-    @NotEmpty
-    @Email
-    private String email;
+    @NotBlank
+    private String password;
+
+    @NotBlank
+    @Column(unique = true)
+    @Size(min = 10, max = 10)
+    private String phoneNumber;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private UserRole role = UserRole.USER;
+
+    @Builder.Default
+    @OneToMany(mappedBy="member")
+    private Set<Event> addedEvents = new HashSet<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy="member")
+    private Set<News> addedNews = new HashSet<>();
 
     @NotNull
     @Min(value = 1, message = "Number of years for a registration request can't be less than 1")
@@ -42,6 +66,16 @@ public class RegistrationRequest {
     @Builder.Default
     private Set<AreaOfInterest> areaOfInterests = new HashSet<>();
 
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Builder.Default
+    private Set<Event> interestEvents = new HashSet<>();
+
     @NotEmpty
     private String major;
+
+    private String refreshToken;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 }

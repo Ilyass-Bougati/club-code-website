@@ -1,7 +1,14 @@
+'use client'
+
+import TeamTree from '@/components/team/team'
 import React from 'react'
 
-export default function TeamPage() {
+const TeamPage = () => {
   return (
-    <div>TeamPage</div>
+    <div>
+      <TeamTree />
+    </div>
   )
 }
+
+export default TeamPage

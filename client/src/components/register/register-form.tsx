@@ -239,7 +239,20 @@ const RegisterForm = () => {
                                                 <FormItem>
                                                     <FormLabel>Major</FormLabel>
                                                     <FormControl>
-                                                        <Input className="border-secondary" placeholder="Enter your major" {...field} />
+                                                        <Select
+                                                            onValueChange={(val) => field.onChange(val)}
+                                                        >
+                                                            <SelectTrigger className="w-full border border-secondary">
+                                                                <SelectValue placeholder="Select your major" />
+                                                            </SelectTrigger>
+                                                            <SelectContent>
+                                                                <SelectItem value="gi">CI GI</SelectItem>
+                                                                <SelectItem value="isese">CI ISESE</SelectItem>
+                                                                <SelectItem value="pic">CI PIC</SelectItem>
+                                                                <SelectItem value="icp">CI ICP</SelectItem>
+                                                                <SelectItem value="ibim">CI IBIM</SelectItem>
+                                                            </SelectContent>
+                                                        </Select>
                                                     </FormControl>
                                                     <FormMessage />
                                                 </FormItem>
@@ -260,7 +273,7 @@ const RegisterForm = () => {
                                                             field.onChange([{ id: crypto.randomUUID(), name: val }])
                                                         }
                                                     >
-                                                        <SelectTrigger>
+                                                        <SelectTrigger className="md:w-[49%] w-full border border-secondary">
                                                             <SelectValue placeholder="Select an area" />
                                                         </SelectTrigger>
                                                         <SelectContent>

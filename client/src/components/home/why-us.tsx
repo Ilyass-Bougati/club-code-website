@@ -187,7 +187,7 @@ const WhyUs = () => {
         </div>
       </div>
 
-      <div className="relative w-full max-w-7xl mx-auto px-4 z-10">
+      <div className="container relative w-full max-w-7xl mx-auto px-4 z-10">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
           {/* Left Column Cards */}
           <motion.div

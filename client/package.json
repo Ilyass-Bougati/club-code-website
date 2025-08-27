@@ -31,6 +31,7 @@
     "react-fast-marquee": "^1.6.5",
     "react-hook-form": "^7.62.0",
     "react-icons": "^5.5.0",
+    "react-organizational-chart": "^2.2.1",
     "tailwind-merge": "^3.3.1",
     "three": "^0.179.1",
     "zod": "^4.1.1"

@@ -32,6 +32,9 @@ spring:
     show-sql: true
     open-in-view: true
 
+jwt:
+  access-token-private-key: classpath:certs/private.pem
+  access-token-public-key: classpath:certs/public.pem
 
 # temporary storage location
 storage:
@@ -43,3 +46,9 @@ cloudinary:
 springdoc:
   api-docs:
     enabled: ${SWAGGER_UI:true}
+
+logging:
+  level:
+    org:
+      springframework:
+        security: trace

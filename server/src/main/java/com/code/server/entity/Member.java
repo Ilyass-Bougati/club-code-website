@@ -49,11 +49,11 @@ public class Member {
     private UserRole role = UserRole.USER;
 
     @Builder.Default
-    @OneToMany(mappedBy="staff")
+    @OneToMany(mappedBy="member")
     private Set<Event> addedEvents = new HashSet<>();
 
     @Builder.Default
-    @OneToMany(mappedBy="staff")
+    @OneToMany(mappedBy="member")
     private Set<News> addedNews = new HashSet<>();
 
     @NotNull
@@ -66,8 +66,15 @@ public class Member {
     @Builder.Default
     private Set<AreaOfInterest> areaOfInterests = new HashSet<>();
 
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Builder.Default
+    private Set<Event> interestEvents = new HashSet<>();
+
     @NotEmpty
     private String major;
+
+    private String refreshToken;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

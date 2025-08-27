@@ -5,9 +5,8 @@ import com.code.server.dto.member.MemberMapper;
 import com.code.server.dto.member.MemberRegisterRequest;
 import com.code.server.entity.Member;
 import com.code.server.exception.NotFoundException;
-import com.code.server.repository.StaffRepository;
+import com.code.server.repository.MemberRepository;
 import com.code.server.service.areasOfInterest.AreasOfInterestEntityService;
-import com.code.server.service.areasOfInterest.AreasOfInterestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
-    private final StaffRepository staffRepository;
+    private final MemberRepository memberRepository;
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
     private final AreasOfInterestEntityService  areasOfInterestEntityService;
@@ -40,23 +39,23 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberDto update(MemberDto memberDto) {
-        Member member = staffRepository.findById(memberDto.getId())
+        Member member = memberRepository.findById(memberDto.getId())
                 .orElseThrow(() -> new NotFoundException("Staff member not found"));
 
         member.setEmail(memberDto.getEmail());
 
-        return memberMapper.toDTO(staffRepository.save(member));
+        return memberMapper.toDTO(memberRepository.save(member));
     }
 
     @Override
     public void delete(UUID id) {
-        staffRepository.deleteById(id);
+        memberRepository.deleteById(id);
     }
 
     @Override
     @Transactional(readOnly = true)
     public MemberDto findById(UUID id) {
-        return staffRepository.findById(id)
+        return memberRepository.findById(id)
                 .map(memberMapper::toDTO)
                 .orElseThrow(() -> new NotFoundException("Staff member not found"));
     }
@@ -76,8 +75,10 @@ public class MemberServiceImpl implements MemberService {
                                 .map(areasOfInterestEntityService::findById)
                                 .collect(Collectors.toSet())
                 )
+                .year(request.getYear())
+                .major(request.getMajor())
                 .build();
 
-        return memberMapper.toDTO(staffRepository.save(member));
+        return memberMapper.toDTO(memberRepository.save(member));
     }
 }

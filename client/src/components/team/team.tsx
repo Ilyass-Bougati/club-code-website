@@ -78,8 +78,11 @@ export default function TeamTreePage() {
           lineColor="#6366f1"
           lineBorderRadius="10px"
           label={
-            <div className="flex justify-center">
+            <div className="flex justify-center gap-5">
               <OfficeMemberCard member={president} />
+              <OfficeMemberCard member={vp} />
+              <OfficeMemberCard member={president} />
+              <OfficeMemberCard member={vp} />
             </div>
           }
         >

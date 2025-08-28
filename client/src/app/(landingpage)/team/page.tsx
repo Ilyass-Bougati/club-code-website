@@ -1,12 +1,12 @@
 'use client'
 
-import TeamTree from '@/components/team/team'
+import TeamTreePage2 from '@/components/team/team2'
 import React from 'react'
 
 const TeamPage = () => {
   return (
     <div>
-      <TeamTree />
+      <TeamTreePage2 />
     </div>
   )
 }

@@ -23,7 +23,7 @@ const OfficeMemberCard: React.FC<OfficeMemberCardProps> = ({ member }) => {
   }
 
   return (
-    <Card className="group relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+    <Card className="group md:w-56  relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
       {/* Background hover accent */}
       <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
@@ -81,7 +81,7 @@ const OfficeMemberCard: React.FC<OfficeMemberCardProps> = ({ member }) => {
           )}
         </div>
 
-        {/* Decorative Bottom Accent */}
+        {/* Bottom Accent */}
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </CardContent>
     </Card>

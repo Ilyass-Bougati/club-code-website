@@ -136,7 +136,7 @@ export const officeMembers: OfficeMember[] = [
     image: { uri: "/girl.svg", id: "img14", host: "CLOUDINARY" },
     firstName: "Nina",
     lastName: "Lewis",
-    position: "project manager",
+    position: "Backend Dev",
     linkedin: "https://linkedin.com/in/ninalewis",
     instagram: "https://instagram.com/ninalewis",
     addedAt: new Date("2024-02-12")

@@ -197,7 +197,7 @@ export const navLinks = [
   {
     name: "Events",
     href: "/events",
-  },
+  },  
   {
     name: "Team",
     href: "/team",

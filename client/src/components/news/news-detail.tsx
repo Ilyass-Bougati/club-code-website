@@ -32,6 +32,15 @@ const item = {
 };
 
 export default function NewsDetail({ news }: { news: News }) {
+  // Vérification de sécurité
+  if (!news || !news.title) {
+    return (
+      <div className="container flex flex-col md:col-span-2 mx-auto md:my-12">
+        <p className="text-muted-foreground">News not found</p>
+      </div>
+    );
+  }
+
   return (
     <motion.div
       initial="hidden"

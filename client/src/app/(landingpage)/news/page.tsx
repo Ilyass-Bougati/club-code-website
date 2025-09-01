@@ -51,14 +51,20 @@ export default function NewsPage() {
         viewport={{ once: true }}
         className="px-4 md:px-6 grid py-8 sm:py-12 md:py-16 gap-6 md:gap-8"
       >
-        {news.map((item, idx) => (
-          <motion.div
-            key={idx}
-             variants={itemMotion}
-          >
-            <NewsCard news={item} />
-          </motion.div>
-        ))}
+        {news && news.length > 0 ? (
+          news.map((item, idx) => (
+            <motion.div
+              key={item.id || idx}
+              variants={itemMotion}
+            >
+              <NewsCard news={item} />
+            </motion.div>
+          ))
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">No news available at the moment.</p>
+          </div>
+        )}
       </motion.div>
     </main>
   );

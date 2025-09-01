@@ -5,6 +5,7 @@ import com.code.server.dto.event.EventDto;
 import com.code.server.service.event.EventService;
 import com.code.server.service.member.MemberService;
 import com.code.server.service.member.security.CustomUserDetails;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class EventController {
     private final MemberService memberService;
 
     @PostMapping
-    public ResponseEntity<EventDto> addEvent(@RequestBody EventDto eventDto){
+    public ResponseEntity<EventDto> addEvent(@RequestBody @Valid EventDto eventDto){
         return ResponseEntity.ok(eventService.save(eventDto));
     }
 
@@ -43,9 +44,13 @@ public class EventController {
         return ResponseEntity.ok(eventService.update(eventDto));
     }
 
-    @GetMapping
-    public ResponseEntity<List<EventDto>> getAllEvents(){
-        return ResponseEntity.ok(eventService.findAll());
+    // This is the page size used in getAllEvents
+    private final static Integer pageSize = 20;
+
+    // TODO : test this later, it looks sketchy
+    @GetMapping("/page/{page}")
+    public ResponseEntity<List<EventDto>> getAllEvents(@PathVariable Integer page){
+        return ResponseEntity.ok(eventService.getPage(page, pageSize));
     }
 
     @GetMapping("/{id}")

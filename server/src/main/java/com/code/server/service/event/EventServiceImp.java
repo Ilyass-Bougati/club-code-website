@@ -11,10 +11,16 @@ import com.code.server.repository.AreasOfInterestRepository;
 import com.code.server.repository.EventRepository;
 import com.code.server.repository.ImageRepository;
 import com.code.server.repository.SponsorRepository;
+import com.code.server.service.Image.ImageEntityService;
+import com.code.server.service.areasOfInterest.AreasOfInterestEntityService;
 import com.code.server.service.member.MemberEntityService;
+import com.code.server.service.sponsor.SponsorEntityService;
+import com.code.server.service.sponsor.SponsorService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.Set;
@@ -22,15 +28,16 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@Validated
 @Transactional
 @RequiredArgsConstructor
-public class EventServiceImp implements EventService{
+public class EventServiceImp implements EventService {
 
     private final EventRepository eventRepository;
     private final EventMapperImpl eventMapper;
-    private final SponsorRepository sponsorRepository;
-    private final AreasOfInterestRepository areasOfInterestRepository;
-    private final ImageRepository imageRepository;
+    private final SponsorEntityService sponsorEntityService;
+    private final AreasOfInterestEntityService areasOfInterestEntityService;
+    private final ImageEntityService imageEntityService;
 
     @Override
     public EventDto save(EventDto eventDto) {
@@ -41,51 +48,30 @@ public class EventServiceImp implements EventService{
     }
 
     @Override
-    public EventDto update(EventDto eventDto) {
+    public EventDto update(@Valid EventDto eventDto) {
         Event event = eventRepository.findById(eventDto.getId())
                 .orElseThrow(()->new NotFoundException("Event not found"));
 
-        if (eventDto.getTitle() != null) {
-            event.setTitle(eventDto.getTitle());
-        }
-        if (eventDto.getEventType() != null) {
-            event.setEventType(eventDto.getEventType());
-        }
-        if (eventDto.getDescription() != null) {
-            event.setDescription(eventDto.getDescription());
-        }
-        if (eventDto.getSponsored() != null) {
-            event.setSponsored(eventDto.getSponsored());
-        }
-        if (eventDto.getRegistrationDeadline() != null) {
-            event.setRegistrationDeadline(eventDto.getRegistrationDeadline());
-        }
-        if (eventDto.getRegistrationOpen() != null) {
-            event.setRegistrationOpen(eventDto.getRegistrationOpen());
-        }
-        if(eventDto.getSponsors() != null && !eventDto.getSponsors().isEmpty()) {
+        event.setTitle(eventDto.getTitle());
+        event.setEventType(eventDto.getEventType());
+        event.setDescription(eventDto.getDescription());
+        event.setSponsored(eventDto.getSponsored());
+        event.setRegistrationDeadline(eventDto.getRegistrationDeadline());
+        event.setRegistrationOpen(eventDto.getRegistrationOpen());
 
-            Set<Sponsor> sponsors = eventDto.getSponsors().stream()
-                    .map(dto -> sponsorRepository.findById(dto.getId())
-                            .orElseThrow(() -> new NotFoundException("Sponsor not found with id: " + dto.getId())))
-                    .collect(Collectors.toSet());
-            event.setSponsors(sponsors);
-        }
-        if(eventDto.getAreaOfInterests() != null && !eventDto.getAreaOfInterests().isEmpty()) {
-        Set<AreaOfInterest> areas = eventDto.getAreaOfInterests().stream()
-                .map(dto -> areasOfInterestRepository.findById(dto.getId())
-                        .orElseThrow(() -> new NotFoundException("Area not found with id: " + dto.getId())))
+        Set<Sponsor> sponsors = eventDto.getSponsors().stream()
+                .map(dto -> sponsorEntityService.findById(dto.getId()))
                 .collect(Collectors.toSet());
-        event.setAreaOfInterests(areas);}
-        //TODO
-        if (eventDto.getImage() != null) {
-            Image image = imageRepository.findById(eventDto.getImage().getId())
-                    .orElseThrow(() -> new NotFoundException("Image not found"));
-            event.setImage(image);
-        }
+        event.setSponsors(sponsors);
 
-        return null;
+        Set<AreaOfInterest> areas = eventDto.getAreaOfInterests().stream()
+                .map(dto -> areasOfInterestEntityService.findById(dto.getId()))
+                .collect(Collectors.toSet());
+        event.setAreaOfInterests(areas);
 
+        event.setImage(imageEntityService.findById(eventDto.getImage().getId()));
+
+        return eventMapper.toDTO(eventRepository.save(event));
     }
 
     @Override
@@ -103,13 +89,10 @@ public class EventServiceImp implements EventService{
                 .orElseThrow(() -> new NotFoundException("event not found"));
     }
 
-    // TODO : add pagination
+
     @Override
-    @Transactional(readOnly = true)
-    public List<EventDto> findAll() {
-        return eventRepository.findAll()
-                .stream()
-                .map(eventMapper::toDTO)
-                .collect(Collectors.toList());
+    public List<EventDto> getPage(Integer page, Integer limit) {
+        return eventRepository.getPage(limit, page * limit)
+                .stream().map(eventMapper::toDTO).toList();
     }
 }

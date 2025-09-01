@@ -1,6 +1,10 @@
 spring:
   application:
     name: code-backend
+  mvc:
+    hidden method:
+      filter:
+        enabled: true
 
   datasource:
     driver-class-name: org.postgresql.Driver

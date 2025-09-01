@@ -86,3 +86,4 @@ Pour ajouter de nouvelles couleurs au thème :
 - **Flexibilité** : Facile d'ajouter de nouvelles couleurs
 - **Performance** : Pas de classes CSS inutiles
 
+

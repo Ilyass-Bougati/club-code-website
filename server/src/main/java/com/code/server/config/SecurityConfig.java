@@ -46,12 +46,12 @@ public class SecurityConfig {
                         .requestMatchers("/v3/**").permitAll()
                         .requestMatchers("/swagger").permitAll()
                         .requestMatchers("/swagger-ui/*").permitAll()
-                        .requestMatchers("/api/v1/auth/login").permitAll()
-                        .requestMatchers("/api/v1/auth/register").permitAll()
-                        .requestMatchers("/api/v1/auth/refresh").permitAll()
+                        // for authentication
                         .requestMatchers("/api/v1/auth/logout").authenticated()
+                        .requestMatchers("/api/v1/auth/**").permitAll()
+                        // you can get everything
                         .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/register").permitAll()
+                        // all permitted requests should be explicitly permitted
                         .anyRequest().hasRole("ADMIN");
                 })
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(

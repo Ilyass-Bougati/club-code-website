@@ -5,15 +5,13 @@ import com.code.server.dto.event.EventDto;
 import com.code.server.dto.event.EventMapperImpl;
 import com.code.server.dto.image.ImageMapper;
 import com.code.server.dto.sponsor.SponsorMapper;
-import com.code.server.entity.AreaOfInterest;
-import com.code.server.entity.Event;
-import com.code.server.entity.Image;
-import com.code.server.entity.Sponsor;
+import com.code.server.entity.*;
 import com.code.server.exception.NotFoundException;
 import com.code.server.repository.AreasOfInterestRepository;
 import com.code.server.repository.EventRepository;
 import com.code.server.repository.ImageRepository;
 import com.code.server.repository.SponsorRepository;
+import com.code.server.service.member.MemberEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,8 +30,8 @@ public class EventServiceImp implements EventService{
     private final EventMapperImpl eventMapper;
     private final SponsorRepository sponsorRepository;
     private final AreasOfInterestRepository areasOfInterestRepository;
-    private final ImageMapper imageMapper;
     private final ImageRepository imageRepository;
+
     @Override
     public EventDto save(EventDto eventDto) {
         eventDto.setId(null);
@@ -44,8 +42,9 @@ public class EventServiceImp implements EventService{
 
     @Override
     public EventDto update(EventDto eventDto) {
-        Event event=eventRepository.findById(eventDto.getId())
-                .orElseThrow(()->new NotFoundException("event not found"));
+        Event event = eventRepository.findById(eventDto.getId())
+                .orElseThrow(()->new NotFoundException("Event not found"));
+
         if (eventDto.getTitle() != null) {
             event.setTitle(eventDto.getTitle());
         }

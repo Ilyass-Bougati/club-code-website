@@ -1,11 +1,13 @@
 package com.code.server.controller;
 
+import com.code.server.dto.auth.RegistrationOpenResponse;
 import com.code.server.service.jwt.Token;
 import com.code.server.service.jwt.TokenService;
 import com.code.server.dto.member.MemberRegisterRequest;
 import com.code.server.dto.member.RefreshRequest;
 import com.code.server.service.member.MemberService;
 import com.code.server.service.member.security.CustomUserDetails;
+import com.code.server.utils.Registration;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,12 @@ public class AuthController {
 
     private final TokenService tokenService;
     private final MemberService memberService;
+
+    @GetMapping("/registration")
+    public ResponseEntity<RegistrationOpenResponse> checkRegistration() {
+        RegistrationOpenResponse res = new RegistrationOpenResponse(Registration.getRegistrationOpen());
+        return ResponseEntity.ok(res);
+    }
 
     @PostMapping("/login")
     public ResponseEntity<Token> token(Authentication authentication) {

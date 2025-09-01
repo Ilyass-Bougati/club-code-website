@@ -83,7 +83,7 @@ export default function Events() {
       </motion.div>
 
       <div className="grid md:grid-cols-3 gap-6">
-      {sortedEvents.map((event: any, i: number) => (
+      {sortedEvents.map((event , i ) => (
 
           <motion.div
             key={event.id}

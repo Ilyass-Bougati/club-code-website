@@ -1,0 +1,137 @@
+[
+    {
+      "id": "1NIN",
+      "title": "Hackathon Innovation 2025",
+      "description": "Un hackathon de 48h pour développer des solutions innovantes...",
+      "eventType": "HACKATHON",
+      "image": {
+        "id": "img1",
+        "uri": "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "host": "CLOUDINARY"
+      },
+      "areaOfInterests": [
+        { "id": "ai1", "name": "Intelligence Artificielle" },
+        { "id": "sustain1", "name": "Développement Durable" }
+      ],
+      "sponsors": [
+        { "id": "sp1", "name": "TechCorp" },
+        { "id": "sp2", "name": "GreenTech Solutions" }
+      ],
+      "sponsored": true,
+      "registrationOpen": true,
+      "registrationDeadline": "2025-09-15T23:59:59.000Z",
+      "publishedAt": "2025-08-20T10:00:00.000Z"
+    },
+    {
+      "id": "2NIN",
+      "title": "Hackathon Innovation 2025",
+      "description": "Un hackathon de 48h pour développer des solutions innovantes...",
+      "eventType": "HACKATHON",
+      "image": {
+        "id": "img1",
+        "uri": "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "host": "CLOUDINARY"
+      },
+      "areaOfInterests": [
+        { "id": "ai1", "name": "Intelligence Artificielle" },
+        { "id": "sustain1", "name": "Développement Durable" }
+      ],
+      "sponsors": [
+        { "id": "sp1", "name": "TechCorp" },
+        { "id": "sp2", "name": "GreenTech Solutions" }
+      ],
+      "sponsored": true,
+      "registrationOpen": true,
+      "registrationDeadline": "2025-09-15T23:59:59.000Z",
+      "publishedAt": "2025-08-20T10:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "title": " Workshop Machine Learning",
+      "description": "Apprenez les bases du machine learning avec des expertspprenez les bases du machine learning avec des experts pprenez les bases du machine learning avec des experts pprenez les bases du machine learning avec des experts pprenez les bases du machine learning avec des experts",
+      "eventType": "WORKSHOP",
+      "image": {
+        "id": "img2",
+        "uri": "https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "host": "CLOUDINARY"
+      },
+      "areaOfInterests": [
+        { "id": "ml1", "name": "Machine Learning" },
+        { "id": "data1", "name": "Data Science" }
+      ],
+      "sponsors": [
+        { "id": "sp3", "name": "DataLab" }
+      ],
+      "sponsored": false,
+      "registrationOpen": true,
+      "registrationDeadline": "2025-09-10T23:59:59.000Z",
+      "publishedAt": "2025-08-18T14:30:00.000Z"
+    },
+    {
+      "id": "3",
+      "title": "Workshop Machine Learning - Session 2",
+      "description": "Deuxième session de l’atelier machine learning avec de nouveaux exercices pratiques...",
+      "eventType": "WORKSHOP",
+      "image": {
+        "id": "img2",
+        "uri": "https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "host": "CLOUDINARY"
+      },
+      "areaOfInterests": [
+        { "id": "ml1", "name": "Machine Learning" },
+        { "id": "data1", "name": "Data Science" }
+      ],
+      "sponsors": [
+        { "id": "sp3", "name": "DataLab" }
+      ],
+      "sponsored": false,
+      "registrationOpen": true,
+      "registrationDeadline": "2025-09-12T23:59:59.000Z",
+      "publishedAt": "2025-08-19T10:00:00.000Z"
+    },
+    {
+      "id": "4",
+      "title": "Workshop Machine Learning - Session 3",
+      "description": "Troisième session orientée sur les cas réels en entreprise...",
+      "eventType": "WORKSHOP",
+      "image": {
+        "id": "img2",
+        "uri": "https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "host": "CLOUDINARY"
+      },
+      "areaOfInterests": [
+        { "id": "ml1", "name": "Machine Learning" },
+        { "id": "data1", "name": "Data Science" }
+      ],
+      "sponsors": [
+        { "id": "sp3", "name": "DataLab" }
+      ],
+      "sponsored": false,
+      "registrationOpen": true,
+      "registrationDeadline": "2025-09-14T23:59:59.000Z",
+      "publishedAt": "2025-08-20T08:00:00.000Z"
+    },
+    {
+      "id": "5",
+      "title": "Workshop Machine Learning - Session 4",
+      "description": "Session spéciale avec des invités experts en IA et Big Data.",
+      "eventType": "WORKSHOP",
+      "image": {
+        "id": "img2",
+        "uri": "https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        "host": "CLOUDINARY"
+      },
+      "areaOfInterests": [
+        { "id": "ml1", "name": "Machine Learning" },
+        { "id": "data1", "name": "Data Science" }
+      ],
+      "sponsors": [
+        { "id": "sp3", "name": "DataLab" }
+      ],
+      "sponsored": false,
+      "registrationOpen": false,
+      "registrationDeadline": "2025-08-16T23:59:59.000Z",
+      "publishedAt": "2025-08-21T12:00:00.000Z"
+    }
+  ]
+  

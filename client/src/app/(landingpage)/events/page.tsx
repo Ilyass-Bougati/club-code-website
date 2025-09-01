@@ -62,25 +62,18 @@ export default function Events() {
         animate={{ opacity: 1, y: 0 }}
         className="relative mb-12"
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 rounded-2xl blur-xl" />
-        <div className="relative bg-gradient-to-r from-background/80 via-background/90 to-background/80 backdrop-blur-sm border border-primary/20 rounded-2xl p-8 text-center">
-          <motion.h1
-            className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent"
-            initial={false}
-          >
-            Explore Our Tech Events
-          </motion.h1>
-          <div className="mx-auto mb-4 h-1 w-24 rounded-full bg-gradient-to-r from-primary to-primary/60" />
-          <motion.p
-            className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            {typedText}
-          </motion.p>
-        </div>
+        <div className="bg-orange-500 text-white py-12 px-4 text-center">
+  <h1 className="text-3xl md:text-5xl font-bold mb-4 text-black">
+  Explore Our Tech Events
+  </h1>
+  <p className="text-lg md:text-xl text-black/80 max-w-2xl mx-auto">
+  Discover what’s happening at CODE Club
+  </p>
+</div>
+
+
       </motion.div>
+      
 
       <div className="grid md:grid-cols-3 gap-6">
       {sortedEvents.map((event , i ) => (

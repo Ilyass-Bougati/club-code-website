@@ -22,34 +22,35 @@ import java.util.*;
 public class EventDto {
     private UUID id;
 
-    @NotBlank
+    @NotBlank(message = "Event's title can't be empty or null")
     private String title;
 
-    @NotBlank
+    @NotBlank(message = "Event's description can't be empty or null")
     private String description;
 
     @Enumerated(EnumType.STRING)
-    @NotNull
+    @NotNull(message = "Event's type can't be empty or null")
     private EventType eventType;
 
-    @NotNull
+    @NotNull(message = "Event's image can't be null")
     private ImageDto image;
 
     @NotNull
     @Builder.Default
     private List<AreaOfInterestDto> areaOfInterests = new ArrayList<>();
 
-    @NotNull
     @Builder.Default
     private List<SponsorDto> sponsors = new ArrayList<>();
 
     @NotNull
-    private Boolean sponsored;
+    @Builder.Default
+    private Boolean sponsored = false;
 
     @NotNull
-    private Boolean registrationOpen;
+    @Builder.Default
+    private Boolean registrationOpen = true;
 
-    @NotNull
+    @NotNull(message = "Event's registration deadline can't be null")
     private LocalDateTime registrationDeadline;
 
     @CreationTimestamp

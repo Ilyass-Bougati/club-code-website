@@ -2,6 +2,7 @@ package com.code.server.controller;
 
 import com.code.server.dto.news.NewsDto;
 import com.code.server.service.news.NewsService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class NewsController {
     private final NewsService newsService;
 
     @PostMapping
-    public ResponseEntity<NewsDto> createNews(@RequestBody NewsDto dto) {
+    public ResponseEntity<NewsDto> createNews(@RequestBody @Valid NewsDto dto) {
         NewsDto created = newsService.save(dto);
         return ResponseEntity
                 .created(URI.create("/api/v1/news/" + created.getId()))
@@ -43,7 +44,7 @@ public class NewsController {
 
 
     @PutMapping
-    public ResponseEntity<NewsDto> updateNews( @RequestBody NewsDto dto) {
+    public ResponseEntity<NewsDto> updateNews(@RequestBody @Valid NewsDto dto) {
         NewsDto updated = newsService.update(dto);
         return updated != null
                 ? ResponseEntity.ok(updated)

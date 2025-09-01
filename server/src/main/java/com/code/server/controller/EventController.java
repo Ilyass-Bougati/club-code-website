@@ -40,7 +40,7 @@ public class EventController {
         eventService.delete(id);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<EventDto> updateEvent(@RequestBody  EventDto eventDto){
+    public ResponseEntity<EventDto> updateEvent(@RequestBody @Valid EventDto eventDto){
         return ResponseEntity.ok(eventService.update(eventDto));
     }
 

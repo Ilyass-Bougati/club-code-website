@@ -144,11 +144,11 @@ export default function About() {
                   scale: 1,
                   y: [0, -10, 0],
                   transition: {
-                    y:{
+                    y: {
                       duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    }
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    },
                   },
                 }}
                 transition={{ duration: 0.7, delay: 0.2 }}

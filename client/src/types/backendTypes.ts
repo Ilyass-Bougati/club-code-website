@@ -1,7 +1,7 @@
 import { UUID } from "crypto"
 
 export type Image = {
-    id?: UUID,
+    id?: UUID | string,
     uri: string,
     host: "CLOUDINARY" | "S3"
 }
@@ -31,7 +31,7 @@ export type Event = {
 }
 
 export type News = {
-    id?: UUID,
+    id?: string,
     title: string,
     description: string,
     image: Image,

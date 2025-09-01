@@ -12,9 +12,10 @@ import {
   Linkedin,
   Youtube,
   Github,
-  ArrowRight,
+  SquareArrowOutUpRight,
 } from "lucide-react";
-import Logo from "../layouts/logo";
+import Logo from "./logo";
+import Link from "next/link";
 
 // ✅ Define types
 interface FloatingShape {
@@ -33,7 +34,26 @@ interface Particle {
   delay: number;
 }
 
-const SecondFooter = () => {
+export const navLinks = [
+  {
+    name: "helo_",
+    href: "/",
+  },
+  {
+    name: "News",
+    href: "/news",
+  },
+  {
+    name: "Events",
+    href: "/events",
+  },
+  {
+    name: "Team",
+    href: "/team",
+  },
+];
+
+const Footer = () => {
   const [floatingShapes, setFloatingShapes] = useState<FloatingShape[]>([]);
   const [particles, setParticles] = useState<Particle[]>([]);
 
@@ -69,7 +89,7 @@ const SecondFooter = () => {
   ];
 
   return (
-    <footer className="relative overflow-hidden">
+    <footer className="relative overflow-hidden bg-background/95 w-full border-t backdrop-blur-sm">
       {/* Animated Background */}
       <div className="absolute inset-0 opacity-10">
         {floatingShapes.map((shape) => (
@@ -104,14 +124,20 @@ const SecondFooter = () => {
         transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      <div className="relative z-10 mx-auto px-4 md:px-20 py-16">
+      <div className="relative container mx-auto flex flex-col gap-8 px-4 py-10 md:px-6 lg:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Logo + Description */}
-          <div className="lg:col-span-2">
-            <h3 className="text-2xl flex font-bold gap-2 mb-6">
-              <Logo />
-              CODE
-            </h3>
+          <div className="lg:col-span-2 space-y-4">
+            <Link href="/" className="flex items-center gap-2 font-bold">
+              <motion.div
+                className="flex items-center  gap-2 font-bold "
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+              >
+                <Logo />
+              </motion.div>
+            </Link>
             <p className="text-lg leading-relaxed mb-8">
               We inspire students to explore technology, collaborate on
               projects, and develop practical skills that make an impact. Our
@@ -123,7 +149,7 @@ const SecondFooter = () => {
               {socialLinks.map((social, index) => {
                 const IconComponent = social.icon;
                 return (
-                  <a
+                  <Link
                     key={index}
                     href={social.href}
                     className="group relative w-12 h-12 bg-primary border border-secondary rounded-full flex items-center justify-center transition-all duration-300 hover:bg-secondary hover:border-primary"
@@ -132,7 +158,7 @@ const SecondFooter = () => {
                       size={20}
                       className="group-hover:text-primary transition-colors duration-300"
                     />
-                  </a>
+                  </Link>
                 );
               })}
             </div>
@@ -140,11 +166,14 @@ const SecondFooter = () => {
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-xl font-semibold mb-6">Contact Info</h4>
+            <h4 className="text-lg font-semibold mb-6">Contact Info</h4>
 
             <div className="flex items-center mb-4 group cursor-pointer">
               <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center mr-4 group-hover:bg-secondary transition-colors duration-300">
-                <Mail size={18} className="group-hover:text-primary transition-colors duration-300" />
+                <Mail
+                  size={18}
+                  className="group-hover:text-primary transition-colors duration-300"
+                />
               </div>
               <span className="transition-colors duration-300">
                 code@gmail.com
@@ -153,7 +182,10 @@ const SecondFooter = () => {
 
             <div className="flex items-center mb-4 group cursor-pointer">
               <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center mr-4 group-hover:bg-secondary transition-colors duration-300">
-                <Phone size={18} className="group-hover:text-primary transition-colors duration-300" />
+                <Phone
+                  size={18}
+                  className="group-hover:text-primary transition-colors duration-300"
+                />
               </div>
               <span className="transition-colors duration-300">
                 +212 629291313
@@ -162,7 +194,10 @@ const SecondFooter = () => {
 
             <div className="flex items-center group cursor-pointer">
               <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center mr-4 group-hover:bg-secondary transition-colors duration-300">
-                <MapPin size={18} className="group-hover:text-primary transition-colors duration-300" />
+                <MapPin
+                  size={18}
+                  className="group-hover:text-primary transition-colors duration-300"
+                />
               </div>
               <span className="transition-colors duration-300">
                 FSTS, Settat
@@ -174,26 +209,26 @@ const SecondFooter = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-xl font-semibold mb-6">Quick Links</h4>
+            <h4 className="text-lg font-semibold mb-6">Quick Links</h4>
             <div className="space-y-3">
-              {["About Code", "News", "Events", "Team"].map((link) => (
-                <a
-                  key={link}
-                  href="#"
-                  className="block hover:text-secondary/80 transition-all duration-300 group"
+              {navLinks.map(({ name, href }, i) => (
+                <Link
+                  key={i}
+                  href={href}
+                  className="flex items-center mb-4 group cursor-pointer"
                 >
-                  <span className="group-hover:text-primary transition-colors duration-300 flex items-center">
-                    <ArrowRight className="h-5 w-5 mr-2" />
-                    <p>{link}</p>
-                  </span>
-                </a>
+                  <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center mr-4 group-hover:bg-secondary transition-colors duration-300">
+                    <SquareArrowOutUpRight className="h-5 w-5 " />
+                  </div>
+                  <span className="transition-colors duration-300">{name}</span>
+                </Link>
               ))}
             </div>
           </div>
         </div>
 
         {/* Bottom Section */}
-        <div className="mt-16 pt-8 border-t border-secondary">
+        <div className=" pt-8 border-t border-secondary">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-sm mb-4 md:mb-0">
               © 2025 CODE. All rights reserved.
@@ -202,13 +237,13 @@ const SecondFooter = () => {
             <div className="flex space-x-6">
               {["Privacy Policy", "Terms of Service", "Cookie Policy"].map(
                 (item) => (
-                  <a
+                  <Link
                     key={item}
-                    href="#"
+                    href={`/${item.toLowerCase().replaceAll(" ", "-")}`}
                     className="hover:text-primary text-sm transition-colors duration-300"
                   >
                     {item}
-                  </a>
+                  </Link>
                 )
               )}
             </div>
@@ -237,4 +272,4 @@ const SecondFooter = () => {
   );
 };
 
-export default SecondFooter;
+export default Footer;

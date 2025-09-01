@@ -42,16 +42,15 @@ const faqs = [
 export function FAQ() {
   return (
     <section id="faq" className="w-full py-20 md:py-32 relative isolate  ">
-<div
-  className="
+      <div
+        className="
     absolute inset-0 -z-10
     bg-[repeating-linear-gradient(315deg,var(--pattern-fg)_0,var(--pattern-fg)_1px,transparent_0,transparent_50%)]
     bg-[size:20px_20px]
     bg-fixed
     [--pattern-fg:var(--muted)]
   "
-/>
-
+      />
 
       <motion.div
         initial={{ opacity: 0 }}
@@ -156,7 +155,7 @@ export function FAQ() {
                     <p className="text-base">{faq.answer}</p>
                   </AccordionContent>
                 </AccordionItem>
-                <hr className="mx-7 border-dashed group-last:hidden peer-data-[state=open]:opacity-0" />
+                <hr className="mx-7 border-dashed bg-foreground group-last:hidden peer-data-[state=open]:opacity-0" />
               </motion.div>
             ))}
           </Accordion>

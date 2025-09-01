@@ -1,25 +1,18 @@
+"use client";
 
-import Image from "next/image";
-import React from "react";
+import { jetBrainsMono } from "@/lib/fonts";
+import { Code2 } from "lucide-react";
 
 export default function Logo() {
-
   return (
-    <>
-      <Image
-        src={"/icons/favicon-white.svg"}
-        alt="logo"
-        width={24}
-        height={24}
-        className="hidden dark:block"
-      />
-      <Image
-        src={`/icons/favicon-black.svg`}
-        alt="logo"
-        width={24}
-        height={24}
-        className="dark:hidden block"
-      />
-    </>
+    <div
+      className={`flex items-center gap-0.5 text-lg md:text-xl font-extrabold italic ${jetBrainsMono.className}`}
+    >
+      <span>C</span>
+      <span className="flex items-center text-primary">
+        <Code2 size={32} strokeWidth={2} />
+      </span>
+      <span >DE</span>
+    </div>
   );
 }

@@ -22,10 +22,11 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                        <i class="fas fa-user-circle me-1"></i> Admin
+                        <i class="fas fa-user-circle me-1"></i>
+                        <span th:text="${currentUserName}">Admin</span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#" th:href="@{/}"><i class="fas fa-home me-2"></i>View Site</a></li>
+                        <li><a class="dropdown-item" href="https://code.sefault.com"><i class="fas fa-home me-2"></i>View Website</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#" th:href="@{/logout}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
                     </ul>
@@ -54,21 +55,34 @@
                         </a>
                     </li>
                     <li class="nav-item mb-2">
-                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/office-members}">
-                            <i class="fas fa-users me-2 text-info"></i>
-                            <span>Members</span>
-                        </a>
-                    </li>
-                    <li class="nav-item mb-2">
                         <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/events}">
                             <i class="fas fa-calendar-alt me-2 text-warning"></i>
                             <span>Events</span>
                         </a>
                     </li>
                     <li class="nav-item mb-2">
-                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/staff}">
-                            <i class="fas fa-user-tie me-2 text-secondary"></i>
-                            <span>Staff</span>
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/office-members}">
+                            <i class="fas fa-users me-2 text-info"></i>
+                            <span>Office Members</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/members}">
+                            <i class="fas fa-user-graduate me-2 text-warning"></i>
+                            <span>Members</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/sponsors}">
+                            <i class="fas fa-handshake me-2 text-success"></i>
+                            <span>Sponsors</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/areas-of-interest}">
+                            <i class="fas fa-tags me-2 text-primary"></i>
+                            <span>Areas of Interest</span>
                         </a>
                     </li>
                 </ul>
@@ -84,9 +98,9 @@
                 </h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <div class="btn-group me-2">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">
+                        <a href="#" th:href="@{/admin/export}" class="btn btn-sm btn-outline-secondary">
                             <i class="fas fa-download me-1"></i>Export
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -196,7 +210,7 @@
                                     </a>
                                 </div>
                                 <div class="col-md-3">
-                                    <a href="#" th:href="@{/admin/office-members/new}" class="btn btn-outline-info w-100 py-3">
+                                    <a href="#" th:href="@{/admin/members/new}" class="btn btn-outline-info w-100 py-3">
                                         <i class="fas fa-user-plus mb-2 d-block fa-2x"></i>
                                         <span class="fw-semibold">Add Member</span>
                                     </a>
@@ -208,9 +222,9 @@
                                     </a>
                                 </div>
                                 <div class="col-md-3">
-                                    <a href="#" th:href="@{/}" class="btn btn-outline-primary w-100 py-3">
+                                    <a href="https://code.sefault.com" class="btn btn-outline-primary w-100 py-3">
                                         <i class="fas fa-eye mb-2 d-block fa-2x"></i>
-                                        <span class="fw-semibold">View Site</span>
+                                        <span class="fw-semibold">View Website</span>
                                     </a>
                                 </div>
                             </div>
@@ -239,7 +253,7 @@
                                     </div>
                                     <div class="flex-grow-1">
                                         <h6 class="mb-1 fw-semibold">
-                                            <a th:href="@{'/admin/news/edit/' + ${news.id}}"
+                                            <a th:href="@{'/admin/news/' + ${news.id}}"
                                                class="text-decoration-none" th:text="${news.title}">News Title</a>
                                         </h6>
                                         <p class="text-muted small mb-1" th:text="${#strings.abbreviate(news.content, 60)}">News summary...</p>
@@ -258,18 +272,18 @@
                     </div>
                 </div>
 
-                <!-- Upcoming Events -->
+                <!-- Recent Events -->
                 <div class="col-lg-6">
                     <div class="card border-0 shadow-sm h-100">
                         <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
                             <h5 class="mb-0 text-dark">
-                                <i class="fas fa-calendar-alt me-2 text-warning"></i>Upcoming Events
+                                <i class="fas fa-calendar-alt me-2 text-warning"></i>Recent Events
                             </h5>
                             <a href="#" th:href="@{/admin/events}" class="btn btn-sm btn-outline-warning">View All</a>
                         </div>
                         <div class="card-body">
-                            <div th:if="${upcomingEvents != null and !upcomingEvents.empty}">
-                                <div th:each="event : ${upcomingEvents}" class="d-flex align-items-start mb-3 pb-3 border-bottom">
+                            <div th:if="${recentEvents != null and !recentEvents.empty}">
+                                <div th:each="event : ${recentEvents}" class="d-flex align-items-start mb-3 pb-3 border-bottom">
                                     <div class="flex-shrink-0 me-3">
                                         <div class="bg-warning bg-gradient rounded p-2 text-white text-center" style="min-width: 60px;">
                                             <div class="fw-bold" th:text="${#temporals.format(event.eventDate, 'dd')}">01</div>
@@ -278,20 +292,20 @@
                                     </div>
                                     <div class="flex-grow-1">
                                         <h6 class="mb-1 fw-semibold">
-                                            <a th:href="@{'/admin/events/edit/' + ${event.id}}"
+                                            <a th:href="@{'/admin/events/' + ${event.id}}"
                                                class="text-decoration-none" th:text="${event.title}">Event Title</a>
                                         </h6>
                                         <p class="text-muted small mb-1" th:text="${#strings.abbreviate(event.description, 60)}">Event description...</p>
                                         <small class="text-muted">
-                                            <i class="fas fa-map-marker-alt me-1"></i>
-                                            <span th:text="${event.location}">Location</span>
+                                            <i class="fas fa-clock me-1"></i>
+                                            <span th:text="${#temporals.format(event.eventDate, 'MMM dd, yyyy')}">Date</span>
                                         </small>
                                     </div>
                                 </div>
                             </div>
-                            <div th:if="${upcomingEvents == null or upcomingEvents.empty}" class="text-center py-4 text-muted">
+                            <div th:if="${recentEvents == null or recentEvents.empty}" class="text-center py-4 text-muted">
                                 <i class="fas fa-calendar-alt fa-3x mb-3 opacity-25"></i>
-                                <p class="mb-0">No upcoming events</p>
+                                <p class="mb-0">No recent events</p>
                             </div>
                         </div>
                     </div>

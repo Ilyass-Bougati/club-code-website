@@ -25,7 +25,7 @@
                         <i class="fas fa-user-circle me-1"></i> Admin
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#" th:href="@{/}"><i class="fas fa-home me-2"></i>View Site</a></li>
+                        <li><a class="dropdown-item" href="https://code.sefault.com"><i class="fas fa-home me-2"></i>View Site</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#" th:href="@{/logout}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
                     </ul>
@@ -42,7 +42,7 @@
             <div class="position-sticky pt-3">
                 <ul class="nav flex-column">
                     <li class="nav-item mb-2">
-                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/dashboard}">
+                        <a class="nav-link active d-flex align-items-center py-2" href="#" th:href="@{/admin/dashboard}">
                             <i class="fas fa-tachometer-alt me-2 text-primary"></i>
                             <span>Dashboard</span>
                         </a>
@@ -54,17 +54,24 @@
                         </a>
                     </li>
                     <li class="nav-item mb-2">
-                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/office-members}">
-                            <i class="fas fa-users me-2 text-info"></i>
-                            <span>Members</span>
-                        </a>
-                    </li>
-                    <li class="nav-item mb-2">
                         <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/events}">
                             <i class="fas fa-calendar-alt me-2 text-warning"></i>
                             <span>Events</span>
                         </a>
                     </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/office-members}">
+                            <i class="fas fa-users me-2 text-info"></i>
+                            <span>Office Members</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/members}">
+                            <i class="fas fa-user-graduate me-2 text-warning"></i>
+                            <span>Members</span>
+                        </a>
+                    </li>
+
                     <li class="nav-item mb-2">
                         <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/sponsors}">
                             <i class="fas fa-handshake me-2 text-success"></i>
@@ -72,7 +79,7 @@
                         </a>
                     </li>
                     <li class="nav-item mb-2">
-                        <a class="nav-link active d-flex align-items-center py-2" href="#" th:href="@{/admin/areas-of-interest}">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/areas-of-interest}">
                             <i class="fas fa-tags me-2 text-primary"></i>
                             <span>Areas of Interest</span>
                         </a>

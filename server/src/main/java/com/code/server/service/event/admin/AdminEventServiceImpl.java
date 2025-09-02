@@ -17,6 +17,7 @@ import com.code.server.repository.ImageRepository;
 import com.code.server.repository.MemberRepository;
 import com.code.server.repository.SponsorRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class AdminEventServiceImpl implements AdminEventService {
 
     private final EventRepository eventRepository;
@@ -78,7 +80,18 @@ public class AdminEventServiceImpl implements AdminEventService {
     public void delete(UUID id) {
         Event event = eventRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Event not found with id: " + id));
+        
+        log.info("Deleting event with ID: {}", id);
+        
+        // Remove image association first
+        if (event.getImage() != null) {
+            log.info("Removing image association for event ID: {}", id);
+            event.setImage(null);
+            eventRepository.save(event);
+        }
+
         eventRepository.delete(event);
+        log.info("Event with ID {} deleted successfully", id);
     }
 
     @Override

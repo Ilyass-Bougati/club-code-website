@@ -11,6 +11,7 @@ import com.code.server.service.member.security.CustomUserDetails;
 import com.code.server.repository.AreasOfInterestRepository;
 import com.code.server.repository.SponsorRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/admin/events")
 @RequiredArgsConstructor
+@Slf4j
 public class AdminEventController {
     private final AdminEventService adminEventService;
     private final ImageService imageService;
@@ -205,15 +207,19 @@ public class AdminEventController {
         return "redirect:/admin/events";
     }
 
-    @PostMapping("/{id}/delete")
+    @DeleteMapping("/{id}/delete")
     public String delete(@PathVariable UUID id) {
+        log.info("Attempting to delete event with ID: {}", id);
         adminEventService.delete(id);
+        log.info("Event with ID {} deleted successfully", id);
         return "redirect:/admin/events";
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteAlt(@PathVariable UUID id) {
+        log.info("Attempting to delete event with ID: {}", id);
         adminEventService.delete(id);
+        log.info("Event with ID {} deleted successfully", id);
         return "redirect:/admin/events";
     }
 

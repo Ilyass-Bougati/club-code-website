@@ -6,6 +6,7 @@ import com.code.server.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +22,7 @@ import java.util.UUID;
 public class AdminMemberController {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping
     public String list(Model model) {
@@ -110,6 +112,7 @@ public class AdminMemberController {
         }
 
         try {
+            member.setPassword(passwordEncoder.encode(member.getPassword()));
             memberRepository.save(member);
             redirectAttributes.addFlashAttribute("success", "Member created successfully!");
         } catch (Exception e) {

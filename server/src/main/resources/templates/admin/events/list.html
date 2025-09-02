@@ -13,7 +13,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
     <div class="container-fluid">
         <a class="navbar-brand fw-bold" href="#" th:href="@{/admin/dashboard}">
-            <i class="fas fa-code me-2"></i>Club Code Admin
+            <i class="fas fa-code me-2"></i><span class="d-none d-sm-inline">Club Code Admin</span><span class="d-sm-none">Admin</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
@@ -24,7 +24,7 @@
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
                         <i class="fas fa-user-circle me-1"></i> Admin
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="https://code.sefault.com"><i class="fas fa-home me-2"></i>View Site</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#" th:href="@{/logout}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
@@ -38,11 +38,15 @@
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar -->
-        <nav class="col-md-3 col-lg-2 d-md-block bg-white sidebar shadow-sm">
+        <nav class="col-lg-2 col-md-3 d-md-block bg-white sidebar shadow-sm" id="sidebar">
             <div class="position-sticky pt-3">
+                <div class="d-flex justify-content-between align-items-center mb-3 d-md-none">
+                    <h6 class="mb-0 text-primary">Menu</h6>
+                    <button class="btn-close" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar"></button>
+                </div>
                 <ul class="nav flex-column">
                     <li class="nav-item mb-2">
-                        <a class="nav-link active d-flex align-items-center py-2" href="#" th:href="@{/admin/dashboard}">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/dashboard}">
                             <i class="fas fa-tachometer-alt me-2 text-primary"></i>
                             <span>Dashboard</span>
                         </a>
@@ -54,7 +58,7 @@
                         </a>
                     </li>
                     <li class="nav-item mb-2">
-                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/events}">
+                        <a class="nav-link active d-flex align-items-center py-2" href="#" th:href="@{/admin/events}">
                             <i class="fas fa-calendar-alt me-2 text-warning"></i>
                             <span>Events</span>
                         </a>
@@ -71,7 +75,6 @@
                             <span>Members</span>
                         </a>
                     </li>
-
                     <li class="nav-item mb-2">
                         <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/sponsors}">
                             <i class="fas fa-handshake me-2 text-success"></i>
@@ -89,16 +92,16 @@
         </nav>
 
         <!-- Main Content -->
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+        <main class="col-lg-10 col-md-9 ms-sm-auto px-md-4 py-4">
             <!-- Page Header -->
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-4 border-bottom">
-                <h1 class="h2 text-primary">
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center pb-2 mb-4 border-bottom">
+                <h1 class="h2 text-primary mb-2 mb-sm-0">
                     <i class="fas fa-calendar-alt me-2"></i>Events Management
                 </h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
-                    <div class="btn-group me-2">
+                    <div class="btn-group">
                         <a href="#" th:href="@{/admin/events/new}" class="btn btn-success">
-                            <i class="fas fa-plus me-1"></i>Add Event
+                            <i class="fas fa-plus me-1"></i><span class="d-none d-sm-inline">Add Event</span><span class="d-sm-none">Add</span>
                         </a>
                     </div>
                 </div>
@@ -123,18 +126,18 @@
                         <table class="table table-hover align-middle">
                             <thead class="table-dark">
                                 <tr>
-                                    <th scope="col">Event</th>
-                                    <th scope="col">Type</th>
-                                    <th scope="col">Registration</th>
-                                    <th scope="col">Sponsorship</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Creator & Members</th>
+                                    <th scope="col" class="d-none d-md-table-cell">Event</th>
+                                    <th scope="col" class="d-none d-lg-table-cell">Type</th>
+                                    <th scope="col" class="d-none d-xl-table-cell">Registration</th>
+                                    <th scope="col" class="d-none d-xl-table-cell">Sponsorship</th>
+                                    <th scope="col" class="d-none d-lg-table-cell">Status</th>
+                                    <th scope="col" class="d-none d-xl-table-cell">Creator & Members</th>
                                     <th scope="col" class="text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr th:each="event : ${events}">
-                                    <td>
+                                    <td class="d-none d-md-table-cell">
                                         <div class="d-flex align-items-center">
                                             <div class="flex-shrink-0 me-3">
                                                 <img th:if="${event.image != null}" th:src="${event.image.uri}" 
@@ -145,16 +148,16 @@
                                                     <i class="fas fa-image text-muted"></i>
                                                 </div>
                                             </div>
-                                            <div class="flex-grow-1">
-                                                <h6 class="mb-1" th:text="${event.title}">Event Title</h6>
-                                                <small class="text-muted" th:text="${#strings.abbreviate(event.description, 60)}">Event description...</small>
+                                            <div class="flex-grow-1 min-w-0">
+                                                <h6 class="mb-1 text-truncate" th:text="${event.title}">Event Title</h6>
+                                                <small class="text-muted d-none d-lg-block" th:text="${#strings.abbreviate(event.description, 60)}">Event description...</small>
                                             </div>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td class="d-none d-lg-table-cell">
                                         <span class="badge bg-primary" th:text="${event.eventType}">Event Type</span>
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                         <div class="d-flex flex-column">
                                             <span th:if="${event.registrationOpen}" class="badge bg-success mb-1">
                                                 <i class="fas fa-user-plus me-1"></i>Open
@@ -168,7 +171,7 @@
                                             </small>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                         <div class="d-flex flex-column">
                                             <span th:if="${event.sponsored}" class="badge bg-success mb-1">
                                                 <i class="fas fa-handshake me-1"></i>Sponsored
@@ -181,7 +184,7 @@
                                             </small>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td class="d-none d-lg-table-cell">
                                         <div class="d-flex flex-column">
                                             <span th:if="${event.published}" class="badge bg-success mb-1">
                                                 <i class="fas fa-globe me-1"></i>Published
@@ -195,7 +198,7 @@
                                             </small>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                         <div class="d-flex flex-column">
                                             <small class="text-muted mb-1">
                                                 <i class="fas fa-user me-1"></i>
@@ -208,19 +211,19 @@
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <div class="btn-group btn-group-sm" role="group">
+                                        <div class="btn-group btn-group-sm flex-wrap" role="group">
                                             <a th:href="@{'/admin/events/' + ${event.id}}" class="btn btn-outline-info" title="View Details">
-                                                <i class="fas fa-eye"></i>
+                                                <i class="fas fa-eye"></i><span class="d-none d-sm-inline ms-1">View</span>
                                             </a>
                                             <a th:href="@{'/admin/events/' + ${event.id} + '/edit'}" class="btn btn-outline-primary" title="Edit">
-                                                <i class="fas fa-edit"></i>
+                                                <i class="fas fa-edit"></i><span class="d-none d-sm-inline ms-1">Edit</span>
                                             </a>
                                             <a th:href="@{'/admin/events/' + ${event.id} + '/members'}" class="btn btn-outline-warning" title="Manage Members">
-                                                <i class="fas fa-users"></i>
+                                                <i class="fas fa-users"></i><span class="d-none d-sm-inline ms-1">Members</span>
                                             </a>
                                             <button type="button" class="btn btn-outline-danger delete-event-btn" title="Delete"
                                                     th:data-event-id="${event.id}" th:data-event-title="${event.title}">
-                                                <i class="fas fa-trash"></i>
+                                                <i class="fas fa-trash"></i><span class="d-none d-sm-inline ms-1">Delete</span>
                                             </button>
                                         </div>
                                     </td>
@@ -246,7 +249,7 @@
 
 <!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="deleteModalLabel">

@@ -13,7 +13,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
     <div class="container-fluid">
         <a class="navbar-brand fw-bold" href="#" th:href="@{/admin/dashboard}">
-            <i class="fas fa-code me-2"></i>Club Code Admin
+            <i class="fas fa-code me-2"></i><span class="d-none d-sm-inline">Club Code Admin</span><span class="d-sm-none">Admin</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
@@ -25,7 +25,7 @@
                         <i class="fas fa-user-circle me-1"></i>
                         <span th:text="${currentUserName}">Admin</span>
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="https://code.sefault.com"><i class="fas fa-home me-2"></i>View Website</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#" th:href="@{/logout}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
@@ -39,8 +39,12 @@
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar -->
-        <nav class="col-md-3 col-lg-2 d-md-block bg-white sidebar shadow-sm">
+        <nav class="col-lg-2 col-md-3 d-md-block bg-white sidebar shadow-sm" id="sidebar">
             <div class="position-sticky pt-3">
+                <div class="d-flex justify-content-between align-items-center mb-3 d-md-none">
+                    <h6 class="mb-0 text-primary">Menu</h6>
+                    <button class="btn-close" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar"></button>
+                </div>
                 <ul class="nav flex-column">
                     <li class="nav-item mb-2">
                         <a class="nav-link active d-flex align-items-center py-2" href="#" th:href="@{/admin/dashboard}">
@@ -72,7 +76,6 @@
                             <span>Members</span>
                         </a>
                     </li>
-
                     <li class="nav-item mb-2">
                         <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/sponsors}">
                             <i class="fas fa-handshake me-2 text-success"></i>
@@ -90,16 +93,16 @@
         </nav>
 
         <!-- Main Content -->
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+        <main class="col-lg-10 col-md-9 ms-sm-auto px-md-4 py-4">
             <!-- Page Header -->
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-4 border-bottom">
-                <h1 class="h2 text-primary">
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center pb-2 mb-4 border-bottom">
+                <h1 class="h2 text-primary mb-2 mb-sm-0">
                     <i class="fas fa-tachometer-alt me-2"></i>Dashboard
                 </h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
-                    <div class="btn-group me-2">
+                    <div class="btn-group">
                         <a href="#" th:href="@{/admin/export}" class="btn btn-sm btn-outline-secondary">
-                            <i class="fas fa-download me-1"></i>Export
+                            <i class="fas fa-download me-1"></i><span class="d-none d-sm-inline">Export</span>
                         </a>
                     </div>
                 </div>
@@ -118,13 +121,13 @@
             </div>
 
             <!-- Statistics Cards -->
-            <div class="row g-4 mb-4">
-                <div class="col-xl-3 col-md-6">
+            <div class="row g-3 g-md-4 mb-4">
+                <div class="col-12 col-sm-6 col-xl-3">
                     <div class="card border-0 shadow-sm h-100">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div class="flex-shrink-0">
-                                    <div class="bg-primary bg-gradient rounded-circle p-3">
+                                    <div class="bg-primary bg-gradient rounded-circle p-2 p-sm-3">
                                         <i class="fas fa-users text-white fa-lg"></i>
                                     </div>
                                 </div>
@@ -137,12 +140,12 @@
                     </div>
                 </div>
 
-                <div class="col-xl-3 col-md-6">
+                <div class="col-12 col-sm-6 col-xl-3">
                     <div class="card border-0 shadow-sm h-100">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div class="flex-shrink-0">
-                                    <div class="bg-success bg-gradient rounded-circle p-3">
+                                    <div class="bg-success bg-gradient rounded-circle p-2 p-sm-3">
                                         <i class="fas fa-newspaper text-white fa-lg"></i>
                                     </div>
                                 </div>
@@ -155,12 +158,12 @@
                     </div>
                 </div>
 
-                <div class="col-xl-3 col-md-6">
+                <div class="col-12 col-sm-6 col-xl-3">
                     <div class="card border-0 shadow-sm h-100">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div class="flex-shrink-0">
-                                    <div class="bg-warning bg-gradient rounded-circle p-3">
+                                    <div class="bg-warning bg-gradient rounded-circle p-2 p-sm-3">
                                         <i class="fas fa-calendar-alt text-white fa-lg"></i>
                                     </div>
                                 </div>
@@ -173,12 +176,12 @@
                     </div>
                 </div>
 
-                <div class="col-xl-3 col-md-6">
+                <div class="col-12 col-sm-6 col-xl-3">
                     <div class="card border-0 shadow-sm h-100">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div class="flex-shrink-0">
-                                    <div class="bg-info bg-gradient rounded-circle p-3">
+                                    <div class="bg-info bg-gradient rounded-circle p-2 p-sm-3">
                                         <i class="fas fa-chart-line text-white fa-lg"></i>
                                     </div>
                                 </div>
@@ -193,7 +196,7 @@
             </div>
 
             <!-- Quick Actions -->
-            <div class="row g-4 mb-4">
+            <div class="row g-3 g-md-4 mb-4">
                 <div class="col-12">
                     <div class="card border-0 shadow-sm">
                         <div class="card-header bg-white border-0 py-3">
@@ -203,25 +206,25 @@
                         </div>
                         <div class="card-body">
                             <div class="row g-3">
-                                <div class="col-md-3">
+                                <div class="col-12 col-sm-6 col-md-3">
                                     <a href="#" th:href="@{/admin/news/new}" class="btn btn-outline-success w-100 py-3">
                                         <i class="fas fa-plus mb-2 d-block fa-2x"></i>
                                         <span class="fw-semibold">Add News</span>
                                     </a>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-12 col-sm-6 col-md-3">
                                     <a href="#" th:href="@{/admin/members/new}" class="btn btn-outline-info w-100 py-3">
                                         <i class="fas fa-user-plus mb-2 d-block fa-2x"></i>
                                         <span class="fw-semibold">Add Member</span>
                                     </a>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-12 col-sm-6 col-md-3">
                                     <a href="#" th:href="@{/admin/events/new}" class="btn btn-outline-warning w-100 py-3">
                                         <i class="fas fa-calendar-plus mb-2 d-block fa-2x"></i>
                                         <span class="fw-semibold">Add Event</span>
                                     </a>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-12 col-sm-6 col-md-3">
                                     <a href="https://code.sefault.com" class="btn btn-outline-primary w-100 py-3">
                                         <i class="fas fa-eye mb-2 d-block fa-2x"></i>
                                         <span class="fw-semibold">View Website</span>
@@ -234,12 +237,12 @@
             </div>
 
             <!-- Recent Content -->
-            <div class="row g-4">
+            <div class="row g-3 g-md-4">
                 <!-- Recent News -->
-                <div class="col-lg-6">
+                <div class="col-12 col-lg-6">
                     <div class="card border-0 shadow-sm h-100">
-                        <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0 text-dark">
+                        <div class="card-header bg-white border-0 py-3 d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center">
+                            <h5 class="mb-2 mb-sm-0 text-dark">
                                 <i class="fas fa-newspaper me-2 text-success"></i>Recent News
                             </h5>
                             <a href="#" th:href="@{/admin/news}" class="btn btn-sm btn-outline-success">View All</a>
@@ -251,8 +254,8 @@
                                         <img th:src="${news.imageUrl != null ? news.imageUrl : '/images/default-news.jpg'}"
                                              alt="News thumbnail" class="rounded" width="60" height="60" style="object-fit: cover;">
                                     </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="mb-1 fw-semibold">
+                                    <div class="flex-grow-1 min-w-0">
+                                        <h6 class="mb-1 fw-semibold text-truncate">
                                             <a th:href="@{'/admin/news/' + ${news.id}}"
                                                class="text-decoration-none" th:text="${news.title}">News Title</a>
                                         </h6>
@@ -273,10 +276,10 @@
                 </div>
 
                 <!-- Recent Events -->
-                <div class="col-lg-6">
+                <div class="col-12 col-lg-6">
                     <div class="card border-0 shadow-sm h-100">
-                        <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0 text-dark">
+                        <div class="card-header bg-white border-0 py-3 d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center">
+                            <h5 class="mb-2 mb-sm-0 text-dark">
                                 <i class="fas fa-calendar-alt me-2 text-warning"></i>Recent Events
                             </h5>
                             <a href="#" th:href="@{/admin/events}" class="btn btn-sm btn-outline-warning">View All</a>
@@ -290,8 +293,8 @@
                                             <small th:text="${#temporals.format(event.eventDate, 'MMM')}">Jan</small>
                                         </div>
                                     </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="mb-1 fw-semibold">
+                                    <div class="flex-grow-1 min-w-0">
+                                        <h6 class="mb-1 fw-semibold text-truncate">
                                             <a th:href="@{'/admin/events/' + ${event.id}}"
                                                class="text-decoration-none" th:text="${event.title}">Event Title</a>
                                         </h6>

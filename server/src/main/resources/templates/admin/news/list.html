@@ -12,7 +12,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
     <div class="container-fluid">
         <a class="navbar-brand fw-bold" href="#" th:href="@{/admin/dashboard}">
-            <i class="fas fa-code me-2"></i>Club Code Admin
+            <i class="fas fa-code me-2"></i><span class="d-none d-sm-inline">Club Code Admin</span><span class="d-sm-none">Admin</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
@@ -23,7 +23,7 @@
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
                         <i class="fas fa-user-circle me-1"></i> Admin
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="https://code.sefault.com"><i class="fas fa-home me-2"></i>View Site</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#" th:href="@{/logout}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
@@ -36,17 +36,21 @@
 
 <div class="container-fluid">
     <div class="row">
-        <nav class="col-md-3 col-lg-2 d-md-block bg-white sidebar shadow-sm">
+        <nav class="col-lg-2 col-md-3 d-md-block bg-white sidebar shadow-sm" id="sidebar">
             <div class="position-sticky pt-3">
+                <div class="d-flex justify-content-between align-items-center mb-3 d-md-none">
+                    <h6 class="mb-0 text-primary">Menu</h6>
+                    <button class="btn-close" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar"></button>
+                </div>
                 <ul class="nav flex-column">
                     <li class="nav-item mb-2">
-                        <a class="nav-link active d-flex align-items-center py-2" href="#" th:href="@{/admin/dashboard}">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/dashboard}">
                             <i class="fas fa-tachometer-alt me-2 text-primary"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-item mb-2">
-                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/news}">
+                        <a class="nav-link active d-flex align-items-center py-2" href="#" th:href="@{/admin/news}">
                             <i class="fas fa-newspaper me-2 text-success"></i>
                             <span>News</span>
                         </a>
@@ -69,7 +73,6 @@
                             <span>Members</span>
                         </a>
                     </li>
-
                     <li class="nav-item mb-2">
                         <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/sponsors}">
                             <i class="fas fa-handshake me-2 text-success"></i>
@@ -86,20 +89,21 @@
             </div>
         </nav>
 
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-4 border-bottom">
-                <h1 class="h2 text-primary">
+        <main class="col-lg-10 col-md-9 ms-sm-auto px-md-4 py-4">
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center pb-2 mb-4 border-bottom">
+                <h1 class="h2 text-primary mb-2 mb-sm-0">
                     <i class="fas fa-newspaper me-2"></i>News Management
                 </h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
-                    <div class="btn-group me-2">
+                    <div class="btn-group">
                         <a href="#" th:href="@{/admin/news/new}" class="btn btn-success">
-                            <i class="fas fa-plus me-1"></i>Add News
+                            <i class="fas fa-plus me-1"></i><span class="d-none d-sm-inline">Add News</span><span class="d-sm-none">Add</span>
                         </a>
                     </div>
                 </div>
             </div>
 
+            <!-- Alert Messages -->
             <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
                 <i class="fas fa-check-circle me-2"></i>
                 <span th:text="${success}"></span>
@@ -111,59 +115,60 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
 
+            <!-- News Table -->
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
                     <div th:if="${newsList != null and !newsList.empty}" class="table-responsive">
                         <table class="table table-hover align-middle">
                             <thead class="table-light">
                             <tr>
-                                <th scope="col">Image</th>
+                                <th scope="col" class="d-none d-md-table-cell">Image</th>
                                 <th scope="col">Title</th>
-                                <th scope="col">Author</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Status</th>
+                                <th scope="col" class="d-none d-lg-table-cell">Author</th>
+                                <th scope="col" class="d-none d-md-table-cell">Date</th>
+                                <th scope="col" class="d-none d-lg-table-cell">Status</th>
                                 <th scope="col" class="text-center">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="news : ${newsList}">
-                                <td>
+                                <td class="d-none d-md-table-cell">
                                     <img th:src="${news.image != null ? news.image.uri : '/images/default-news.jpg'}"
                                          alt="News thumbnail" class="rounded" width="50" height="50" style="object-fit: cover;">
                                 </td>
                                 <td>
-                                    <div class="fw-semibold" th:text="${news.title}">News Title</div>
-                                    <small class="text-muted" th:text="${#strings.abbreviate(news.description, 60)}">News preview...</small>
+                                    <div class="fw-semibold text-truncate" th:text="${news.title}">News Title</div>
+                                    <small class="text-muted d-none d-md-block" th:text="${#strings.abbreviate(news.description, 60)}">News preview...</small>
                                 </td>
-                                <td>
+                                <td class="d-none d-lg-table-cell">
                                     <span th:if="${news.member != null}" th:text="${news.member.firstName + ' ' + news.member.lastName}">Publisher Name</span>
                                     <span th:unless="${news.member != null}" class="text-muted">—</span>
                                 </td>
-                                <td>
+                                <td class="d-none d-md-table-cell">
                                     <span th:text="${#temporals.format(news.publishedAt, 'MMM dd, yyyy')}">Date</span>
                                     <br>
                                     <small class="text-muted" th:text="${#temporals.format(news.publishedAt, 'HH:mm')}">Time</small>
                                 </td>
-                                <td>
+                                <td class="d-none d-lg-table-cell">
                                     <span th:if="${news.published}" class="badge bg-success">Published</span>
                                     <span th:unless="${news.published}" class="badge bg-secondary">Draft</span>
                                 </td>
                                 <td class="text-center">
-                                    <div class="btn-group btn-group-sm" role="group">
+                                    <div class="btn-group btn-group-sm flex-wrap" role="group">
                                         <a th:href="@{'/admin/news/' + ${news.id}}"
                                            class="btn btn-outline-info" title="View">
-                                            <i class="fas fa-eye"></i>
+                                            <i class="fas fa-eye"></i><span class="d-none d-sm-inline ms-1">View</span>
                                         </a>
                                         <a th:href="@{'/admin/news/' + ${news.id} + '/edit'}"
                                            class="btn btn-outline-primary" title="Edit">
-                                            <i class="fas fa-edit"></i>
+                                            <i class="fas fa-edit"></i><span class="d-none d-sm-inline ms-1">Edit</span>
                                         </a>
                                         <button type="button" class="btn btn-outline-danger"
                                                 th:data-delete-url="@{'/admin/news/' + ${news.id}}"
                                                 th:data-news-title="${news.title}"
                                                 onclick="confirmDelete(this.dataset.deleteUrl, this.dataset.newsTitle)"
                                                 title="Delete">
-                                            <i class="fas fa-trash"></i>
+                                            <i class="fas fa-trash"></i><span class="d-none d-sm-inline ms-1">Delete</span>
                                         </button>
                                     </div>
                                 </td>
@@ -187,7 +192,7 @@
 </div>
 
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="deleteModalLabel">
@@ -225,6 +230,34 @@
 
         new bootstrap.Modal(document.getElementById('deleteModal')).show();
     }
+    
+    // Responsive sidebar toggle for mobile
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebarToggle = document.querySelector('[data-bs-toggle="collapse"]');
+        const sidebar = document.getElementById('sidebar');
+        
+        if (sidebarToggle && sidebar) {
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('show');
+            });
+            
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth < 768 && 
+                    !sidebar.contains(e.target) && 
+                    !sidebarToggle.contains(e.target)) {
+                    sidebar.classList.remove('show');
+                }
+            });
+        }
+        
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 768) {
+                sidebar.classList.remove('show');
+            }
+        });
+    });
 </script>
 </body>
 </html>

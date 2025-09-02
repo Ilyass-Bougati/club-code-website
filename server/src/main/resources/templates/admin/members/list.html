@@ -13,7 +13,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
     <div class="container-fluid">
         <a class="navbar-brand fw-bold" href="#" th:href="@{/admin/dashboard}">
-            <i class="fas fa-code me-2"></i>Club Code Admin
+            <i class="fas fa-code me-2"></i><span class="d-none d-sm-inline">Club Code Admin</span><span class="d-sm-none">Admin</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
@@ -24,7 +24,7 @@
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
                         <i class="fas fa-user-circle me-1"></i> Admin
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="https://code.sefault.com"><i class="fas fa-home me-2"></i>View Site</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#" th:href="@{/logout}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
@@ -38,11 +38,15 @@
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar -->
-        <nav class="col-md-3 col-lg-2 d-md-block bg-white sidebar shadow-sm">
+        <nav class="col-lg-2 col-md-3 d-md-block bg-white sidebar shadow-sm" id="sidebar">
             <div class="position-sticky pt-3">
+                <div class="d-flex justify-content-between align-items-center mb-3 d-md-none">
+                    <h6 class="mb-0 text-primary">Menu</h6>
+                    <button class="btn-close" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar"></button>
+                </div>
                 <ul class="nav flex-column">
                     <li class="nav-item mb-2">
-                        <a class="nav-link active d-flex align-items-center py-2" href="#" th:href="@{/admin/dashboard}">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/dashboard}">
                             <i class="fas fa-tachometer-alt me-2 text-primary"></i>
                             <span>Dashboard</span>
                         </a>
@@ -66,12 +70,11 @@
                         </a>
                     </li>
                     <li class="nav-item mb-2">
-                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/members}">
+                        <a class="nav-link active d-flex align-items-center py-2" href="#" th:href="@{/admin/members}">
                             <i class="fas fa-user-graduate me-2 text-warning"></i>
                             <span>Members</span>
                         </a>
                     </li>
-
                     <li class="nav-item mb-2">
                         <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/sponsors}">
                             <i class="fas fa-handshake me-2 text-success"></i>
@@ -89,10 +92,10 @@
         </nav>
 
         <!-- Main Content -->
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+        <main class="col-lg-10 col-md-9 ms-sm-auto px-md-4 py-4">
             <!-- Page Header -->
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-4 border-bottom">
-                <div>
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center pb-2 mb-4 border-bottom">
+                <div class="mb-2 mb-sm-0">
                     <h1 class="h2 text-primary">
                         <i class="fas fa-user-graduate me-2"></i>Members Management
                     </h1>
@@ -153,11 +156,11 @@
                                     <thead class="table-danger">
                                     <tr>
                                         <th scope="col">Name</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Phone</th>
-                                        <th scope="col">Major</th>
-                                        <th scope="col">Year</th>
-                                        <th scope="col">Joined Date</th>
+                                        <th scope="col" class="d-none d-lg-table-cell">Email</th>
+                                        <th scope="col" class="d-none d-xl-table-cell">Phone</th>
+                                        <th scope="col" class="d-none d-md-table-cell">Major</th>
+                                        <th scope="col" class="d-none d-md-table-cell">Year</th>
+                                        <th scope="col" class="d-none d-lg-table-cell">Joined Date</th>
                                         <th scope="col" class="text-center">
                                             Actions
                                             <span th:if="${!isSuperAdmin}" class="badge bg-secondary ms-1">SUPER_ADMIN Only</span>
@@ -172,33 +175,33 @@
                                                      style="width: 40px; height: 40px;">
                                                     <i class="fas fa-user-shield"></i>
                                                 </div>
-                                                <div>
-                                                    <div class="fw-semibold" th:text="${member.firstName + ' ' + member.lastName}">Member Name</div>
+                                                <div class="min-w-0">
+                                                    <div class="fw-semibold text-truncate" th:text="${member.firstName + ' ' + member.lastName}">Member Name</div>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>
-                                            <span th:text="${member.email}">email@example.com</span>
+                                        <td class="d-none d-lg-table-cell">
+                                            <span class="text-truncate d-block" th:text="${member.email}">email@example.com</span>
                                         </td>
-                                        <td>
+                                        <td class="d-none d-xl-table-cell">
                                             <span th:text="${member.phoneNumber}">Phone Number</span>
                                         </td>
-                                        <td>
+                                        <td class="d-none d-md-table-cell">
                                             <span class="badge bg-info" th:text="${member.major}">Major</span>
                                         </td>
-                                        <td>
+                                        <td class="d-none d-md-table-cell">
                                             <span class="badge bg-secondary" th:text="${member.year + ' Year'}">Year</span>
                                         </td>
-                                        <td>
+                                        <td class="d-none d-lg-table-cell">
                                             <span th:if="${member.createdAt != null}" th:text="${#temporals.format(member.createdAt, 'MMM dd, yyyy')}">Date</span>
                                             <span th:unless="${member.createdAt != null}" class="text-muted">-</span>
                                         </td>
                                         <td class="text-center">
-                                            <div class="btn-group btn-group-sm" role="group">
+                                            <div class="btn-group btn-group-sm flex-wrap" role="group">
                                                 <a th:href="@{'/admin/members/' + ${member.id} + '/edit'}"
                                                    class="btn btn-outline-primary" title="Edit"
                                                    th:if="${isSuperAdmin}">
-                                                    <i class="fas fa-edit"></i>
+                                                    <i class="fas fa-edit"></i><span class="d-none d-sm-inline ms-1">Edit</span>
                                                 </a>
                                                 <button type="button" class="btn btn-outline-danger"
                                                         th:data-delete-url="@{'/admin/members/' + ${member.id}}"
@@ -206,7 +209,7 @@
                                                         onclick="confirmDelete(this.dataset.deleteUrl, this.dataset.memberName)"
                                                         title="Delete"
                                                         th:if="${isSuperAdmin}">
-                                                    <i class="fas fa-trash"></i>
+                                                    <i class="fas fa-trash"></i><span class="d-none d-sm-inline ms-1">Delete</span>
                                                 </button>
                                             </div>
                                         </td>
@@ -226,11 +229,11 @@
                                     <thead class="table-warning">
                                     <tr>
                                         <th scope="col">Name</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Phone</th>
-                                        <th scope="col">Major</th>
-                                        <th scope="col">Year</th>
-                                        <th scope="col">Joined Date</th>
+                                        <th scope="col" class="d-none d-lg-table-cell">Email</th>
+                                        <th scope="col" class="d-none d-xl-table-cell">Phone</th>
+                                        <th scope="col" class="d-none d-md-table-cell">Major</th>
+                                        <th scope="col" class="d-none d-md-table-cell">Year</th>
+                                        <th scope="col" class="d-none d-lg-table-cell">Joined Date</th>
                                         <th scope="col" class="text-center">
                                             Actions
                                             <span th:if="${!isSuperAdmin}" class="badge bg-secondary ms-1">SUPER_ADMIN Only</span>
@@ -245,33 +248,33 @@
                                                      style="width: 40px; height: 40px;">
                                                     <i class="fas fa-user-tie"></i>
                                                 </div>
-                                                <div>
-                                                    <div class="fw-semibold" th:text="${member.firstName + ' ' + member.lastName}">Member Name</div>
+                                                <div class="min-w-0">
+                                                    <div class="fw-semibold text-truncate" th:text="${member.firstName + ' ' + member.lastName}">Member Name</div>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>
-                                            <span th:text="${member.email}">email@example.com</span>
+                                        <td class="d-none d-lg-table-cell">
+                                            <span class="text-truncate d-block" th:text="${member.email}">email@example.com</span>
                                         </td>
-                                        <td>
+                                        <td class="d-none d-xl-table-cell">
                                             <span th:text="${member.phoneNumber}">Phone Number</span>
                                         </td>
-                                        <td>
+                                        <td class="d-none d-md-table-cell">
                                             <span class="badge bg-info" th:text="${member.major}">Major</span>
                                         </td>
-                                        <td>
+                                        <td class="d-none d-md-table-cell">
                                             <span class="badge bg-secondary" th:text="${member.year + ' Year'}">Year</span>
                                         </td>
-                                        <td>
+                                        <td class="d-none d-lg-table-cell">
                                             <span th:if="${member.createdAt != null}" th:text="${#temporals.format(member.createdAt, 'MMM dd, yyyy')}">Date</span>
                                             <span th:unless="${member.createdAt != null}" class="text-muted">-</span>
                                         </td>
                                         <td class="text-center">
-                                            <div class="btn-group btn-group-sm" role="group">
+                                            <div class="btn-group btn-group-sm flex-wrap" role="group">
                                                 <a th:href="@{'/admin/members/' + ${member.id} + '/edit'}"
                                                    class="btn btn-outline-primary" title="Edit"
                                                    th:if="${isSuperAdmin}">
-                                                    <i class="fas fa-edit"></i>
+                                                    <i class="fas fa-edit"></i><span class="d-none d-sm-inline ms-1">Edit</span>
                                                 </a>
                                                 <button type="button" class="btn btn-outline-danger"
                                                         th:data-delete-url="@{'/admin/members/' + ${member.id}}"
@@ -279,7 +282,7 @@
                                                         onclick="confirmDelete(this.dataset.deleteUrl, this.dataset.memberName)"
                                                         title="Delete"
                                                         th:if="${isSuperAdmin}">
-                                                    <i class="fas fa-trash"></i>
+                                                    <i class="fas fa-trash"></i><span class="d-none d-sm-inline ms-1">Delete</span>
                                                 </button>
                                             </div>
                                         </td>
@@ -299,11 +302,11 @@
                                     <thead class="table-success">
                                     <tr>
                                         <th scope="col">Name</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Phone</th>
-                                        <th scope="col">Major</th>
-                                        <th scope="col">Year</th>
-                                        <th scope="col">Joined Date</th>
+                                        <th scope="col" class="d-none d-lg-table-cell">Email</th>
+                                        <th scope="col" class="d-none d-xl-table-cell">Phone</th>
+                                        <th scope="col" class="d-none d-md-table-cell">Major</th>
+                                        <th scope="col" class="d-none d-md-table-cell">Year</th>
+                                        <th scope="col" class="d-none d-lg-table-cell">Joined Date</th>
                                         <th scope="col" class="text-center">
                                             Actions
                                             <span th:if="${isSuperAdmin}" class="badge bg-danger ms-1">SUPER_ADMIN</span>
@@ -319,39 +322,39 @@
                                                      style="width: 40px; height: 40px;">
                                                     <i class="fas fa-user"></i>
                                                 </div>
-                                                <div>
-                                                    <div class="fw-semibold" th:text="${member.firstName + ' ' + member.lastName}">Member Name</div>
+                                                <div class="min-w-0">
+                                                    <div class="fw-semibold text-truncate" th:text="${member.firstName + ' ' + member.lastName}">Member Name</div>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>
-                                            <span th:text="${member.email}">email@example.com</span>
+                                        <td class="d-none d-lg-table-cell">
+                                            <span class="text-truncate d-block" th:text="${member.email}">email@example.com</span>
                                         </td>
-                                        <td>
+                                        <td class="d-none d-xl-table-cell">
                                             <span th:text="${member.phoneNumber}">Phone Number</span>
                                         </td>
-                                        <td>
+                                        <td class="d-none d-md-table-cell">
                                             <span class="badge bg-info" th:text="${member.major}">Major</span>
                                         </td>
-                                        <td>
+                                        <td class="d-none d-md-table-cell">
                                             <span class="badge bg-secondary" th:text="${member.year + ' Year'}">Year</span>
                                         </td>
-                                        <td>
+                                        <td class="d-none d-lg-table-cell">
                                             <span th:if="${member.createdAt != null}" th:text="${#temporals.format(member.createdAt, 'MMM dd, yyyy')}">Date</span>
                                             <span th:unless="${member.createdAt != null}" class="text-muted">-</span>
                                         </td>
                                         <td class="text-center">
-                                            <div class="btn-group btn-group-sm" role="group">
+                                            <div class="btn-group btn-group-sm flex-wrap" role="group">
                                                 <a th:href="@{'/admin/members/' + ${member.id} + '/edit'}"
                                                    class="btn btn-outline-primary" title="Edit">
-                                                    <i class="fas fa-edit"></i>
+                                                    <i class="fas fa-edit"></i><span class="d-none d-sm-inline ms-1">Edit</span>
                                                 </a>
                                                 <button type="button" class="btn btn-outline-danger"
                                                         th:data-delete-url="@{'/admin/members/' + ${member.id}}"
                                                         th:data-member-name="${member.firstName + ' ' + member.lastName}"
                                                         onclick="confirmDelete(this.dataset.deleteUrl, this.dataset.memberName)"
                                                         title="Delete">
-                                                    <i class="fas fa-trash"></i>
+                                                    <i class="fas fa-trash"></i><span class="d-none d-sm-inline ms-1">Delete</span>
                                                 </button>
                                             </div>
                                         </td>
@@ -379,7 +382,7 @@
 
 <!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="deleteModalLabel">
@@ -416,6 +419,34 @@
         document.getElementById('deleteItemName').textContent = memberName;
         new bootstrap.Modal(document.getElementById('deleteModal')).show();
     }
+    
+    // Responsive sidebar toggle for mobile
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebarToggle = document.querySelector('[data-bs-toggle="collapse"]');
+        const sidebar = document.getElementById('sidebar');
+        
+        if (sidebarToggle && sidebar) {
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('show');
+            });
+            
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth < 768 && 
+                    !sidebar.contains(e.target) && 
+                    !sidebarToggle.contains(e.target)) {
+                    sidebar.classList.remove('show');
+                }
+            });
+        }
+        
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 768) {
+                sidebar.classList.remove('show');
+            }
+        });
+    });
 </script>
 </body>
 </html>

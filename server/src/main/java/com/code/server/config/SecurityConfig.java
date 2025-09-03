@@ -37,32 +37,47 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // Note that this is not safe, CSRF shouldn't be disabled but should be configured
-        // But it's fine since we're disabling session management
+        // Note: CSRF disabled for simplicity for admin forms; consider enabling with tokens in production
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request -> {request
-                        // for swagger
+                .authorizeHttpRequests(request -> request
+                        // static assets and public pages
+                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                        // swagger
                         .requestMatchers("/v3/**").permitAll()
                         .requestMatchers("/swagger").permitAll()
                         .requestMatchers("/swagger-ui/*").permitAll()
-                        // for authentication
+                        // auth API
                         .requestMatchers("/api/v1/auth/logout").authenticated()
                         .requestMatchers("/api/v1/auth/**").permitAll()
-                        // you can get everything
+                        // public read APIs
                         .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
-                        // all permitted requests should be explicitly permitted
-                        .anyRequest().hasRole("ADMIN");
-                })
+                        .requestMatchers(HttpMethod.POST, "/api/v1/register").permitAll()
+                        // admin login page and processing
+                        .requestMatchers("/admin/login").permitAll()
+                        // everything else under admin requires ADMIN role
+                        .requestMatchers("/admin/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
+                        .anyRequest().permitAll()
+                )
+                .formLogin(form -> form
+                        .loginPage("/admin/login")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/admin/dashboard", true)
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/admin/login?logout")
+                        .permitAll()
+                )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(
-                        jwtConfigurer -> {
-                            jwtConfigurer.jwtAuthenticationConverter(jwtAuthConverter);
-                        }
+                        jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthConverter)
                 ))
                 // configuring the UserDetailsService
                 .userDetailsService(customUserDetailsService)
                 .httpBasic(Customizer.withDefaults())
-                .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // Allow sessions for form login
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .build();
     }
 

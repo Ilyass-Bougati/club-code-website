@@ -12,11 +12,21 @@ import com.code.server.repository.AreasOfInterestRepository;
 import com.code.server.repository.SponsorRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import java.time.format.DateTimeFormatter;
 
 import java.util.List;
 import java.util.UUID;
@@ -252,6 +262,97 @@ public class AdminEventController {
     public String removeMember(@PathVariable UUID id, @RequestParam UUID memberId) {
         adminEventService.removeMemberFromEvent(id, memberId);
         return "redirect:/admin/events/" + id + "/members";
+    }
+
+    @GetMapping("/{id}/export")
+    public ResponseEntity<byte[]> exportEventToCsv(@PathVariable UUID id) throws IOException {
+        AdminEventDto event = adminEventService.findById(id);
+        
+        // Create CSV content
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try (Writer writer = new OutputStreamWriter(baos, StandardCharsets.UTF_8)) {
+            // Write CSV header
+            writer.write("Event Information\n");
+            writer.write("Field,Value\n");
+            writer.write("ID," + event.getId() + "\n");
+            writer.write("Title," + escapeCsvField(event.getTitle()) + "\n");
+            writer.write("Description," + escapeCsvField(event.getDescription()) + "\n");
+            writer.write("Event Type," + (event.getEventType() != null ? event.getEventType().toString() : "") + "\n");
+            writer.write("Sponsored," + (event.getSponsored() != null ? event.getSponsored().toString() : "") + "\n");
+            writer.write("Registration Open," + (event.getRegistrationOpen() != null ? event.getRegistrationOpen().toString() : "") + "\n");
+            writer.write("Published," + (event.getPublished() != null ? event.getPublished().toString() : "") + "\n");
+            
+            if (event.getRegistrationDeadline() != null) {
+                writer.write("Registration Deadline," + event.getRegistrationDeadline().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + "\n");
+            }
+            
+            if (event.getPublishedAt() != null) {
+                writer.write("Published At," + event.getPublishedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + "\n");
+            }
+            
+            if (event.getMember() != null) {
+                writer.write("Created By," + escapeCsvField(event.getMember().getFirstName() + " " + event.getMember().getLastName()) + "\n");
+                writer.write("Creator Email," + escapeCsvField(event.getMember().getEmail()) + "\n");
+                writer.write("Creator Phone," + escapeCsvField(event.getMember().getPhoneNumber() != null ? event.getMember().getPhoneNumber() : "") + "\n");
+            }
+            
+            if (event.getImage() != null) {
+                writer.write("Image URI," + escapeCsvField(event.getImage().getUri()) + "\n");
+            }
+            
+            // Areas of Interest
+            if (event.getAreaOfInterests() != null && !event.getAreaOfInterests().isEmpty()) {
+                writer.write("Areas of Interest," + escapeCsvField(event.getAreaOfInterests().stream()
+                        .map(area -> area.getName())
+                        .reduce("", (a, b) -> a + "; " + b).substring(2)) + "\n");
+            }
+            
+            // Sponsors
+            if (event.getSponsors() != null && !event.getSponsors().isEmpty()) {
+                writer.write("Sponsors," + escapeCsvField(event.getSponsors().stream()
+                        .map(sponsor -> sponsor.getName())
+                        .reduce("", (a, b) -> a + "; " + b).substring(2)) + "\n");
+            }
+            
+            // Members
+            if (event.getMembers() != null && !event.getMembers().isEmpty()) {
+                writer.write("\nInterested Members\n");
+                writer.write("Name,Email,Phone Number,Member Since\n");
+                
+                for (MemberDto member : event.getMembers()) {
+                    writer.write(escapeCsvField(member.getFirstName() + " " + member.getLastName()) + ",");
+                    writer.write(escapeCsvField(member.getEmail()) + ",");
+                    writer.write(escapeCsvField(member.getPhoneNumber() != null ? member.getPhoneNumber() : "") + ",");
+                    if (member.getCreatedAt() != null) {
+                        writer.write(member.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + "\n");
+                    } else {
+                        writer.write("\n");
+                    }
+                }
+            }
+        }
+        
+        byte[] csvContent = baos.toByteArray();
+        
+        // Create filename with event title
+        String filename = "event-" + (event.getTitle() != null ? event.getTitle().replaceAll("[^a-zA-Z0-9\\s-]", "").replaceAll("\\s+", "-") : "unknown") + ".csv";
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("text/csv"));
+        headers.setContentDispositionFormData("attachment", filename);
+        headers.setContentLength(csvContent.length);
+        
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(csvContent);
+    }
+    
+    private String escapeCsvField(String field) {
+        if (field == null) return "";
+        if (field.contains(",") || field.contains("\n") || field.contains("\"") || field.contains("\r")) {
+            return "\"" + field.replace("\"", "\"\"") + "\"";
+        }
+        return field;
     }
 }
 

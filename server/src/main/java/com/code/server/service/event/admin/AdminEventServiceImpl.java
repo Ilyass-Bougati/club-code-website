@@ -109,6 +109,8 @@ public class AdminEventServiceImpl implements AdminEventService {
                         .firstName(member.getFirstName())
                         .lastName(member.getLastName())
                         .email(member.getEmail())
+                        .phoneNumber(member.getPhoneNumber())
+                        .createdAt(member.getCreatedAt())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -157,6 +159,8 @@ public class AdminEventServiceImpl implements AdminEventService {
                         .firstName(member.getFirstName())
                         .lastName(member.getLastName())
                         .email(member.getEmail())
+                        .phoneNumber(member.getPhoneNumber())
+                        .createdAt(member.getCreatedAt())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -300,6 +304,8 @@ public class AdminEventServiceImpl implements AdminEventService {
                     .firstName(event.getMember().getFirstName())
                     .lastName(event.getMember().getLastName())
                     .email(event.getMember().getEmail())
+                    .phoneNumber(event.getMember().getPhoneNumber())
+                    .createdAt(event.getMember().getCreatedAt())
                     .build());
         }
 
@@ -331,6 +337,8 @@ public class AdminEventServiceImpl implements AdminEventService {
                             .firstName(member.getFirstName())
                             .lastName(member.getLastName())
                             .email(member.getEmail())
+                            .phoneNumber(member.getPhoneNumber())
+                            .createdAt(member.getCreatedAt())
                             .build())
                     .collect(Collectors.toList()));
         }

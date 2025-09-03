@@ -100,6 +100,9 @@
                 </h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <div class="btn-group">
+                        <a th:href="@{'/admin/events/' + ${event.id} + '/export'}" class="btn btn-success">
+                            <i class="fas fa-download me-1"></i>Export CSV
+                        </a>
                         <a th:href="@{'/admin/events/' + ${event.id} + '/members'}" class="btn btn-info">
                             <i class="fas fa-users me-1"></i>Manage Members
                         </a>

@@ -95,4 +95,10 @@ public class EventServiceImp implements EventService {
         return eventRepository.getPage(limit, page * limit)
                 .stream().map(eventMapper::toDTO).toList();
     }
+
+    @Override
+    public List<EventDto> findAll() {
+        return eventRepository.findAll()
+                .stream().map(eventMapper::toDTO).toList();
+    }
 }

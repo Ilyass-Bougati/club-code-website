@@ -3,6 +3,7 @@ package com.code.server.controller;
 
 import com.code.server.dto.sponsor.SponsorDto;
 import com.code.server.service.sponsor.SponsorService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class SponsorController {
     private final SponsorService sponsorService;
 
     @PostMapping
-    public ResponseEntity<SponsorDto> createSponsor(@RequestBody SponsorDto dto) {
+    public ResponseEntity<SponsorDto> createSponsor(@RequestBody @Valid SponsorDto dto) {
         SponsorDto created = sponsorService.save(dto);
         return ResponseEntity
                 .created(URI.create("/api/v1/sponsor/" + created.getId()))
@@ -37,7 +38,7 @@ public class SponsorController {
     }
 
     @PutMapping
-    public ResponseEntity<SponsorDto> updateImage(@RequestBody SponsorDto sponsorDto) {
+    public ResponseEntity<SponsorDto> updateImage(@RequestBody @Valid SponsorDto sponsorDto) {
         return ResponseEntity.ok(sponsorService.update(sponsorDto));
     }
 }

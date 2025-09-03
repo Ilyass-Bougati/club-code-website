@@ -3,10 +3,12 @@ package com.code.server.service.member;
 import com.code.server.dto.member.MemberDto;
 import com.code.server.dto.member.MemberMapper;
 import com.code.server.dto.member.MemberRegisterRequest;
+import com.code.server.entity.Event;
 import com.code.server.entity.Member;
 import com.code.server.exception.NotFoundException;
 import com.code.server.repository.MemberRepository;
 import com.code.server.service.areasOfInterest.AreasOfInterestEntityService;
+import com.code.server.service.event.EventEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
     private final AreasOfInterestEntityService  areasOfInterestEntityService;
+    private final EventEntityService eventEntityService;
 
     /**
      * This method isn't meant to be used, the creation of staff
@@ -80,5 +83,12 @@ public class MemberServiceImpl implements MemberService {
                 .build();
 
         return memberMapper.toDTO(memberRepository.save(member));
+    }
+
+    @Override
+    public void registerMember(Member member, UUID eventId) {
+        Event event = eventEntityService.findById(eventId);
+        member.getInterestEvents().add(event);
+        memberRepository.save(member);
     }
 }

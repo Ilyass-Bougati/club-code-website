@@ -16,10 +16,10 @@ import java.util.UUID;
 public class ImageDto {
     private UUID id;
 
-    @NotBlank
+    @NotBlank(message = "Image uri can't be empty or null")
     private String uri;
 
     @Enumerated(EnumType.STRING)
-    @NotNull
+    @NotNull(message = "Image host can't be null")
     private ImageHost host;
 }

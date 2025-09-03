@@ -2,6 +2,7 @@ package com.code.server.controller;
 
 import com.code.server.dto.areaOfInterest.AreaOfInterestDto;
 import com.code.server.service.areasOfInterest.AreasOfInterestService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class AreaOfInterestController {
      private final AreasOfInterestService areasOfInterestService;
 
     @PostMapping
-    public ResponseEntity<AreaOfInterestDto> add(@RequestBody AreaOfInterestDto areaOfInterestDto){
+    public ResponseEntity<AreaOfInterestDto> add(@RequestBody @Valid AreaOfInterestDto areaOfInterestDto){
         return ResponseEntity.ok(areasOfInterestService.save(areaOfInterestDto));
     }
 
@@ -28,7 +29,7 @@ public class AreaOfInterestController {
     }
 
     @PutMapping
-    public ResponseEntity<AreaOfInterestDto> update(@RequestBody AreaOfInterestDto areaOfInterestDto){
+    public ResponseEntity<AreaOfInterestDto> update(@RequestBody @Valid AreaOfInterestDto areaOfInterestDto){
         return ResponseEntity.ok(areasOfInterestService.update(areaOfInterestDto));
     }
 

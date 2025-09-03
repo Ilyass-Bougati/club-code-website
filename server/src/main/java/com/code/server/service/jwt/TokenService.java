@@ -24,7 +24,6 @@ public class TokenService {
     private final MemberEntityService memberEntityService;
 
     public Token generateToken(Authentication authentication) {
-        Authentication authentication = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
         Instant now = Instant.now();
         String accessTokenScope = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)

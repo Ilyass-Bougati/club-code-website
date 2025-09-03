@@ -48,10 +48,8 @@ public class SecurityConfig {
                         .requestMatchers("/swagger").permitAll()
                         .requestMatchers("/swagger-ui/*").permitAll()
                         // auth API
-                        .requestMatchers("/api/v1/auth/login").permitAll()
-                        .requestMatchers("/api/v1/auth/register").permitAll()
-                        .requestMatchers("/api/v1/auth/refresh").permitAll()
                         .requestMatchers("/api/v1/auth/logout").authenticated()
+                        .requestMatchers("/api/v1/auth/**").permitAll()
                         // public read APIs
                         .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/register").permitAll()

@@ -17,22 +17,22 @@ import java.util.UUID;
 public class OfficeMemberDto {
     private UUID id;
 
-    @NotNull
+    @NotNull(message = "Office member's image can't be null")
     private ImageDto image;
 
-    @NotEmpty
+    @NotEmpty(message = "Office member's firstname can't be empty or null")
     private String firstName;
 
-    @NotEmpty
+    @NotEmpty(message = "Office member's lastname can't be empty or null")
     private String lastName;
 
-    @NotEmpty
+    @NotEmpty(message = "Office member's position can't be empty or null")
     private String position;
 
-    @NotEmpty
+    @NotEmpty(message = "Office member's linkedin can't be empty or null")
     private String linkedin;
 
-    @NotEmpty
+    @NotEmpty(message = "Office member's instagram can't be empty or null")
     private String instagram;
 
     @CreationTimestamp

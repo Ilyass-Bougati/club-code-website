@@ -3,14 +3,18 @@ package com.code.server.service.member;
 import com.code.server.entity.Member;
 import com.code.server.exception.NotFoundException;
 import com.code.server.repository.MemberRepository;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.UUID;
 
 // TODO : This could be cached later
 @Service
+@Validated
+@Transactional
 @RequiredArgsConstructor
 public class MemberEntityServiceImpl implements MemberEntityService {
 
@@ -18,7 +22,7 @@ public class MemberEntityServiceImpl implements MemberEntityService {
 
     @Override
     @Transactional(readOnly = true)
-    public Member findById(UUID uuid) {
+    public Member findById(@NotNull(message = "Member Id can't be null") UUID uuid) {
         return memberRepository.findById(uuid)
                 .orElseThrow(() -> new NotFoundException("Member not found"));
     }

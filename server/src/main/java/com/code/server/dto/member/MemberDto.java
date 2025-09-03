@@ -16,17 +16,17 @@ import java.util.UUID;
 public class MemberDto {
     private UUID id;
 
-    @Email
-    @NotBlank
+    @Email(message = "Member's email must follow the correct email format")
+    @NotBlank(message = "Member's email can't be empty or null")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "Member's firstname can't be empty or null")
     private String firstName;
 
-    @NotBlank
+    @NotBlank(message = "Member's lastname can't be empty or null")
     private String lastName;
 
-    @NotBlank
+    @NotBlank(message = "Member's phone number can't be empty or null")
     private String phoneNumber;
 
     @CreationTimestamp

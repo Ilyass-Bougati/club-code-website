@@ -13,6 +13,6 @@ import java.util.UUID;
 public class SponsorDto {
     private UUID id;
 
-    @NotBlank
+    @NotBlank(message = "Sponsor's name can't be empty or null")
     private String name;
 }

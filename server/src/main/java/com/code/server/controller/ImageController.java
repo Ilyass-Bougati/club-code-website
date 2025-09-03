@@ -2,6 +2,7 @@ package com.code.server.controller;
 
 import com.code.server.dto.image.ImageDto;
 import com.code.server.service.Image.ImageService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class ImageController {
     }
 
     @PostMapping
-    public ResponseEntity<ImageDto> createImage(@RequestBody ImageDto imageDto) {
+    public ResponseEntity<ImageDto> createImage(@RequestBody @Valid ImageDto imageDto) {
         return ResponseEntity.ok(imageService.save(imageDto));
     }
 
@@ -34,7 +35,7 @@ public class ImageController {
     }
 
     @PutMapping
-    public ResponseEntity<ImageDto> updateImage(@RequestBody ImageDto imageDto) {
+    public ResponseEntity<ImageDto> updateImage(@RequestBody @Valid ImageDto imageDto) {
         return ResponseEntity.ok(imageService.update(imageDto));
     }
 

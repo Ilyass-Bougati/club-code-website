@@ -52,7 +52,6 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         // public read APIs
                         .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/register").permitAll()
                         // admin login page and processing
                         .requestMatchers("/admin/login").permitAll()
                         // everything else under admin requires ADMIN role

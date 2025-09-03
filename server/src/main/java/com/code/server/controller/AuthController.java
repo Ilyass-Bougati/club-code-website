@@ -1,5 +1,6 @@
 package com.code.server.controller;
 
+import com.code.server.dto.auth.LoginRequest;
 import com.code.server.dto.auth.RegistrationOpenResponse;
 import com.code.server.service.jwt.Token;
 import com.code.server.service.jwt.TokenService;
@@ -12,6 +13,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +35,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Token> token(Authentication authentication) {
+    public ResponseEntity<Token> token(@RequestBody @Valid LoginRequest loginRequest) {
+        Authentication authentication = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
         return ResponseEntity.ok(tokenService.generateToken(authentication));
     }
 

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Club Code</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link th:href="@{/css/admin.css}" rel="stylesheet">
+</head>
+<body class="bg-light">
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="#" th:href="@{/admin/dashboard}">
+            <i class="fas fa-code me-2"></i><span class="d-none d-sm-inline">Club Code Admin</span><span class="d-sm-none">Admin</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user-circle me-1"></i>
+                        <span th:text="${currentUserName}">Admin</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="https://code.sefault.com"><i class="fas fa-home me-2"></i>View Website</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#" th:href="@{/logout}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-lg-2 col-md-3 d-md-block bg-white sidebar shadow-sm" id="sidebar">
+            <div class="position-sticky pt-3">
+                <div class="d-flex justify-content-between align-items-center mb-3 d-md-none">
+                    <h6 class="mb-0 text-primary">Menu</h6>
+                    <button class="btn-close" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar"></button>
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2">
+                        <a class="nav-link active d-flex align-items-center py-2" href="#" th:href="@{/admin/dashboard}">
+                            <i class="fas fa-tachometer-alt me-2 text-primary"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/news}">
+                            <i class="fas fa-newspaper me-2 text-success"></i>
+                            <span>News</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/events}">
+                            <i class="fas fa-calendar-alt me-2 text-warning"></i>
+                            <span>Events</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/office-members}">
+                            <i class="fas fa-users me-2 text-info"></i>
+                            <span>Office Members</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/members}">
+                            <i class="fas fa-user-graduate me-2 text-warning"></i>
+                            <span>Members</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/sponsors}">
+                            <i class="fas fa-handshake me-2 text-success"></i>
+                            <span>Sponsors</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/areas-of-interest}">
+                            <i class="fas fa-tags me-2 text-primary"></i>
+                            <span>Areas of Interest</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="col-lg-10 col-md-9 ms-sm-auto px-md-4 py-4">
+            <!-- Page Header -->
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center pb-2 mb-4 border-bottom">
+                <h1 class="h2 text-primary mb-2 mb-sm-0">
+                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                </h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group">
+                        <a href="#" th:href="@{/admin/export}" class="btn btn-sm btn-outline-secondary">
+                            <i class="fas fa-download me-1"></i><span class="d-none d-sm-inline">Export</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alert Messages -->
+            <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle me-2"></i>
+                <span th:text="${success}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                <span th:text="${error}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="row g-3 g-md-4 mb-4">
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <div class="bg-primary bg-gradient rounded-circle p-2 p-sm-3">
+                                        <i class="fas fa-users text-white fa-lg"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <div class="text-xs fw-bold text-primary text-uppercase mb-1">Total Members</div>
+                                    <div class="h5 mb-0 fw-bold text-gray-800" th:text="${totalMembers}">0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <div class="bg-success bg-gradient rounded-circle p-2 p-sm-3">
+                                        <i class="fas fa-newspaper text-white fa-lg"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <div class="text-xs fw-bold text-success text-uppercase mb-1">Total News</div>
+                                    <div class="h5 mb-0 fw-bold text-gray-800" th:text="${totalNews}">0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <div class="bg-warning bg-gradient rounded-circle p-2 p-sm-3">
+                                        <i class="fas fa-calendar-alt text-white fa-lg"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <div class="text-xs fw-bold text-warning text-uppercase mb-1">Total Events</div>
+                                    <div class="h5 mb-0 fw-bold text-gray-800" th:text="${totalEvents}">0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <div class="bg-info bg-gradient rounded-circle p-2 p-sm-3">
+                                        <i class="fas fa-chart-line text-white fa-lg"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <div class="text-xs fw-bold text-info text-uppercase mb-1">Active</div>
+                                    <div class="h5 mb-0 fw-bold text-gray-800">100%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="row g-3 g-md-4 mb-4">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-white border-0 py-3">
+                            <h5 class="mb-0 text-dark">
+                                <i class="fas fa-bolt me-2 text-primary"></i>Quick Actions
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-12 col-sm-6 col-md-3">
+                                    <a href="#" th:href="@{/admin/news/new}" class="btn btn-outline-success w-100 py-3">
+                                        <i class="fas fa-plus mb-2 d-block fa-2x"></i>
+                                        <span class="fw-semibold">Add News</span>
+                                    </a>
+                                </div>
+                                <div class="col-12 col-sm-6 col-md-3">
+                                    <a href="#" th:href="@{/admin/members/new}" class="btn btn-outline-info w-100 py-3">
+                                        <i class="fas fa-user-plus mb-2 d-block fa-2x"></i>
+                                        <span class="fw-semibold">Add Member</span>
+                                    </a>
+                                </div>
+                                <div class="col-12 col-sm-6 col-md-3">
+                                    <a href="#" th:href="@{/admin/events/new}" class="btn btn-outline-warning w-100 py-3">
+                                        <i class="fas fa-calendar-plus mb-2 d-block fa-2x"></i>
+                                        <span class="fw-semibold">Add Event</span>
+                                    </a>
+                                </div>
+                                <div class="col-12 col-sm-6 col-md-3">
+                                    <a href="https://code.sefault.com" class="btn btn-outline-primary w-100 py-3">
+                                        <i class="fas fa-eye mb-2 d-block fa-2x"></i>
+                                        <span class="fw-semibold">View Website</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Content -->
+            <div class="row g-3 g-md-4">
+                <!-- Recent News -->
+                <div class="col-12 col-lg-6">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-header bg-white border-0 py-3 d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center">
+                            <h5 class="mb-2 mb-sm-0 text-dark">
+                                <i class="fas fa-newspaper me-2 text-success"></i>Recent News
+                            </h5>
+                            <a href="#" th:href="@{/admin/news}" class="btn btn-sm btn-outline-success">View All</a>
+                        </div>
+                        <div class="card-body">
+                            <div th:if="${recentNews != null and !recentNews.empty}">
+                                <div th:each="news : ${recentNews}" class="d-flex align-items-start mb-3 pb-3 border-bottom">
+                                    <div class="flex-shrink-0 me-3">
+                                        <img th:src="${news.imageUrl != null ? news.imageUrl : '/images/default-news.jpg'}"
+                                             alt="News thumbnail" class="rounded" width="60" height="60" style="object-fit: cover;">
+                                    </div>
+                                    <div class="flex-grow-1 min-w-0">
+                                        <h6 class="mb-1 fw-semibold text-truncate">
+                                            <a th:href="@{'/admin/news/' + ${news.id}}"
+                                               class="text-decoration-none" th:text="${news.title}">News Title</a>
+                                        </h6>
+                                        <p class="text-muted small mb-1" th:text="${#strings.abbreviate(news.content, 60)}">News summary...</p>
+                                        <small class="text-muted">
+                                            <i class="fas fa-clock me-1"></i>
+                                            <span th:text="${#temporals.format(news.createdAt, 'MMM dd, yyyy')}">Date</span>
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div th:if="${recentNews == null or recentNews.empty}" class="text-center py-4 text-muted">
+                                <i class="fas fa-newspaper fa-3x mb-3 opacity-25"></i>
+                                <p class="mb-0">No recent news found</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Events -->
+                <div class="col-12 col-lg-6">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-header bg-white border-0 py-3 d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center">
+                            <h5 class="mb-2 mb-sm-0 text-dark">
+                                <i class="fas fa-calendar-alt me-2 text-warning"></i>Recent Events
+                            </h5>
+                            <a href="#" th:href="@{/admin/events}" class="btn btn-sm btn-outline-warning">View All</a>
+                        </div>
+                        <div class="card-body">
+                            <div th:if="${recentEvents != null and !recentEvents.empty}">
+                                <div th:each="event : ${recentEvents}" class="d-flex align-items-start mb-3 pb-3 border-bottom">
+                                    <div class="flex-shrink-0 me-3">
+                                        <div class="bg-warning bg-gradient rounded p-2 text-white text-center" style="min-width: 60px;">
+                                            <div class="fw-bold" th:text="${#temporals.format(event.eventDate, 'dd')}">01</div>
+                                            <small th:text="${#temporals.format(event.eventDate, 'MMM')}">Jan</small>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 min-w-0">
+                                        <h6 class="mb-1 fw-semibold text-truncate">
+                                            <a th:href="@{'/admin/events/' + ${event.id}}"
+                                               class="text-decoration-none" th:text="${event.title}">Event Title</a>
+                                        </h6>
+                                        <p class="text-muted small mb-1" th:text="${#strings.abbreviate(event.description, 60)}">Event description...</p>
+                                        <small class="text-muted">
+                                            <i class="fas fa-clock me-1"></i>
+                                            <span th:text="${#temporals.format(event.eventDate, 'MMM dd, yyyy')}">Date</span>
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div th:if="${recentEvents == null or recentEvents.empty}" class="text-center py-4 text-muted">
+                                <i class="fas fa-calendar-alt fa-3x mb-3 opacity-25"></i>
+                                <p class="mb-0">No recent events</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

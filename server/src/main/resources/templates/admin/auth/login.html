@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Club Code Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link th:href="@{/css/admin.css}" rel="stylesheet">
+    <style>
+        .login-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .login-card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .error-message {
+            animation: shake 0.5s ease-in-out;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .loading {
+            display: none;
+        }
+        .loading.show {
+            display: inline-block;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 575.98px) {
+            .login-card {
+                margin: 1rem;
+            }
+            .card-body {
+                padding: 1.5rem !important;
+            }
+            .h3 {
+                font-size: 1.5rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="login-container d-flex align-items-center justify-content-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="text-center mb-4">
+                    <h1 class="h3 text-white mb-3">
+                        <i class="fas fa-code me-2"></i><span class="d-none d-sm-inline">Club Code Admin</span><span class="d-sm-none">Admin</span>
+                    </h1>
+                    <p class="text-white-50">Sign in to your admin account</p>
+                </div>
+
+                <div class="card login-card border-0 shadow-lg">
+                    <div class="card-body p-4">
+                        <!-- Error Messages -->
+                        <div th:if="${param.error}" class="alert alert-danger error-message" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <span id="errorText">Invalid email or password. Please try again.</span>
+                        </div>
+                        
+                        <div th:if="${param.logout}" class="alert alert-success" role="alert">
+                            <i class="fas fa-check-circle me-2"></i>
+                            You have been successfully logged out.
+                        </div>
+
+                        <form method="post" th:action="@{/login}" id="loginForm">
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    <i class="fas fa-envelope me-2 text-primary"></i>Email Address
+                                </label>
+                                <input type="email" name="username" 
+                                       th:class="${param.error != null ? 'form-control form-control-lg is-invalid' : 'form-control form-control-lg'}"
+                                       placeholder="Enter your email" required 
+                                       autocomplete="email">
+                                <div class="invalid-feedback" th:if="${param.error != null}">
+                                    Please enter a valid email address.
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold">
+                                    <i class="fas fa-lock me-2 text-primary"></i>Password
+                                </label>
+                                <div class="input-group">
+                                    <input type="password" name="password" 
+                                           th:class="${param.error != null ? 'form-control form-control-lg is-invalid' : 'form-control form-control-lg'}"
+                                           placeholder="Enter your password" required 
+                                           id="passwordField"
+                                           autocomplete="current-password">
+                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                        <i class="fas fa-eye" id="eyeIcon"></i>
+                                    </button>
+                                </div>
+                                <div class="invalid-feedback" th:if="${param.error != null}">
+                                    Please enter your password.
+                                </div>
+                            </div>
+                            
+                            <div class="d-grid mb-3">
+                                <button type="submit" class="btn btn-primary btn-lg" id="loginBtn">
+                                    <span class="loading" id="loadingSpinner">
+                                        <i class="fas fa-spinner fa-spin me-2"></i>
+                                    </span>
+                                    <span id="loginText">
+                                        <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- Additional Help -->
+                        <div class="text-center">
+                            <small class="text-muted">
+                                <i class="fas fa-info-circle me-1"></i>
+                                Having trouble? Contact your system administrator.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <a href="https://code.sefault.com" class="btn btn-outline-light">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Website
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('loginForm');
+    const loginBtn = document.getElementById('loginBtn');
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const loginText = document.getElementById('loginText');
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordField = document.getElementById('passwordField');
+    const eyeIcon = document.getElementById('eyeIcon');
+
+    // Form submission with loading state
+    form.addEventListener('submit', function() {
+        loginBtn.disabled = true;
+        loadingSpinner.classList.add('show');
+        loginText.style.display = 'none';
+    });
+
+    // Password visibility toggle
+    togglePassword.addEventListener('click', function() {
+        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+        eyeIcon.classList.toggle('fa-eye');
+        eyeIcon.classList.toggle('fa-eye-slash');
+    });
+
+    // Auto-hide error messages after 5 seconds
+    const errorAlert = document.querySelector('.alert-danger');
+    if (errorAlert) {
+        setTimeout(() => {
+            errorAlert.style.opacity = '0';
+            setTimeout(() => {
+                errorAlert.remove();
+            }, 300);
+        }, 5000);
+    }
+
+    // Enhanced error handling
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('error')) {
+        // Try to provide more specific error messages based on common scenarios
+        const email = urlParams.get('username') || '';
+        if (!email) {
+            document.getElementById('errorText').textContent = 'Please enter your email address.';
+        } else if (!email.includes('@')) {
+            document.getElementById('errorText').textContent = 'Please enter a valid email address.';
+        } else {
+            document.getElementById('errorText').textContent = 'Invalid email or password. Please check your credentials and try again.';
+        }
+    }
+
+    // Focus on first input field
+    const firstInput = form.querySelector('input[type="email"]');
+    if (firstInput) {
+        firstInput.focus();
+    }
+});
+</script>
+</body>
+</html>

@@ -7,5 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface EventService extends CrudDtoService<UUID, EventDto> {
+    List<EventDto> getPage(Integer page, Integer limit);
     List<EventDto> findAll();
 }

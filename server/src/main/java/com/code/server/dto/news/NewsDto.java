@@ -19,17 +19,17 @@ import java.util.UUID;
 public class NewsDto {
     private UUID id;
 
-    @NotBlank
+    @NotBlank(message = "News's title can't be empty or null")
     private String title;
 
-    @NotBlank
+    @NotBlank(message = "News's description can't be empty or null")
     private String description;
 
-    @NotNull
+    @NotNull(message = "News's image can't be null")
     private ImageDto image;
 
     @Enumerated(EnumType.STRING)
-    @NotNull
+    @NotNull(message = "News's type can't be null")
     private NewsType type;
 
     @CreationTimestamp

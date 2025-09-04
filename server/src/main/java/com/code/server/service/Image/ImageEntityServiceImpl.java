@@ -21,7 +21,7 @@ public class ImageEntityServiceImpl implements ImageEntityService {
     private final ImageRepository imageRepository;
 
     @Override
-    public Image findById(@NotNull(message = "Image Id can't be null") UUID id) {
+    public Image findById(@NotNull UUID id) {
         return imageRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Image not found"));
     }

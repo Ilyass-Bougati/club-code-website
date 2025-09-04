@@ -22,7 +22,7 @@ public class MemberEntityServiceImpl implements MemberEntityService {
 
     @Override
     @Transactional(readOnly = true)
-    public Member findById(@NotNull(message = "Member Id can't be null") UUID uuid) {
+    public Member findById(@NotNull UUID uuid) {
         return memberRepository.findById(uuid)
                 .orElseThrow(() -> new NotFoundException("Member not found"));
     }

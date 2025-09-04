@@ -22,7 +22,7 @@ public class AreasOfInterestEntityServiceImpl implements AreasOfInterestEntitySe
 
     @Override
     @Transactional(readOnly = true)
-    public AreaOfInterest findById(@NotNull(message = "Area of interest Id can't be null") UUID uuid) {
+    public AreaOfInterest findById(@NotNull UUID uuid) {
         return areasOfInterestRepository.findById(uuid)
                 .orElseThrow(() -> new NotFoundException("Area of interest not found"));
     }

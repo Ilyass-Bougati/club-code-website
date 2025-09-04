@@ -21,7 +21,7 @@ public class SponsorEntityServiceImpl implements SponsorEntityService {
 
     @Override
     @Transactional(readOnly = true)
-    public Sponsor findById(@NotNull(message = "Sponsor Id can't be null") UUID uuid) {
+    public Sponsor findById(@NotNull UUID uuid) {
         return sponsorRepository.findById(uuid)
                 .orElseThrow(() -> new NotFoundException("Sponsor not found"));
     }

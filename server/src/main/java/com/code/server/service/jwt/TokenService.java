@@ -1,12 +1,17 @@
 package com.code.server.service.jwt;
 
+import com.code.server.dto.auth.LoginRequest;
 import com.code.server.entity.Member;
+import com.code.server.exception.Unauthorized;
 import com.code.server.service.member.MemberEntityService;
 import com.code.server.service.member.security.CustomUserDetails;
+import com.code.server.service.member.security.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
@@ -22,6 +27,8 @@ public class TokenService {
 
     private final JwtEncoder jwtEncoder;
     private final MemberEntityService memberEntityService;
+    private final CustomUserDetailsService customUserDetailsService;
+    private final PasswordEncoder passwordEncoder;
 
     public Token generateToken(Authentication authentication) {
         Instant now = Instant.now();
@@ -67,5 +74,19 @@ public class TokenService {
 
     public void revokeToken(CustomUserDetails user) {
         memberEntityService.revokeRefreshToken(user.getMember().getEmail());
+    }
+
+    public Token login(LoginRequest loginRequest) {
+        // checking credentials
+        CustomUserDetails userDetails = (CustomUserDetails) customUserDetailsService.loadUserByUsername(loginRequest.getEmail());
+        if (userDetails == null) {
+            throw new Unauthorized("Invalid Credentials");
+        }
+        if (!passwordEncoder.matches(loginRequest.getPassword(), userDetails.getPassword())) {
+            throw new Unauthorized("Invalid Credentials");
+        }
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
+        return generateToken(authentication);
     }
 }

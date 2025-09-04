@@ -27,6 +27,7 @@ public class Member {
 
     @Email
     @NotBlank
+    @Column(nullable = false, unique = true)
     private String email;
 
     @NotBlank

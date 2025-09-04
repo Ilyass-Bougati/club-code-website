@@ -5,14 +5,14 @@ import com.code.server.dto.auth.RegistrationOpenResponse;
 import com.code.server.service.jwt.Token;
 import com.code.server.service.jwt.TokenService;
 import com.code.server.dto.member.MemberRegisterRequest;
-import com.code.server.dto.member.RefreshRequest;
 import com.code.server.service.member.MemberService;
 import com.code.server.service.member.security.CustomUserDetails;
 import com.code.server.service.metrics.MetricsService;
+import com.code.server.utils.CookieUtils;
 import com.code.server.utils.Registration;
-import io.micrometer.core.instrument.Counter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,6 +21,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -38,16 +39,24 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Token> token(@RequestBody @Valid LoginRequest loginRequest) {
+    public ResponseEntity<?> token(@RequestBody @Valid LoginRequest loginRequest) {
         metricsService.countLogin();
         Authentication authentication = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
-        return ResponseEntity.ok(tokenService.generateToken(authentication));
+        Token token = tokenService.generateToken(authentication);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, CookieUtils.genCookie("access_token", token.getAccess_token(), 60 * 60, "/").toString())
+                .header(HttpHeaders.SET_COOKIE, CookieUtils.genCookie("refresh_token", token.getRefresh_token(), 60 * 60 * 24 * 7, "/api/v1/auth/refresh").toString())
+                .body(Map.of("message", "Logged in successfully"));
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<Token> refreshToken(@RequestBody RefreshRequest request) {
+    public ResponseEntity<?> refreshToken(@CookieValue(name = "refresh_token", required = true) String refreshToken) {
         metricsService.countRefresh();
-        return ResponseEntity.ok(tokenService.refreshToken(request.getRefreshToken()));
+        Token token = tokenService.refreshToken(refreshToken);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, CookieUtils.genCookie("access_token", token.getAccess_token(), 60 * 60, "/").toString())
+                .header(HttpHeaders.SET_COOKIE, CookieUtils.genCookie("refresh_token", token.getRefresh_token(), 60 * 60 * 24 * 7, "/api/v1/auth/refresh").toString())
+                .body(Map.of("message", "Refresh in successfully"));
     }
 
     @PostMapping("/logout")

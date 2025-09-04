@@ -17,7 +17,6 @@ const container = {
   },
 };
 
-
 interface RelatedNewsProps {
   relatedNews: News[];
   recentNews: News[];
@@ -44,32 +43,37 @@ export default function RelatedNews({
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-0">
-            {relatedNews.map((item, idx) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                whileHover={{ x: 8 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: idx * 0.05 }}
-              >
-                <Link
+            {relatedNews.length > 0 ? (
+              relatedNews.map((item, idx) => (
+                <motion.div
                   key={item.id}
-                  href={`/news/${item.id}`}
-                  className={cn(
-                    "block   hover:text-primary py-2  transition-colors duration-200",
-                    idx !== relatedNews.length - 1 &&
-                      "border-b border-muted-foreground hover:border-primary transition-colors duration-300",
-                    idx === 0 && "py-0 pb-2"
-                  )}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  whileHover={{ x: 8 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.3, delay: idx * 0.05 }}
                 >
-                  <p className="font-medium line-clamp-2">{item.title}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {format(item.publishedAt, "MMM dd, yyyy")}
-                  </p>
-                </Link>
-              </motion.div>
-            ))}
+                  <Link
+                    href={`/news/${item.id}`}
+                    className={cn(
+                      "block hover:text-primary py-2 transition-colors duration-200",
+                      idx !== relatedNews.length - 1 &&
+                        "border-b border-muted-foreground hover:border-primary transition-colors duration-300",
+                      idx === 0 && "py-0 pb-2"
+                    )}
+                  >
+                    <p className="font-medium line-clamp-2">{item.title}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {format(item.publishedAt, "MMM dd, yyyy")}
+                    </p>
+                  </Link>
+                </motion.div>
+              ))
+            ) : (
+              <p className="text-muted-foreground text-sm">
+                No related news available.
+              </p>
+            )}
           </CardContent>
         </Card>
 
@@ -81,32 +85,37 @@ export default function RelatedNews({
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-0">
-            {recentNews.map((item, idx) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                whileHover={{ x: 8 }}
-                transition={{ duration: 0.3, delay: idx * 0.05 }}
-              >
-                <Link
+            {recentNews.length > 0 ? (
+              recentNews.map((item, idx) => (
+                <motion.div
                   key={item.id}
-                  href={`/news/${item.id}`}
-                  className={cn(
-                    "block  py-2 hover:text-primary  transition-colors duration-200",
-                    idx !== recentNews.length - 1 &&
-                      "border-b border-muted-foreground hover:border-primary transition-colors duration-300",
-                    idx === 0 && "py-0 pb-2"
-                  )}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  whileHover={{ x: 8 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.3, delay: idx * 0.05 }}
                 >
-                  <p className="font-medium line-clamp-2">{item.title}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {format(item.publishedAt, "MMM dd, yyyy")}
-                  </p>
-                </Link>
-              </motion.div>
-            ))}
+                  <Link
+                    href={`/news/${item.id}`}
+                    className={cn(
+                      "block py-2 hover:text-primary transition-colors duration-200",
+                      idx !== recentNews.length - 1 &&
+                        "border-b border-muted-foreground hover:border-primary transition-colors duration-300",
+                      idx === 0 && "py-0 pb-2"
+                    )}
+                  >
+                    <p className="font-medium line-clamp-2">{item.title}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {format(item.publishedAt, "MMM dd, yyyy")}
+                    </p>
+                  </Link>
+                </motion.div>
+              ))
+            ) : (
+              <p className="text-muted-foreground text-sm">
+                No recent news available.
+              </p>
+            )}
           </CardContent>
         </Card>
       </div>

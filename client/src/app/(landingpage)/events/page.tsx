@@ -56,31 +56,31 @@ export default function Events() {
   });
   
   return (
-    <div className="container mx-auto px-4 py-10">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="relative mb-12"
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 rounded-2xl blur-xl" />
-        <div className="relative bg-gradient-to-r from-background/80 via-background/90 to-background/80 backdrop-blur-sm border border-primary/20 rounded-2xl p-8 text-center">
-          <motion.h1
-            className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent"
-            initial={false}
-          >
-            Explore Our Tech Events
-          </motion.h1>
-          <div className="mx-auto mb-4 h-1 w-24 rounded-full bg-gradient-to-r from-primary to-primary/60" />
-          <motion.p
-            className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            {typedText}
-          </motion.p>
-        </div>
-      </motion.div>
+    <div className="container mx-auto px-4 ">
+
+    <div className="relative bg-primary bg-gradient-to-br from-primary to-primary/80 text-primary-foreground text-center py-8 sm:py-12 md:py-16 lg:py-20 px-4 md:px-6 mb-10">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="flex flex-col items-center justify-center space-y-4 text-center"
+    >
+      {/* Title */}
+      <h2 className=" text-primary-foreground  text-3xl md:text-5xl font-bold ">
+      Explore Our Tech Events
+      </h2>
+
+      {/* Subtitle */}
+      <p className="text-primary-foreground/80 max-w-[700px] md:text-lg">
+      Discover what’s happening at CODE Club
+      </p>
+    </motion.div>
+  </div>
+
+
+  
+      
 
       <div className="grid md:grid-cols-3 gap-6">
       {sortedEvents.map((event , i ) => (

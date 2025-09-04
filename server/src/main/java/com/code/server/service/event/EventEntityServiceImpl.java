@@ -21,7 +21,7 @@ public class EventEntityServiceImpl implements EventEntityService {
 
     @Override
     @Transactional(readOnly = true)
-    public Event findById(@NotNull(message = "Event id can't be null") UUID id) {
+    public Event findById(@NotNull UUID id) {
         return eventRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Event not found"));
     }

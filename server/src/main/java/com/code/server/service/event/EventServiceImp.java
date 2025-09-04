@@ -28,7 +28,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-@Validated
 @Transactional
 @RequiredArgsConstructor
 public class EventServiceImp implements EventService {
@@ -48,7 +47,7 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
-    public EventDto update(@Valid EventDto eventDto) {
+    public EventDto update(EventDto eventDto) {
         Event event = eventRepository.findById(eventDto.getId())
                 .orElseThrow(()->new NotFoundException("Event not found"));
 

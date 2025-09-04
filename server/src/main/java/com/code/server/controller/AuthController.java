@@ -41,8 +41,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> token(@RequestBody @Valid LoginRequest loginRequest) {
         metricsService.countLogin();
-        Authentication authentication = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
-        Token token = tokenService.generateToken(authentication);
+        Token token = tokenService.login(loginRequest);
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, CookieUtils.genCookie("access_token", token.getAccess_token(), 60 * 60, "/").toString())
                 .header(HttpHeaders.SET_COOKIE, CookieUtils.genCookie("refresh_token", token.getRefresh_token(), 60 * 60 * 24 * 7, "/api/v1/auth/refresh").toString())

@@ -17,6 +17,7 @@ public class CorsConfig {
                 registry.addMapping("/**")  // apply to all endpoints
                         .allowedOrigins("https://code.sefault.com") // allow all origins
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowCredentials(true)
                         .allowedHeaders("*");
             }
         };

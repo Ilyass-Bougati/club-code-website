@@ -8,7 +8,9 @@ import com.code.server.dto.member.MemberRegisterRequest;
 import com.code.server.dto.member.RefreshRequest;
 import com.code.server.service.member.MemberService;
 import com.code.server.service.member.security.CustomUserDetails;
+import com.code.server.service.metrics.MetricsService;
 import com.code.server.utils.Registration;
+import io.micrometer.core.instrument.Counter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,7 @@ public class AuthController {
 
     private final TokenService tokenService;
     private final MemberService memberService;
+    private final MetricsService metricsService;
 
     @GetMapping("/registration")
     public ResponseEntity<RegistrationOpenResponse> checkRegistration() {
@@ -36,12 +39,14 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<Token> token(@RequestBody @Valid LoginRequest loginRequest) {
+        metricsService.countLogin();
         Authentication authentication = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
         return ResponseEntity.ok(tokenService.generateToken(authentication));
     }
 
     @PostMapping("/refresh")
     public ResponseEntity<Token> refreshToken(@RequestBody RefreshRequest request) {
+        metricsService.countRefresh();
         return ResponseEntity.ok(tokenService.refreshToken(request.getRefreshToken()));
     }
 
@@ -56,6 +61,7 @@ public class AuthController {
         if (principal != null) {
             throw new RuntimeException("Already logged in");
         }
+        metricsService.countRegister();
         memberService.register(registerRequest);
     }
 

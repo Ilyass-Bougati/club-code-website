@@ -50,3 +50,9 @@ cloudinary:
 springdoc:
   api-docs:
     enabled: ${SWAGGER_UI:true}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, prometheus

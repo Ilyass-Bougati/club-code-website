@@ -40,7 +40,7 @@ public class TokenService {
         JwtClaimsSet refreshTokenClaims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)
-                .expiresAt(now.plus(2, ChronoUnit.DAYS))
+                .expiresAt(now.plus(7, ChronoUnit.DAYS))
                 .subject(authentication.getName())
                 .build();
 

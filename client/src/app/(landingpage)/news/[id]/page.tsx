@@ -1,4 +1,5 @@
 
+import { getNews } from "@/actions/news";
 import NewsDetail from "@/components/news/news-detail";
 import RelatedNews from "@/components/news/related-news";
 import { News } from "@/types/backendTypes";
@@ -9,20 +10,6 @@ interface NewsIdPageProps {
 }
 
 
-async function getNews(): Promise<News[]> {
-  const res = await fetch("https://api.code.sefault.com/api/v1/news", {
-    next: { revalidate: 300 }, 
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch news");
-  }
-
-  return res.json();
-}
 
 export default async function NewsIdPage({ params }: NewsIdPageProps) {
   const { id } = await params;

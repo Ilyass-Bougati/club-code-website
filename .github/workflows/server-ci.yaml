@@ -6,7 +6,7 @@ on:
     paths:
       - 'server/**'
   pull_request:
-    branches: [ "main", "staging" ]
+    branches: [ "main", "staging", "server/dev" ]
     paths:
       - 'server/**'
 

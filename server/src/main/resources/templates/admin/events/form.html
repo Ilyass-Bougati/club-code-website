@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${eventItem.id != null ? 'Edit Event' : 'Add Event'} + ' - Club Code Admin'">Add/Edit Event - Club Code Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link th:href="@{/css/admin.css}" rel="stylesheet">
+</head>
+<body class="bg-light">
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="#" th:href="@{/admin/dashboard}">
+            <i class="fas fa-code me-2"></i><span class="d-none d-sm-inline">Club Code Admin</span><span class="d-sm-none">Admin</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user-circle me-1"></i> Admin
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="https://code.sefault.com"><i class="fas fa-home me-2"></i>View Site</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#" th:href="@{/logout}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-lg-2 col-md-3 d-md-block bg-white sidebar shadow-sm" id="sidebar">
+            <div class="position-sticky pt-3">
+                <div class="d-flex justify-content-between align-items-center mb-3 d-md-none">
+                    <h6 class="mb-0 text-primary">Menu</h6>
+                    <button class="btn-close" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar"></button>
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/dashboard}">
+                            <i class="fas fa-tachometer-alt me-2 text-primary"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/news}">
+                            <i class="fas fa-newspaper me-2 text-success"></i>
+                            <span>News</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link active d-flex align-items-center py-2" href="#" th:href="@{/admin/events}">
+                            <i class="fas fa-calendar-alt me-2 text-warning"></i>
+                            <span>Events</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/office-members}">
+                            <i class="fas fa-users me-2 text-info"></i>
+                            <span>Office Members</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/members}">
+                            <i class="fas fa-user-graduate me-2 text-warning"></i>
+                            <span>Members</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/sponsors}">
+                            <i class="fas fa-handshake me-2 text-success"></i>
+                            <span>Sponsors</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/areas-of-interest}">
+                            <i class="fas fa-tags me-2 text-primary"></i>
+                            <span>Areas of Interest</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="col-lg-10 col-md-9 ms-sm-auto px-md-4 py-4">
+            <!-- Page Header -->
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center pb-2 mb-4 border-bottom">
+                <h1 class="h2 text-primary mb-2 mb-sm-0">
+                    <i class="fas fa-calendar-alt me-2"></i>
+                    <span th:text="${eventItem.id != null ? 'Edit Event' : 'Add Event'}">Add Event</span>
+                </h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group">
+                        <a href="#" th:href="@{/admin/events}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-1"></i>Back to Events
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event Form -->
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <form th:action="@{/admin/events/save}" th:object="${eventItem}" method="post" enctype="multipart/form-data">
+                                <input type="hidden" th:field="*{id}">
+
+                                <!-- Title -->
+                                <div class="mb-4">
+                                    <label for="title" class="form-label fw-semibold">
+                                        <i class="fas fa-heading me-2 text-primary"></i>Event Title *
+                                    </label>
+                                    <input type="text" class="form-control form-control-lg"
+                                           th:field="*{title}" th:errorclass="is-invalid"
+                                           id="title" placeholder="Enter event title">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+                                </div>
+
+                                <!-- Event Type -->
+                                <div class="mb-4">
+                                    <label for="eventType" class="form-label fw-semibold">
+                                        <i class="fas fa-tag me-2 text-warning"></i>Event Type *
+                                    </label>
+                                    <select class="form-select" th:field="*{eventType}" id="eventType">
+                                        <option value="">Select Event Type</option>
+                                        <option th:each="t : ${T(com.code.server.enums.EventType).values()}" th:value="${t}" th:text="${t}"></option>
+                                    </select>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('eventType')}" th:errors="*{eventType}"></div>
+                                </div>
+
+                                <!-- Registration Settings -->
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" th:field="*{registrationOpen}" id="registrationOpen">
+                                            <label class="form-check-label fw-semibold" for="registrationOpen">
+                                                <i class="fas fa-user-plus me-2 text-info"></i>Registration Open
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" th:field="*{sponsored}" id="sponsored">
+                                            <label class="form-check-label fw-semibold" for="sponsored">
+                                                <i class="fas fa-handshake me-2 text-success"></i>Sponsored Event
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Registration Deadline (conditional) -->
+                                <div class="mb-4" id="registrationDeadlineSection" style="display: none;">
+                                    <label for="registrationDeadline" class="form-label fw-semibold">
+                                        <i class="fas fa-clock me-2 text-warning"></i>Registration Deadline
+                                    </label>
+                                    <input type="datetime-local" class="form-control"
+                                           th:field="*{registrationDeadline}" th:errorclass="is-invalid" id="registrationDeadline">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('registrationDeadline')}" th:errors="*{registrationDeadline}"></div>
+                                    <div class="form-text">Set the deadline for event registration</div>
+                                </div>
+
+                                <!-- Areas of Interest -->
+                                <div class="mb-4">
+                                    <label class="form-label fw-semibold">
+                                        <i class="fas fa-lightbulb me-2 text-primary"></i>Areas of Interest
+                                    </label>
+                                    <div class="row">
+                                        <div th:each="area : ${areasOfInterest}" class="col-md-6 mb-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" 
+                                                       th:value="${area.id}" 
+                                                       th:name="areaOfInterestIds"
+                                                       th:id="'area-' + ${area.id}"
+                                                       th:checked="${eventItem.areaOfInterestIds != null and #lists.contains(eventItem.areaOfInterestIds, area.id)}">
+                                                <label class="form-check-label" th:for="'area-' + ${area.id}" th:text="${area.name}">
+                                                    Area Name
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-text">Select the areas of interest this event relates to</div>
+                                </div>
+
+                                <!-- Sponsors (conditional) -->
+                                <div class="mb-4" id="sponsorsSection" style="display: none;">
+                                    <label class="form-label fw-semibold">
+                                        <i class="fas fa-handshake me-2 text-success"></i>Event Sponsors
+                                    </label>
+                                    <div class="row">
+                                        <div th:each="sponsor : ${sponsors}" class="col-md-6 mb-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" 
+                                                       th:value="${sponsor.id}" 
+                                                       th:name="sponsorIds"
+                                                       th:id="'sponsor-' + ${sponsor.id}"
+                                                       th:checked="${eventItem.sponsorIds != null and #lists.contains(eventItem.sponsorIds, sponsor.id)}">
+                                                <label class="form-check-label" th:for="'sponsor-' + ${sponsor.id}" th:text="${sponsor.name}">
+                                                    Sponsor Name
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-text">Select the sponsors for this event</div>
+                                </div>
+
+                                <!-- Published Status -->
+                                <div class="mb-4">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" th:field="*{published}" id="published">
+                                        <label class="form-check-label fw-semibold" for="published">
+                                            <i class="fas fa-globe me-2 text-info"></i>Published
+                                        </label>
+                                    </div>
+                                    <div class="form-text">Make this event visible to the public</div>
+                                </div>
+
+                                <!-- Image Upload -->
+                                <div class="mb-4">
+                                    <label for="imageFile" class="form-label fw-semibold">
+                                        <i class="fas fa-image me-2 text-success"></i>Event Image *
+                                    </label>
+                                    <input type="file" class="form-control" id="imageFile" name="imageFile" accept="image/*">
+                                    <div class="form-text">Upload an image for your event (JPG, PNG, GIF - Max 5MB)</div>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></div>
+                                    
+                                    <!-- Image Preview -->
+                                    <div id="imagePreview" class="mt-3" style="display: none;">
+                                        <div class="card border-0 shadow-sm">
+                                            <div class="card-body text-center">
+                                                <h6 class="card-title text-muted mb-3">Image Preview</h6>
+                                                <img id="previewImg" src="" alt="Preview" class="img-fluid rounded" style="max-height: 300px;">
+                                                <div class="mt-3">
+                                                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="removeImage()">
+                                                        <i class="fas fa-trash me-1"></i>Remove Image
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Current Image Display (for edit mode) -->
+                                    <div th:if="${eventItem.image != null}" class="mt-3">
+                                        <div class="card border-0 shadow-sm">
+                                            <div class="card-body text-center">
+                                                <h6 class="card-title text-muted mb-3">Current Image</h6>
+                                                <img th:src="${eventItem.image.uri}" th:alt="${eventItem.title}" class="img-fluid rounded" style="max-height: 300px;">
+                                                <div class="mt-3">
+                                                    <small class="text-muted">Upload a new image to replace this one</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Description -->
+                                <div class="mb-4">
+                                    <label for="description" class="form-label fw-semibold">
+                                        <i class="fas fa-edit me-2 text-primary"></i>Description *
+                                    </label>
+                                    <textarea class="form-control" th:field="*{description}" th:errorclass="is-invalid"
+                                              id="description" rows="6" placeholder="Describe your event..."></textarea>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+                                </div>
+
+                                <!-- Form Actions -->
+                                <div class="d-flex gap-3 pt-3 border-top">
+                                    <button type="submit" class="btn btn-success btn-lg flex-fill">
+                                        <i class="fas fa-save me-2"></i>
+                                        <span th:text="${eventItem.id != null ? 'Update Event' : 'Create Event'}">Create Event</span>
+                                    </button>
+                                    <a href="#" th:href="@{/admin/events}" class="btn btn-outline-secondary btn-lg">
+                                        <i class="fas fa-times me-2"></i>Cancel
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Show/hide registration deadline based on registration open checkbox
+    document.getElementById('registrationOpen').addEventListener('change', function() {
+        const deadlineSection = document.getElementById('registrationDeadlineSection');
+        if (this.checked) {
+            deadlineSection.style.display = 'block';
+        } else {
+            deadlineSection.style.display = 'none';
+            document.getElementById('registrationDeadline').value = '';
+        }
+    });
+
+    // Show/hide sponsors section based on sponsored checkbox
+    document.getElementById('sponsored').addEventListener('change', function() {
+        const sponsorsSection = document.getElementById('sponsorsSection');
+        if (this.checked) {
+            sponsorsSection.style.display = 'block';
+        } else {
+            sponsorsSection.style.display = 'none';
+            // Uncheck all sponsor checkboxes
+            document.querySelectorAll('input[name="sponsorIds"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+        }
+    });
+
+    // Image preview functionality
+    document.getElementById('imageFile').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('previewImg').src = e.target.result;
+                document.getElementById('imagePreview').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    function removeImage() {
+        document.getElementById('imageFile').value = '';
+        document.getElementById('imagePreview').style.display = 'none';
+        document.getElementById('previewImg').src = '';
+    }
+
+    // Initialize visibility on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        const registrationOpen = document.getElementById('registrationOpen');
+        const sponsored = document.getElementById('sponsored');
+        
+        if (registrationOpen) {
+            const deadlineSection = document.getElementById('registrationDeadlineSection');
+            if (registrationOpen.checked) {
+                deadlineSection.style.display = 'block';
+            }
+        }
+        
+        if (sponsored) {
+            const sponsorsSection = document.getElementById('sponsorsSection');
+            if (sponsored.checked) {
+                sponsorsSection.style.display = 'block';
+            }
+        }
+    });
+    
+    // Responsive sidebar toggle for mobile
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebarToggle = document.querySelector('[data-bs-toggle="collapse"]');
+        const sidebar = document.getElementById('sidebar');
+        
+        if (sidebarToggle && sidebar) {
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('show');
+            });
+            
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth < 768 && 
+                    !sidebar.contains(e.target) && 
+                    !sidebarToggle.contains(e.target)) {
+                    sidebar.classList.remove('show');
+                }
+            });
+        }
+        
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 768) {
+                sidebar.classList.remove('show');
+            }
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,6 +1,5 @@
 import { UUID } from "crypto"
 
-
 export type Image = {
     id?: UUID | string,
     uri: string,

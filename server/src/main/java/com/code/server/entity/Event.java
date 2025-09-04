@@ -40,7 +40,7 @@ public class Event {
     // separately through the service, which will cache it
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @PrimaryKeyJoinColumn
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image image;
 
     // This could become eagerly fetched later on
@@ -66,8 +66,12 @@ public class Event {
     private Set<Sponsor> sponsors = new HashSet<>();
 
     @ManyToOne
-    @PrimaryKeyJoinColumn
-    private Staff staff;
+    @JoinColumn(name = "member_id", referencedColumnName = "id")
+    private Member member;
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<Member> members;
 
     @NotNull
     private Boolean sponsored;
@@ -75,7 +79,6 @@ public class Event {
     @NotNull
     private Boolean registrationOpen;
 
-    @NotNull
     private LocalDateTime registrationDeadline;
 
     @CreationTimestamp

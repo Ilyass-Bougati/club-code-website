@@ -13,6 +13,6 @@ import java.util.UUID;
 public class AreaOfInterestDto {
     private UUID id;
 
-    @NotBlank
+    @NotBlank(message = "Area of interest name can't be empty or null")
     private String name;
 }

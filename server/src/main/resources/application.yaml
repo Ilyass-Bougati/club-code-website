@@ -1,15 +1,63 @@
 spring:
   application:
     name: code-backend
+  mvc:
+    hidden method:
+      filter:
+        enabled: true
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/code
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/code}
     username: ${SPRING_DATASOURCE_USERNAME:postgres}
     password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+    hikari:
+      idle-timeout: 300000     # 5 minutes (ms) before idle connection is closed
+      max-lifetime: 1800000    # 30 minutes (ms) max lifetime of a connection
+      minimum-idle: 0          # no idle connections
+      maximum-pool-size: 10    # max connections in pool
+
+  data:
+    redis:
+      url: ${REDIS_URL:redis://localhost:6379}
+      ssl:
+        enabled: false
+      repositories:
+        enabled: false
+
+      jedis:
+        pool:
+          enabled: true
+          min-idle: ${REDIS_MIN_IDLE:1}
+          max-active: ${REDIS_MAX_ACTIVE:3}
+          max-idle: ${REDIS_MAX_IDLE:1}
+
+  cache:
+    type: redis
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
     open-in-view: true
+
+jwt:
+  access-token-private-key: classpath:certs/private.pem
+  access-token-public-key: classpath:certs/public.pem
+
+# temporary storage location
+storage:
+  location: temp-dir
+
+cloudinary:
+  url: ${CLOUDINARY_URL:cloudinary://API_KEY:API_SECRET@CLOUD_NAME}
+
+springdoc:
+  api-docs:
+    enabled: ${SWAGGER_UI:true}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, prometheus

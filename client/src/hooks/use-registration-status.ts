@@ -17,7 +17,7 @@ const fetcher = async (url: string) => {
 
 export function useRegistrationStatus() {
   const { data, error, isLoading } = useSWR<{ isRegistrationOpen: boolean }>(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/registration`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/registration`,
     fetcher,
     {  
       refreshInterval: 5 * 60 * 1000,

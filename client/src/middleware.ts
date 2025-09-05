@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 
 export async function middleware(req: NextRequest) {
   const accessToken = req.cookies.get("access_token")?.value;
-  const refreshToken = req.cookies.get("refresh_token")?.value;
+  //const refreshToken = req.cookies.get("refresh_token")?.value;
   const { pathname } = req.nextUrl;
 
   // Redirect logged-in users away from /login
@@ -15,10 +15,10 @@ export async function middleware(req: NextRequest) {
   if (accessToken) return NextResponse.next();
 
   // Try to refresh the token if refreshToken exists
-  if (refreshToken) {
+  /*if (refreshToken) {
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/refresh`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/refresh`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -43,7 +43,7 @@ export async function middleware(req: NextRequest) {
       // Refresh failed → redirect to login
       return NextResponse.redirect(new URL("/login", req.url));
     }
-  }
+  }*/
 
   // No access or refresh token → redirect to login
   return NextResponse.redirect(new URL("/login", req.url));

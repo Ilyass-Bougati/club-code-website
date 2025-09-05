@@ -3,14 +3,15 @@ import { getNews } from "@/actions/news";
 
 interface NewsLayoutProps {
   children: React.ReactNode;
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export async function generateMetadata({
   params,
 }: NewsLayoutProps): Promise<Metadata> {
   const news = await getNews();
-  const newsItem = news.find((item) => item.id === params.id);
+  const { id } = await params;
+  const newsItem = news.find((item) => item.id === id);
 
   if (!newsItem) {
     return {

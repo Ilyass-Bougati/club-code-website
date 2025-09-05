@@ -203,3 +203,8 @@ body {
     opacity: 1;
   }
 }
+
+::selection {
+  background-color: var(--primary); 
+  color: var(--foreground);
+}

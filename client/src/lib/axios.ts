@@ -17,7 +17,7 @@ api.interceptors.response.use(
       try {
         // Attempt to refresh token
         await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/refresh`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/refresh`,
           {},
           { withCredentials: true }
         );

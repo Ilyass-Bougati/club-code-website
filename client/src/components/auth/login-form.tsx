@@ -15,7 +15,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import Logo from "./layouts/logo";
+import Logo from "../layouts/logo";
 import Link from "next/link";
 import api from "@/lib/axios";
 import { toast } from "sonner";

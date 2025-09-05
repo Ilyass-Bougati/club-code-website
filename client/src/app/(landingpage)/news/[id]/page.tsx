@@ -2,7 +2,6 @@
 import { getNews } from "@/actions/news";
 import NewsDetail from "@/components/news/news-detail";
 import RelatedNews from "@/components/news/related-news";
-import { News } from "@/types/backendTypes";
 import React from "react";
 
 interface NewsIdPageProps {

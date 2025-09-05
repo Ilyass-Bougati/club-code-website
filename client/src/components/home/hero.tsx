@@ -34,6 +34,8 @@ const item = {
   show: { opacity: 1, y: 0 },
 };
 
+
+
 export default function Hero() {
   const { theme } = useTheme();
 

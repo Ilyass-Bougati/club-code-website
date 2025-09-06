@@ -8,6 +8,7 @@ public class MemberMapperImpl implements MemberMapper {
     @Override
     public MemberDto toDTO(Member member) {
         return MemberDto.builder()
+                .id(member.getId())
                 .email(member.getEmail())
                 .phoneNumber(member.getPhoneNumber())
                 .firstName(member.getFirstName())

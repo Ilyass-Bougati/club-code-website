@@ -13,7 +13,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "areas_of_interest")
+@Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class AreaOfInterest {
     @Id

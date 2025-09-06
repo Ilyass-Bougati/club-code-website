@@ -18,7 +18,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "events")
+@Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Event {
     @Id

@@ -2,6 +2,7 @@ package com.code.server.controller;
 
 import com.code.server.dto.auth.LoginRequest;
 import com.code.server.dto.auth.RegistrationOpenResponse;
+import com.code.server.exception.Unauthorized;
 import com.code.server.service.jwt.Token;
 import com.code.server.service.jwt.TokenService;
 import com.code.server.dto.member.MemberRegisterRequest;
@@ -69,7 +70,7 @@ public class AuthController {
     @ResponseStatus(HttpStatus.OK)
     public void saveClient(Principal principal, @RequestBody @Valid MemberRegisterRequest registerRequest) {
         if (principal != null) {
-            throw new RuntimeException("Already logged in");
+            throw new Unauthorized("Already logged in");
         }
         memberService.register(registerRequest);
     }

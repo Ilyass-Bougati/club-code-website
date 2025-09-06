@@ -1,6 +1,7 @@
 package com.code.server.utils;
 
 public class CloudinaryUtils {
+
     public static String extractPublicId(String url) {
         // Example: https://res.cloudinary.com/demo/image/upload/v1620000000/myfolder/picture.png
         String[] parts = url.split("/upload/");

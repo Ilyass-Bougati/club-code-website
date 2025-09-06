@@ -39,6 +39,8 @@ public class SecurityConfig {
                         // auth API
                         .requestMatchers("/api/v1/auth/logout").authenticated()
                         .requestMatchers("/api/v1/auth/**").permitAll()
+                        // actuator
+                        .requestMatchers("/actuator/**").permitAll()
                         // public read APIs
                         .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
                         // admin login page and processing

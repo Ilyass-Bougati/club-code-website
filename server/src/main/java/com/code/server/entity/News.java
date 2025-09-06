@@ -17,7 +17,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "news")
+@Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class News {
     @Id

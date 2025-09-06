@@ -17,7 +17,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "members")
+@Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Member {
     @Id

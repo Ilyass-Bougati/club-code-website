@@ -8,4 +8,5 @@ import java.util.UUID;
 
 public interface NewsService extends CrudDtoService<UUID, NewsDto> {
     List<NewsDto> getAllNews();
+    void deleteOldNews();
 }

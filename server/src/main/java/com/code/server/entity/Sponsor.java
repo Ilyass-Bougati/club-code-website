@@ -14,7 +14,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "sponsors")
+@Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Sponsor {
     @Id

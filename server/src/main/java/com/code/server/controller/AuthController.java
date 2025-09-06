@@ -54,13 +54,17 @@ public class AuthController {
         Token token = tokenService.refreshToken(refreshToken);
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, CookieUtils.genCookie("access_token", token.getAccess_token(), 60 * 60, "/").toString())
-                .header(HttpHeaders.SET_COOKIE, CookieUtils.genCookie("refresh_token", token.getRefresh_token(), 60 * 60 * 24 * 7, "/").toString())
+                .header(HttpHeaders.SET_COOKIE, CookieUtils.genCookie("refresh_token", token.getRefresh_token(), 60 * 60 * 24 * 7, "/api/v1/auth/refresh").toString())
                 .body(Map.of("message", "Refresh in successfully"));
     }
 
     @PostMapping("/logout")
-    public void logout(@AuthenticationPrincipal CustomUserDetails principal) {
+    public ResponseEntity<?> logout(@AuthenticationPrincipal CustomUserDetails principal) {
         tokenService.revokeToken(principal);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, CookieUtils.genCookie("access_token", "", 0, "/").toString())
+                .header(HttpHeaders.SET_COOKIE, CookieUtils.genCookie("refresh_token", "", 0, "/").toString())
+                .body(Map.of("message", "Logout successfully"));
     }
 
     @PostMapping("/register")

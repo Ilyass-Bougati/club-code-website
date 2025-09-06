@@ -11,7 +11,7 @@ import java.time.Duration;
 public class RateLimitingConfig {
     @Bean
     public Bucket bucket() {
-        // Define the bandwidth with a limit of 5 tokens, refilled every minute
+        // Define the bandwidth with a limit of 10 tokens, refilled every minute
         Bandwidth limit = Bandwidth.builder()
                 .capacity(100)
                 .refillGreedy(10, Duration.ofMinutes(1))

@@ -17,7 +17,7 @@ public class DataPurgeSchedular {
     private final NewsService newsService;
 
     @Timed(value = "scheduled.deleteOldEvents", description = "Time taken run the scheduled job for deleting old events")
-    @Scheduled(cron = "*/10 * * * * *", zone = "Africa/Casablanca")
+    @Scheduled(cron = "0 0 12 * * *", zone = "Africa/Casablanca")
     public void deleteOldEvents() {
         eventService.deleteOldEvents();
         log.info("Old events deleted successfully");

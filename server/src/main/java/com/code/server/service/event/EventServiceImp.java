@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -99,5 +100,11 @@ public class EventServiceImp implements EventService {
     public List<EventDto> findAll() {
         return eventRepository.findAll()
                 .stream().map(eventMapper::toDTO).toList();
+    }
+
+    @Override
+    public void deleteOldEvents() {
+        LocalDateTime cutoff = LocalDateTime.now().minusMonths(1);
+        eventRepository.deleteOldEvents(cutoff);
     }
 }

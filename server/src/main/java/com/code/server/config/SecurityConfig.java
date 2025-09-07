@@ -63,7 +63,7 @@ public class SecurityConfig {
                 )
                 // configuring the UserDetailsService
                 .userDetailsService(customUserDetailsService)
-                .httpBasic(Customizer.withDefaults())
+                .httpBasic(AbstractHttpConfigurer::disable)
                 // Allow sessions for form login
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .addFilterBefore(jwtCookieFilter, UsernamePasswordAuthenticationFilter.class)

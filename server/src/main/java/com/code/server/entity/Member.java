@@ -55,6 +55,7 @@ public class Member {
     @OneToMany(mappedBy="member")
     private Set<Event> addedEvents = new HashSet<>();
 
+    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy="member")
     private Set<News> addedNews = new HashSet<>();

@@ -5,6 +5,8 @@ import com.code.server.exception.NotFoundException;
 import com.code.server.repository.MemberRepository;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -29,6 +31,7 @@ public class MemberEntityServiceImpl implements MemberEntityService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "memberCache", key = "#email")
     public Member findByEmail(String email) {
         return memberRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("Member not found"));

@@ -6,6 +6,9 @@ import com.code.server.entity.Sponsor;
 import com.code.server.exception.NotFoundException;
 import com.code.server.repository.SponsorRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +20,6 @@ import java.util.UUID;
 public class SponsorServiceImpl implements SponsorService {
 
     SponsorRepository sponsorRepository;
-
     SponsorMapper sponsorMapper;
 
     @Override
@@ -37,6 +39,7 @@ public class SponsorServiceImpl implements SponsorService {
     }
 
     @Override
+    @CacheEvict(value = "sponsorCache", key = "#uuid")
     public void delete(UUID uuid) {
         sponsorRepository.findById(uuid)
                 .orElseThrow(() -> new NotFoundException("Sponsor not found with UUID: " + uuid));
@@ -45,6 +48,7 @@ public class SponsorServiceImpl implements SponsorService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "sponsorCache", key = "#uuid")
     public SponsorDto findById(UUID uuid) {
         Sponsor sponsor = sponsorRepository.findById(uuid)
                 .orElseThrow(()-> new NotFoundException("Sponsor not found with UUID: " + uuid));

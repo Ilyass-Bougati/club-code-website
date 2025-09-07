@@ -39,9 +39,7 @@ export default function Header() {
 
   const handleLogout = async () => {
     try {
-      await api.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/logout`
-      );
+      await api.post(`api/v1/auth/logout`);
     } catch (err) {
       console.error("Logout failed", err);
     }
@@ -125,6 +123,7 @@ export default function Header() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, delay: 0.5 }}
+            className={cn(user && "px-4")}
           >
             {userLoading ? (
               <Loading />
@@ -133,7 +132,7 @@ export default function Header() {
                 <DropdownMenuTrigger asChild className="px-3">
                   <Avatar className="cursor-pointer">
                     <AvatarImage
-                      src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.firstName}+${user.lastName}`}
+                      src={"https://ziane-badreddine.vercel.app/avatar.jpeg"}
                     />
                     <AvatarFallback>
                       {user.firstName[0]}
@@ -195,21 +194,56 @@ export default function Header() {
 
         {/* Mobile nav toggle */}
         <div className="flex items-center gap-4 md:hidden px-4 md:px-6">
-          <ModeToggle />
           {userLoading ? (
             <Loading />
           ) : (
             user && (
-              <Link href="/profile">
-                <Avatar className="cursor-pointer">
-                  <AvatarImage
-                    src={`https://api.dicebear.com/7.x/initials/svg?seed=`}
-                  />
-                  <AvatarFallback></AvatarFallback>
-                </Avatar>
-              </Link>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild className="px-3">
+                  <Avatar className="cursor-pointer">
+                    <AvatarImage
+                      src={"https://ziane-badreddine.vercel.app/avatar.jpeg"}
+                    />
+                    <AvatarFallback>
+                      {user.firstName[0]}
+                      {user.lastName[0]}
+                    </AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuLabel>
+                    <div className="flex flex-col">
+                      <span className="font-semibold">
+                        {user.firstName} {user.lastName}
+                      </span>
+                      <span className="text-sm text-muted-foreground">
+                        {user.email}
+                      </span>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile" className="flex items-center gap-2">
+                      <User className="w-4 h-4" /> Profile
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/settings" className="flex items-center gap-2">
+                      <Settings className="w-4 h-4" /> Settings
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={handleLogout}
+                    className="flex items-center gap-2"
+                  >
+                    <LogOut className="w-4 h-4" /> Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             )
           )}
+          <ModeToggle />
           <Button
             variant="ghost"
             size="icon"

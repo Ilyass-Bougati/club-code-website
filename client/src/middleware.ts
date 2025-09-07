@@ -28,7 +28,7 @@ export async function middleware(req: NextRequest) {
 
       if (!res.ok) throw new Error("Refresh token failed");
 
-      const data = await res.json();
+      const data = await res.json();  
       const newAccessToken = data.accessToken;
 
       // Set new access_token cookie
@@ -44,9 +44,6 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL("/login", req.url));
     }
   }*/
-
-  // No access or refresh token → redirect to login
-  return NextResponse.redirect(new URL("/login", req.url));
 }
 
 export const config = {

@@ -41,24 +41,6 @@ public class RedisConfig {
         return template;
     }
 
-//    @Bean
-//    public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
-//        ObjectMapper mapper = new ObjectMapper();
-//        mapper.registerModule(new JavaTimeModule());
-//        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-//
-//        GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer(mapper);
-//
-//        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
-//                .entryTtl(Duration.ofMinutes(60))
-//                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
-//                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer));
-//
-//        return RedisCacheManager.builder(connectionFactory)
-//                .cacheDefaults(config)
-//                .build();
-//    }
-
     @Bean
     public CacheManager cacheManager(LettuceConnectionFactory connectionFactory) {
 

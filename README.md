@@ -13,4 +13,4 @@
 </a>
 
 
-*Code Club* is a student-led initiative at *FST Settat*, created by engineering students passionate about turning theory into practice. Our mission is to share knowledge, build skills, and collaborate through.
+*Code Club* is a student-led initiative at *FST Settat*, created by computer science students passionate about turning theory into practice. Our mission is to share knowledge, build skills, and collaborate through.

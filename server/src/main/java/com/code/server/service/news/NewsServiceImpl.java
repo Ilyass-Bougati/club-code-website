@@ -7,6 +7,9 @@ import com.code.server.exception.NotFoundException;
 import com.code.server.repository.NewsRepository;
 import com.code.server.service.Image.ImageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,14 +25,13 @@ import java.util.stream.Collectors;
 public class NewsServiceImpl implements NewsService{
 
     private final NewsRepository newsRepository;
-
     private final NewsMapper newsMapper;
-
     private final ImageService imageService;
 
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "newsCache", key = "#id")
     public NewsDto findById(UUID id) {
         return newsRepository.findById(id)
                 .map(newsMapper::toDTO)
@@ -45,6 +47,10 @@ public class NewsServiceImpl implements NewsService{
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "newsCache", key = "#id"),
+            @CacheEvict(value = "allNewsCache", key = "'ALL_NEWS'")
+    })
     public void delete(UUID id) {
          News news = newsRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("News not found with UUID: " + id));
@@ -55,6 +61,7 @@ public class NewsServiceImpl implements NewsService{
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "allNewsCache", key = "'ALL_NEWS'")
     public List<NewsDto> getAllNews() {
         return newsRepository.findAll()
                 .stream()

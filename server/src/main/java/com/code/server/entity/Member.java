@@ -50,6 +50,7 @@ public class Member {
     @NotNull
     private UserRole role = UserRole.USER;
 
+    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy="member")
     private Set<Event> addedEvents = new HashSet<>();

@@ -1,16 +1,20 @@
-"use client"
 
-import { useUser } from "@/hooks/use-user"
 
-export default function TestPage() {
-  const { user, loading, mutate } = useUser()
+import { getSession } from "@/actions/getSession"
 
-  if (loading) return <p>Chargement...</p>
+export default async function TestPage() {
+  const user = await getSession()
+
+  if (!user) {
+    return <div>Vous devez être connecté.</div>
+  }
+
   return (
     <div>
-      <h1>Bonjour {user?.firstName} {user?.lastName}</h1>
-      <p>Email: {user?.email}</p>
-      <button onClick={() => mutate()}>Rafraîchir</button>
+      <h1>Bienvenue {user.firstName} {user.lastName} 👋</h1>
+      <p>Email: {user.email}</p>
+      <p>Téléphone: {user.phoneNumber}</p>
+      <p>Créé le: {new Date(user.createdAt).toLocaleString()}</p>
     </div>
   )
 }

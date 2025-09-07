@@ -1,38 +1,37 @@
-"use client"
+"use client";
 
-import useSWR from "swr"
-
-import { toast } from "sonner"
-import api from "@/lib/axios"
+import useSWR from "swr";
+import api from "@/lib/axios"; // ⚡ seulement api, pas publicApi
 
 export interface User {
-  id: string
-  email: string
-  firstName: string
-  lastName: string
-  phoneNumber: string
-  createdAt: string
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  createdAt: string;
 }
 
-// fetcher avec axios
 const fetcher = async (url: string) => {
-  const res = await api.get<User>(url)
-  return res.data
-}
+  const res = await api.get(url); // ⚡ utilise api => envoie cookies HttpOnly
+  return res.data;
+};
 
 export function useUser() {
-  const { data, error, isLoading, mutate } = useSWR("/api/v1/member", fetcher, {
-    shouldRetryOnError: true, 
-  })
-  
-  if (error) {
-    toast.error(error?.response?.data?.message || "Erreur lors de la récupération de l'utilisateur")
-  }
+  const { data, error, isLoading, mutate } = useSWR<User>(
+    "/api/v1/member", // ⚡ pas besoin du full URL, api a déjà baseURL
+    fetcher,
+    {
+      shouldRetryOnError: true,
+      dedupingInterval: 3600 * 1000, // 1h: évite les re-fetch répétés
+      revalidateOnFocus: false, // pas de revalidation en revenant sur la page
+    }
+  );
 
   return {
     user: data ?? null,
     loading: isLoading,
     error,
-    mutate, 
-  }
+    mutate,
+  };
 }

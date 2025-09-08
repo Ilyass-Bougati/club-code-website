@@ -1,10 +1,10 @@
 
-
-import { getSession, SessionUser } from "@/actions/getSession";
+import { getSession } from "@/actions/getSession";
+export const dynamic = "force-dynamic";
 
 export default async function TestPage() {
   // ⚡ Appel côté serveur
-  const user: SessionUser | null = await getSession();
+  const user= await getSession();
 
   return (
     <div className="container mx-auto p-8">

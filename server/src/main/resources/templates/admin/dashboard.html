@@ -104,6 +104,21 @@
                         <a href="#" th:href="@{/admin/export}" class="btn btn-sm btn-outline-secondary">
                             <i class="fas fa-download me-1"></i><span class="d-none d-sm-inline">Export</span>
                         </a>
+                        <div th:if="${isSuperAdmin}" class="btn-group ms-2">
+                            <span class="btn btn-sm btn-outline-info disabled">
+                                <i class="fas fa-user-check me-1"></i>
+                                <span th:text="${registrationOpen == true ? 'Registration: Open' : 'Registration: Closed'}">Registration: Closed</span>
+                            </span>
+                            <form th:action="@{/admin/toggle-registration}" method="post" class="d-inline">
+                                <button type="submit" 
+                                        th:class="'btn btn-sm ' + ${registrationOpen == true ? 'btn-danger' : 'btn-success'}"
+                                        th:text="${registrationOpen == true ? 'Close Registration' : 'Open Registration'}"
+                                        th:title="${registrationOpen == true ? 'Click to close registration' : 'Click to open registration'}"
+                                        onclick="return confirm('Are you sure you want to toggle registration status?')">
+                                    Toggle Registration
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -134,6 +149,24 @@
                                 <div class="flex-grow-1 ms-3">
                                     <div class="text-xs fw-bold text-primary text-uppercase mb-1">Total Members</div>
                                     <div class="h5 mb-0 fw-bold text-gray-800" th:text="${totalMembers}">0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-xl-3" th:if="${isSuperAdmin}">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <div th:class="'bg-gradient rounded-circle p-2 p-sm-3 ' + ${registrationOpen == true ? 'bg-success' : 'bg-danger'}">
+                                        <i th:class="'text-white fa-lg ' + ${registrationOpen == true ? 'fas fa-unlock' : 'fas fa-lock'}"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <div th:class="'text-xs fw-bold text-uppercase mb-1 ' + ${registrationOpen == true ? 'text-success' : 'text-danger'}">Registration</div>
+                                    <div th:class="'h5 mb-0 fw-bold ' + ${registrationOpen == true ? 'text-success' : 'text-danger'}" th:text="${registrationOpen == true ? 'Open' : 'Closed'}">Closed</div>
                                 </div>
                             </div>
                         </div>

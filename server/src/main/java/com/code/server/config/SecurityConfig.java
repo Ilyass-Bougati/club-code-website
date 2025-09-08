@@ -26,7 +26,6 @@ public class SecurityConfig {
     private final JwtCookieFilter jwtCookieFilter;
 
     @Bean
-    @Order(1)
     public SecurityFilterChain adminFilterChain(HttpSecurity http) throws Exception {
         // Note: CSRF disabled for simplicity for admin forms; consider enabling with tokens in production
         return http
@@ -57,7 +56,6 @@ public class SecurityConfig {
     }
 
     @Bean
-    @Order(2)
     public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
         // Note: CSRF disabled for simplicity for admin forms; consider enabling with tokens in production
         return http

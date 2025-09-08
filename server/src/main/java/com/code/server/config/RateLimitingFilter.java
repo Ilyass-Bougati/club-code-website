@@ -33,14 +33,14 @@ public class RateLimitingFilter extends OncePerRequestFilter {
 
         // Exclude certain routes
         if (path.startsWith("/admin")) {
-            if (!allowedAdminIpEntityService.ipExists(clientIp)) {
-                if (!IpUtils.adminReachTries.containsKey(clientIp)) {
-                    IpUtils.adminReachTries.put(clientIp, LocalDateTime.now());
-                    log.info("Admin was reached by {}", clientIp);
-                }
-                response.setStatus(403); // Unauthorized
-                return;
-            }
+//            if (!allowedAdminIpEntityService.ipExists(clientIp)) {
+//                if (!IpUtils.adminReachTries.containsKey(clientIp)) {
+//                    IpUtils.adminReachTries.put(clientIp, LocalDateTime.now());
+//                    log.info("Admin was reached by {}", clientIp);
+//                }
+//                response.setStatus(403); // Unauthorized
+//                return;
+//            }
             filterChain.doFilter(request, response);
             return;
         }

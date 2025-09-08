@@ -4,7 +4,7 @@ import { useUser } from "@/hooks/use-user";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-  const user = useUser();
+  const {user} = useUser();
   const router = useRouter();
 
   if (user) {

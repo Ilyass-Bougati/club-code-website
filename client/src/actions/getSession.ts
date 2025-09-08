@@ -15,18 +15,13 @@ export interface SessionUser {
 export async function getSession(): Promise<SessionUser | null> {
   try {
     const cookieStore = await cookies();
-    const allCookies = cookieStore.getAll();
-    const cookieHeader = allCookies
-      .map((c) => `${c.name}=${c.value}`)
-      .join("; ");
-
-    if (!cookieHeader.includes("access_token")) return null; // pas de token → pas de session
+    const accessToken = cookieStore.get("access_token")?.value;
+    if (!accessToken) return null;
 
     const res = await api.get<SessionUser>("/api/v1/member", {
       headers: {
-        Cookie: cookieHeader, // ⚡ envoie explicitement cookies HttpOnly
+        Authorization: `Bearer ${accessToken}`,
       },
-      withCredentials: true,
     });
 
     return res.data;

@@ -2,6 +2,7 @@ package com.code.server.config;
 
 import com.code.server.service.member.security.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -73,6 +74,13 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public ServletContextInitializer initializer() {
+        return servletContext -> {
+            servletContext.getSessionCookieConfig().setPath("/admin");
+        };
     }
 
 }

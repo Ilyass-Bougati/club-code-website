@@ -1,9 +1,9 @@
 
+"use client"
+import { useUser } from "@/hooks/use-user"
 
-import { getSession } from "@/actions/getSession"
-
-export default async function TestPage() {
-  const user = await getSession()
+export default function TestPage() {
+  const {user} = useUser()
 
   if (!user) {
     return <div>Vous devez être connecté.</div>

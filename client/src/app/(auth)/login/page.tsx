@@ -1,13 +1,14 @@
-import { getSession } from "@/actions/getSession";
+"use client";
 import { LoginForm } from "@/components/auth/login-form";
-import { redirect } from "next/navigation";
-import React from "react";
+import { useUser } from "@/hooks/use-user";
+import { useRouter } from "next/navigation";
 
-export default async function LoginPage() {
-  const user = await getSession();
+export default function LoginPage() {
+  const user = useUser();
+  const router = useRouter();
 
   if (user) {
-    redirect("/")
+    router.push("/");
   }
   return (
     <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">

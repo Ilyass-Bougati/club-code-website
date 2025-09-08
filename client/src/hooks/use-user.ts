@@ -18,7 +18,7 @@ const fetcher = async (url: string) => {
 };
 
 export function useUser() {
-  const { data, error, isLoading, mutate } = useSWR<User>(
+  const { data, error, isLoading, mutate } = useSWR<User | null>(
     "/api/v1/member", // ⚡ pas besoin du full URL, api a déjà baseURL
     fetcher,
     {

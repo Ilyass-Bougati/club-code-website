@@ -29,7 +29,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const { isRegistrationOpen, loading } = useRegistrationStatus();
-  const { user, loading: userLoading } = useUser();
+  const { user, loading: userLoading, mutate } = useUser();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
@@ -40,6 +40,7 @@ export default function Header() {
   const handleLogout = async () => {
     try {
       await api.post(`api/v1/auth/logout`);
+      mutate(null, false);
     } catch (err) {
       console.error("Logout failed", err);
     }

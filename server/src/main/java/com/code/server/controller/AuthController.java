@@ -41,7 +41,7 @@ public class AuthController {
     public ResponseEntity<?> token(@RequestBody @Valid LoginRequest loginRequest) {
         Token token = tokenService.login(loginRequest);
         return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, CookieUtils.genCookie("access_token", token.getAccess_token(),  60 * 60, "/").toString())
+                .header(HttpHeaders.SET_COOKIE, CookieUtils.genCookie("access_token", token.getAccess_token(),  2 * 60 * 60, "/").toString())
                 .header(HttpHeaders.SET_COOKIE, CookieUtils.genCookie("refresh_token", token.getRefresh_token(), 60 * 60 * 24 * 7, "/api/v1/auth/refresh").toString())
                 .body(Map.of("message", "Logged in successfully"));
     }
@@ -51,7 +51,7 @@ public class AuthController {
     public ResponseEntity<?> refreshToken(@CookieValue(name = "refresh_token", required = true) String refreshToken) {
         Token token = tokenService.refreshToken(refreshToken);
         return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, CookieUtils.genCookie("access_token", token.getAccess_token(),  60 * 60, "/").toString())
+                .header(HttpHeaders.SET_COOKIE, CookieUtils.genCookie("access_token", token.getAccess_token(),  2 * 60 * 60, "/").toString())
                 .header(HttpHeaders.SET_COOKIE, CookieUtils.genCookie("refresh_token", token.getRefresh_token(), 60 * 60 * 24 * 7, "/api/v1/auth/refresh").toString())
                 .body(Map.of("message", "Refresh in successfully"));
     }

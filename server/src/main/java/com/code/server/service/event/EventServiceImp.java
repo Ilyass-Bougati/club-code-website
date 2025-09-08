@@ -18,10 +18,13 @@ import com.code.server.service.sponsor.SponsorEntityService;
 import com.code.server.service.sponsor.SponsorService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -82,6 +85,7 @@ public class EventServiceImp implements EventService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "eventCache", key = "#uuid")
     public EventDto findById(UUID uuid) {
         return eventRepository.findById(uuid)
                 .map(eventMapper::toDTO)
@@ -90,6 +94,7 @@ public class EventServiceImp implements EventService {
 
 
     @Override
+    @Cacheable(value = "eventCachePages", key = "#page")
     public List<EventDto> getPage(Integer page, Integer limit) {
         return eventRepository.getPage(limit, page * limit)
                 .stream().map(eventMapper::toDTO).toList();
@@ -99,5 +104,11 @@ public class EventServiceImp implements EventService {
     public List<EventDto> findAll() {
         return eventRepository.findAll()
                 .stream().map(eventMapper::toDTO).toList();
+    }
+
+    @Override
+    public void deleteOldEvents() {
+        LocalDateTime cutoff = LocalDateTime.now().minusMonths(1);
+        eventRepository.deleteOldEvents(cutoff);
     }
 }

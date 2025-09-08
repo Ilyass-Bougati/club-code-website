@@ -1,0 +1,8 @@
+services:
+  grafana-agent:
+    image: grafana/agent:latest
+    volumes:
+      - ./agent.yaml:/etc/agent/agent.yaml
+      - ./wal:/tmp/wal
+    command: --config.file=/etc/agent/agent.yaml
+    restart: unless-stopped

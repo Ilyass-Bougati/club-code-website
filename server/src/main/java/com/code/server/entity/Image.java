@@ -13,7 +13,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "images")
+@Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Image {
     @Id

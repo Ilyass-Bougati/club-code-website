@@ -1,6 +1,7 @@
 package com.code.server.entity;
 
 import com.code.server.enums.UserRole;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -17,7 +18,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "members")
+@Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Member {
     @Id
@@ -27,6 +28,7 @@ public class Member {
 
     @Email
     @NotBlank
+    @Column(nullable = false, unique = true)
     private String email;
 
     @NotBlank
@@ -48,10 +50,12 @@ public class Member {
     @NotNull
     private UserRole role = UserRole.USER;
 
+    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy="member")
     private Set<Event> addedEvents = new HashSet<>();
 
+    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy="member")
     private Set<News> addedNews = new HashSet<>();

@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,17 +23,47 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
-
     private final JwtCookieFilter jwtCookieFilter;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    @Order(1)
+    public SecurityFilterChain adminFilterChain(HttpSecurity http) throws Exception {
         // Note: CSRF disabled for simplicity for admin forms; consider enabling with tokens in production
         return http
+                .securityMatcher("/admin/**", "/login", "/logout")
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
                         // static assets and public pages
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                        // admin login page and processing
+                        .requestMatchers("/admin/login").permitAll()
+                        // everything else under admin requires ADMIN role
+                        .requestMatchers("/admin/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
+                )
+                .formLogin(form -> form
+                        .loginPage("/admin/login")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/admin/dashboard", true)
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/admin/login?logout")
+                        .permitAll()
+                )
+                // Allow sessions for form login
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                .build();
+    }
+
+    @Bean
+    @Order(2)
+    public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
+        // Note: CSRF disabled for simplicity for admin forms; consider enabling with tokens in production
+        return http
+                .securityMatcher("/api/**")
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(request -> request
                         // swagger
                         .requestMatchers("/v3/**").permitAll()
                         .requestMatchers("/swagger").permitAll()
@@ -46,27 +77,13 @@ public class SecurityConfig {
                         // public read APIs
                         .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
                         // admin login page and processing
-                        .requestMatchers("/admin/login").permitAll()
-                        // everything else under admin requires ADMIN role
-                        .requestMatchers("/admin/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
                         .anyRequest().hasAnyRole("ADMIN", "SUPER_ADMIN")
-                )
-                .formLogin(form -> form
-                        .loginPage("/admin/login")
-                        .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/admin/dashboard", true)
-                        .permitAll()
-                )
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/admin/login?logout")
-                        .permitAll()
                 )
                 // configuring the UserDetailsService
                 .userDetailsService(customUserDetailsService)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 // Allow sessions for form login
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtCookieFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

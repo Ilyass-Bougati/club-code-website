@@ -1,18 +1,23 @@
 import { redirect } from "next/navigation";
-import { getSession } from "@/actions/getSession";
 import { isDateRegistration } from "@/actions/is-date-registration";
-import RegisterForm from "@/components/register/register-form";
+import RegisterClientPage from "@/components/register/register-client";
+import Header from "@/components/layouts/header";
+
 
 export default async function RegisterPage() {
-  const session = await getSession();
-  if (session) {
-    redirect("/"); 
-  }
-
   const allowed = await isDateRegistration();
+
   if (!allowed) {
-    redirect("/"); 
+    redirect("/");
   }
 
-  return <RegisterForm />;
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Header />
+
+      <main className="flex-1 flex items-center justify-center px-4">
+        <RegisterClientPage />
+      </main>
+    </div>
+  )
 }

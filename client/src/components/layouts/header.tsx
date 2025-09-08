@@ -3,7 +3,7 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { LogIn, LogOut, Menu, Settings, User, X } from "lucide-react";
+import { LogIn, LogOut, Menu, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { motion } from "motion/react";
 import { usePathname } from "next/navigation";
@@ -129,10 +129,12 @@ export default function Header() {
               <Loading />
             ) : user ? (
               <DropdownMenu>
-                <DropdownMenuTrigger asChild className="px-3">
+                <DropdownMenuTrigger asChild>
                   <Avatar className="cursor-pointer">
                     <AvatarImage
-                      src={"https://ziane-badreddine.vercel.app/avatar.jpeg"}
+                      src={
+                        "https://w7.pngwing.com/pngs/945/530/png-transparent-male-avatar-boy-face-man-user-flat-classy-users-icon.png"
+                      }
                     />
                     <AvatarFallback>
                       {user.firstName[0]}
@@ -151,17 +153,6 @@ export default function Header() {
                       </span>
                     </div>
                   </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <Link href="/profile" className="flex items-center gap-2">
-                      <User className="w-4 h-4" /> Profile
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/settings" className="flex items-center gap-2">
-                      <Settings className="w-4 h-4" /> Settings
-                    </Link>
-                  </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
                     onClick={handleLogout}
@@ -199,10 +190,12 @@ export default function Header() {
           ) : (
             user && (
               <DropdownMenu>
-                <DropdownMenuTrigger asChild className="px-3">
+                <DropdownMenuTrigger asChild>
                   <Avatar className="cursor-pointer">
                     <AvatarImage
-                      src={"https://ziane-badreddine.vercel.app/avatar.jpeg"}
+                      src={
+                        "https://w7.pngwing.com/pngs/945/530/png-transparent-male-avatar-boy-face-man-user-flat-classy-users-icon.png"
+                      }
                     />
                     <AvatarFallback>
                       {user.firstName[0]}
@@ -221,17 +214,6 @@ export default function Header() {
                       </span>
                     </div>
                   </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <Link href="/profile" className="flex items-center gap-2">
-                      <User className="w-4 h-4" /> Profile
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/settings" className="flex items-center gap-2">
-                      <Settings className="w-4 h-4" /> Settings
-                    </Link>
-                  </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
                     onClick={handleLogout}

@@ -124,7 +124,7 @@ export default function MeetTheTeam() {
                         </AvatarFallback>
                       </Avatar>
                       <h3 className="text-sm font-semibold text-center transition-all duration-300  group-hover:underline underline-offset-2 group-hover:text-primary">
-                        {member.firstName} + {member.lastName}
+                        {member.firstName} {" "} {member.lastName}
                       </h3>
                       <p className="text-xs text-muted-foreground text-center">
                         {member.position}

@@ -251,18 +251,21 @@ export default function Header() {
           >
             <div className="container mx-auto py-4 flex flex-col gap-4 px-4 capitalize">
               {navLinks.map((item, i) => (
-                <motion.a
-                  key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.2, delay: i * 0.05 }}
-                  href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="py-2 text-sm font-medium flex items-center gap-2 relative overflow-hidden group border-b box-border/30 pb-5"
+                <motion.div
+                  key={item.href}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: 0.1 + i * 0.05 }}
                 >
-                  <span className="relative z-10">{item.name}</span>
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-                </motion.a>
+                  <Link
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="py-2 text-sm font-medium flex items-center gap-2 relative overflow-hidden group border-b box-border/30 pb-5"
+                  >
+                    <span className="relative z-10">{item.name}</span>
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                  </Link>
+                </motion.div>
               ))}
 
               <motion.div
@@ -279,7 +282,7 @@ export default function Header() {
                     <Loading />
                   </Button>
                 ) : (
-                  isRegistrationOpen &&
+                  !isRegistrationOpen &&
                   !user && (
                     <Link
                       href="/register"
@@ -304,7 +307,7 @@ export default function Header() {
                 ) : (
                   !user && (
                     <Link href="/login">
-                      <Button className="w-full justify-center  rounded-full opacity-70">
+                      <Button variant={"outline"} className="w-full justify-center  rounded-full ">
                         <LogIn className=" animate-pulse" />
                         Login
                       </Button>

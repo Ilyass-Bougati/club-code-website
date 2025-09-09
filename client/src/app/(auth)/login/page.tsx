@@ -25,12 +25,10 @@ export default function LoginPage() {
     );
   }
 
-  if (error) {
-    return null;
-  }
+
 
   return (
-    <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
+    <div className="bg-background flex min-h-[80vh] flex-col items-center justify-center gap-6 p-6 md:p-10">
       <div className="w-full max-w-sm">
         <LoginForm />
       </div>

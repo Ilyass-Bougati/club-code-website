@@ -9,11 +9,11 @@ export function Loading({ className }: LoadingProps) {
   return (
     <div
       className={cn(
-        "flex items-center justify-center min-h-screen",
+        "flex items-center justify-center min-h-screen text-primary",
         className
       )}
     >
-     <Spinner variant="bars" className="text-primary" /> 
+     <Spinner variant="bars" /> 
     </div>
   );
 }

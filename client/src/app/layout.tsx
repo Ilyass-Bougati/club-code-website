@@ -119,7 +119,7 @@ export default async function RootLayout({
           {children}
 
           <Analytics />
-          <Toaster richColors position="top-right" />
+          <Toaster richColors  />
         </ThemeProvider>
       </body>
     </html>

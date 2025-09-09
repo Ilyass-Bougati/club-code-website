@@ -2,11 +2,16 @@
 
 import React, { useEffect, useState } from "react"
 import { motion } from "framer-motion"
-import { officeMembers } from "@/seed/office-members"
 import OfficeMemberCard from "./office-member-card"
+import { fetchMembers, OfficeMember } from "@/actions/fetchMembers"
 
 export default function TeamTreePage2() {
     const [hasMounted, setHasMounted] = useState(false)
+    const [officeMembers, setOfficeMembers] = useState<OfficeMember[]>([]);
+
+     useEffect(() => {
+    fetchMembers().then(setOfficeMembers);
+  }, []);
 
     useEffect(() => {
         setHasMounted(true)
@@ -66,7 +71,6 @@ export default function TeamTreePage2() {
                     <div className="grid grid-cols-2 md:flex md:flex-row justify-center gap-5">
                         <OfficeMemberCard member={president} />
                         <OfficeMemberCard member={vp} />
-                        <OfficeMemberCard member={tresor} />
                         {consultants.map((c) => (
                             <OfficeMemberCard key={c.id} member={c} />
                         ))}
@@ -82,6 +86,7 @@ export default function TeamTreePage2() {
                     <div className="grid grid-cols-2 md:flex md:flex-row justify-center gap-5">
                         <OfficeMemberCard member={rh} />
                         <OfficeMemberCard member={sg} />
+                        <OfficeMemberCard member={tresor} />
                         <OfficeMemberCard member={communication} />
                         <OfficeMemberCard member={media} />
                     </div>

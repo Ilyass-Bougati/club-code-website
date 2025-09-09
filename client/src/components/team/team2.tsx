@@ -47,7 +47,8 @@ export default function TeamTreePage2() {
     //devs
     const front = findDevs("frontend developer")
     const back = findDevs("backend developer")
-    const devops = findDevs("devops")
+    const leader = findDevs("Project leader - backend - devops")
+    const admin = findDevs("Backend Developer – Admin Dashboard")
 
     if (!president) return null
 
@@ -282,12 +283,15 @@ export default function TeamTreePage2() {
                             <OfficeMemberCard key={c.id} member={c} />
                         ))}
                         
-                        {devops.map((c) => (
+                        {leader.map((c) => (
                             <OfficeMemberCard key={c.id} member={c} />
                         ))}
                     </div>
                 <div className="grid grid-cols-2 md:flex md:flex-row justify-center gap-5 mt-5">
                     {back.map((c) => (
+                            <OfficeMemberCard key={c.id} member={c} />
+                        ))}
+                    {admin.map((c) => (
                             <OfficeMemberCard key={c.id} member={c} />
                         ))}
                 </div>

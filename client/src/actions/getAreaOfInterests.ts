@@ -6,7 +6,6 @@ export interface AreaOfInterest {
 export async function fetchAreaOfInterests(): Promise<AreaOfInterest[]> {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/areaOfInterest`, {
-            cache: "default",
             next: { revalidate: 300 }
         });
 

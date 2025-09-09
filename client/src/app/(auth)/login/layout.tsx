@@ -1,9 +1,5 @@
-import { redirect } from "next/navigation";
-import { isDateRegistration } from "@/actions/is-date-registration";
-import RegisterClientPage from "@/components/register/register-client";
 import Header from "@/components/layouts/header";
 import { Metadata } from "next";
-
 
 export const metadata: Metadata = {
   title: "Login - Code Club FST Settat",
@@ -21,19 +17,17 @@ export const metadata: Metadata = {
   authors: [{ name: "Code Club FST Settat" }],
 };
 
-export default async function RegisterPage() {
-  const allowed = await isDateRegistration();
-
-  if (!allowed) {
-    redirect("/");
-  }
-
+export default function LoginLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-[80vh] flex flex-col">
       <Header />
 
       <main className="flex-1 flex items-center justify-center px-4">
-        <RegisterClientPage />
+        {children}
       </main>
     </div>
   );

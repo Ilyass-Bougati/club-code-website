@@ -24,7 +24,7 @@ export default async function RegisterPage() {
   const allowed = await isDateRegistration();
 
   if (!allowed) {
-    redirect("/");
+    redirect("/");  
   } 
 
   return (

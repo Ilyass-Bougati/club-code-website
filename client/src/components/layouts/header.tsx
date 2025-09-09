@@ -282,7 +282,7 @@ export default function Header() {
                     <Loading />
                   </Button>
                 ) : (
-                  !isRegistrationOpen &&
+                  isRegistrationOpen &&
                   !user && (
                     <Link
                       href="/register"

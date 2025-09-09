@@ -26,6 +26,10 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { fetchAreaOfInterests, AreaOfInterest } from "@/actions/getAreaOfInterests";
 import { registerAction } from "@/actions/register";
+import { Checkbox } from "../ui/checkbox";
+import { Label } from "../ui/label";
+import Link from "next/link";
+import { toast } from "sonner";
 
 const areaOfInterestSchema = z.object({
     id: z.string().uuid().optional(),
@@ -53,8 +57,9 @@ const schema = z.object({
         .regex(/[0-9]/, "Password must contain at least one number")
         .regex(/[^A-Za-z0-9]/, "Password must contain at least one special character"),
     phoneNumber: z
-        .string()
-        .regex(/^\+?[1-9][0-9]{6,14}$/, "Invalid phone number"),
+  .string()
+  .regex(/^[0-9]{10}$/, "Le numéro doit contenir exactement 10 chiffres"),
+
     year: z
         .number()
         .int()
@@ -110,8 +115,11 @@ export default function RegisterForm() {
     const onSubmit = async (values: FormFields) => {
         try {
             const response = await registerAction(values);
+            toast.success("Registration successful!");
+            form.reset();
             console.log("Registered successfully:", response);
         } catch (err: unknown) {
+            toast.error("Registration failed. Please try again.");
             console.error("Registration error:", err);
         }
     };
@@ -242,7 +250,7 @@ export default function RegisterForm() {
                                                     <FormControl>
                                                         <Input
                                                             className="border-secondary"
-                                                            placeholder="+212600112233"
+                                                            placeholder="0611223344"
                                                             {...field}
                                                         />
                                                     </FormControl>
@@ -352,6 +360,11 @@ export default function RegisterForm() {
                                                 </FormItem>
                                             )}
                                         />
+                                    </div>
+
+                                    <div className="flex justify-center items-center gap-3">
+                                        <Checkbox className="border-primary" id="terms" />
+                                        <Label htmlFor="terms">Accept<Link className="text-secondary dark:text-primary" href="/policy">Terms of policy</Link></Label>
                                     </div>
 
                                     <Button

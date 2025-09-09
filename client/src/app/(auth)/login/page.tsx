@@ -1,13 +1,34 @@
-import { getSession } from "@/actions/getSession";
-import { LoginForm } from "@/components/auth/login-form";
-import { redirect } from "next/navigation";
-export const dynamic = 'force-dynamic';
+"use client";
 
-export default async function LoginPage() {
-  const user = await getSession();
-  if (user) {
-    redirect("/");
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { LoginForm } from "@/components/auth/login-form";
+import { useUser } from "@/hooks/use-user";
+import { Loading } from "@/components/loading";
+
+export default function LoginPage() {
+  const { user, error, loading } = useUser();
+  const router = useRouter();
+
+  // Redirect if logged in
+  useEffect(() => {
+    if (!loading && user) {
+      router.replace("/"); // replace avoids back button loop
+    }
+  }, [loading, user, router]);
+
+  if (loading) {
+    return (
+      <div className="flex min-h-svh items-center justify-center">
+        <Loading />
+      </div>
+    );
   }
+
+  if (error) {
+    return null;
+  }
+
   return (
     <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
       <div className="w-full max-w-sm">

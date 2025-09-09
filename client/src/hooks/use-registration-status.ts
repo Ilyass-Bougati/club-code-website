@@ -13,7 +13,7 @@ export function useRegistrationStatus() {
     "/api/v1/auth/registration", // ⚡ pas besoin du full URL
     fetcher,
     {
-      dedupingInterval: 3600 * 1000, // 1h
+      dedupingInterval: 5 * 60 * 1000, 
       revalidateOnFocus: false,
     }
   );

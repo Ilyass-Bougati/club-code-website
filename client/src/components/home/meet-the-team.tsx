@@ -3,7 +3,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "motion/react";
-import { members } from "@/data";
+import { fetchMembers, OfficeMember } from "@/actions/fetchMembers"
+import { devs } from "@/seed/office-members";
 
 import {
   Marquee,
@@ -11,11 +12,25 @@ import {
   MarqueeFade,
   MarqueeItem,
 } from "@/components/ui/marquee";
+import { useEffect, useState } from "react";
 
-const firstHalf = members.slice(0, Math.ceil(members.length / 2));
-const secondHalf = members.slice(Math.ceil(members.length / 2));
+
 
 export default function MeetTheTeam() {
+  const [hasMounted, setHasMounted] = useState(false)
+    const [officeMembers, setOfficeMembers] = useState<OfficeMember[]>([]);
+
+
+    //const firstHalf = members.slice(0, Math.ceil(members.length / 2));
+//const secondHalf = members.slice(Math.ceil(members.length / 2));
+  
+      useEffect(() => {
+          fetchMembers().then(setOfficeMembers);
+      }, []);
+  
+      useEffect(() => {
+          setHasMounted(true)
+      }, [])
   return (
     <section
       id="meet-the-team"
@@ -91,7 +106,7 @@ export default function MeetTheTeam() {
               <MarqueeFade side="left" />
               <MarqueeFade side="right" />
               <MarqueeContent speed={30}>
-                {firstHalf.map((member, index) => (
+                {officeMembers.map((member, index) => (
                   <MarqueeItem
                     key={index}
                     className="flex flex-col items-center gap-2 transform transition-transform duration-300  cursor-pointer"
@@ -103,16 +118,16 @@ export default function MeetTheTeam() {
                       className="flex flex-col items-center gap-2 group"
                     >
                       <Avatar className="size-20 md:size-40 border-4 border-primary shadow-lg">
-                        <AvatarImage src={member.avatar} alt={member.author} />
+                        <AvatarImage src={member.image.uri} alt={member.firstName} />
                         <AvatarFallback className="text-4xl  lg:text-7xl">
-                          {member.fallback}
+                          {member.firstName}
                         </AvatarFallback>
                       </Avatar>
                       <h3 className="text-sm font-semibold text-center transition-all duration-300  group-hover:underline underline-offset-2 group-hover:text-primary">
-                        {member.author}
+                        {member.firstName} + {member.lastName}
                       </h3>
                       <p className="text-xs text-muted-foreground text-center">
-                        {member.role}
+                        {member.position}
                       </p>
                     </a>
                   </MarqueeItem>
@@ -124,7 +139,7 @@ export default function MeetTheTeam() {
               <MarqueeFade side="left" />
               <MarqueeFade side="right" />
               <MarqueeContent speed={30} direction="right">
-                {secondHalf.map((member, index) => (
+                {devs.map((member, index) => (
                   <MarqueeItem
                     key={index}
                     className="flex flex-col items-center gap-2 transform transition-transform duration-300 "
@@ -136,14 +151,14 @@ export default function MeetTheTeam() {
                       className="flex flex-col items-center gap-2 group"
                     >
                       <Avatar className="size-20 md:size-40 border-4 border-primary shadow-lg">
-                        <AvatarImage src={member.avatar} alt={member.author} />
-                        <AvatarFallback>{member.fallback}</AvatarFallback>
+                        <AvatarImage src={member.image.uri} alt={member.firstName} />
+                        <AvatarFallback>{member.firstName}</AvatarFallback>
                       </Avatar>
                       <h3 className="text-sm font-semibold text-center transition-all duration-300  group-hover:underline underline-offset-2 group-hover:text-primary">
-                        {member.author}
+                        {member.firstName} {" "} {member.lastName}
                       </h3>
                       <p className="text-xs text-muted-foreground text-center">
-                        {member.role}
+                        {member.position}
                       </p>
                     </a>
                   </MarqueeItem>

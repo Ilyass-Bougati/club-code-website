@@ -7,7 +7,7 @@ datasources:
     uid: prometheus
     url: http://prometheus:9090
     access: proxy
-    editable: false
+    editable: true
     jsonData:
       httpMethod: GET
 
@@ -16,6 +16,8 @@ datasources:
     access: proxy
     orgId: 1
     url: http://loki:3100
-    basicAuth: false
+    basicAuth: true
+    basicAuthUser: admin
+    basicAuthPassword: secretpassword
     version: 1
-    editable: false
+    editable: true

@@ -32,7 +32,7 @@ public class OfficeMemberServiceImp implements OfficeMemberService{
     @Caching(evict = {
             @CacheEvict(value = "allOfficeMemberCache", key = "'ALL_OFFICE_MEMBERS'")
     }, put = {
-            @CachePut(value = "officeMemberCache", key = "#officeMemberDto.id"),
+            @CachePut(value = "officeMemberCache", key = "#result.id"),
     })
     public OfficeMemberDto save(OfficeMemberDto officeMemberDto) {
         officeMemberDto.setId(null);

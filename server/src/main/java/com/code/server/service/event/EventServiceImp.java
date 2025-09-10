@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -49,7 +50,7 @@ public class EventServiceImp implements EventService {
             @CacheEvict(value = "eventPageCountCache", key = "'ALL_EVENT_PAGE_CACHE'"),
             @CacheEvict(value = "eventCachePages", allEntries = true)
     }, put = {
-            @CachePut(value = "eventCache", key = "#eventDto.id")
+            @CachePut(value = "eventCache", key = "#result.id")
     })
     public EventDto save(EventDto eventDto) {
         eventDto.setId(null);
@@ -116,8 +117,8 @@ public class EventServiceImp implements EventService {
     @Override
     @Cacheable(value = "eventCachePages", key = "#page")
     public List<EventDto> getPage(Integer page, Integer limit) {
-        return eventRepository.getPage(limit, page * limit)
-                .stream().map(eventMapper::toDTO).toList();
+        return new ArrayList<>(eventRepository.getPage(limit, page * limit)
+                .stream().map(eventMapper::toDTO).toList());
     }
 
     @Override

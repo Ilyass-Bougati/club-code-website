@@ -19,14 +19,3 @@ datasources:
     basicAuth: false
     version: 1
     editable: false
-
-  - name: Tempo
-    type: tempo
-    uid: tempo
-    access: proxy
-    url: http://tempo:3200
-    jsonData:
-      httpMethod: GET
-      serviceMap:
-        datasourceUid: 'prometheus'
-    editable: false

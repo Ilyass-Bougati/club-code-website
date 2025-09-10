@@ -3,6 +3,7 @@ package com.code.server.service.event;
 import com.code.server.dto.areaOfInterest.AreaOfInterestMapper;
 import com.code.server.dto.event.EventDto;
 import com.code.server.dto.event.EventMapperImpl;
+import com.code.server.dto.event.PageCount;
 import com.code.server.dto.image.ImageMapper;
 import com.code.server.dto.sponsor.SponsorMapper;
 import com.code.server.entity.*;
@@ -19,7 +20,9 @@ import com.code.server.service.sponsor.SponsorService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -42,6 +45,12 @@ public class EventServiceImp implements EventService {
     private final ImageEntityService imageEntityService;
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "eventPageCountCache", key = "'ALL_EVENT_PAGE_CACHE'"),
+            @CacheEvict(value = "eventCachePages", allEntries = true)
+    }, put = {
+            @CachePut(value = "eventCache", key = "#eventDto.id")
+    })
     public EventDto save(EventDto eventDto) {
         eventDto.setId(null);
         return eventMapper.toDTO(
@@ -50,6 +59,12 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "eventPageCountCache", key = "'ALL_EVENT_PAGE_CACHE'"),
+            @CacheEvict(value = "eventCachePages", allEntries = true)
+    }, put = {
+            @CachePut(value = "eventCache", key = "#eventDto.id")
+    })
     public EventDto update(EventDto eventDto) {
         Event event = eventRepository.findById(eventDto.getId())
                 .orElseThrow(()->new NotFoundException("Event not found"));
@@ -77,6 +92,11 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "eventCache", key = "#uuid"),
+            @CacheEvict(value = "eventPageCountCache", key = "'ALL_EVENT_PAGE_CACHE'"),
+            @CacheEvict(value = "eventCachePages", allEntries = true)
+    })
     public void delete(UUID uuid) {
         eventRepository.findById(uuid)
                 .orElseThrow(() -> new NotFoundException("event not found  "));
@@ -107,8 +127,19 @@ public class EventServiceImp implements EventService {
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "eventPageCountCache", key = "'ALL_EVENT_PAGE_CACHE'"),
+            @CacheEvict(value = "eventCachePages", allEntries = true)
+    })
     public void deleteOldEvents() {
         LocalDateTime cutoff = LocalDateTime.now().minusMonths(1);
         eventRepository.deleteOldEvents(cutoff);
+    }
+
+    @Override
+    @Cacheable(value = "eventPageCountCache", key = "'ALL_EVENT_PAGE_CACHE'")
+    public PageCount getPageCount(Integer limit) {
+        Integer count = (int) Math.ceil((float) eventRepository.count() / limit);
+        return new PageCount(count);
     }
 }

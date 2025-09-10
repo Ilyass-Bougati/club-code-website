@@ -19,6 +19,7 @@ services:
       - GF_SECURITY_ADMIN_USER=${GRAFANA_USERNAME}
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
     volumes:
+      - ./grafana/data:/var/lib/grafana
       - ./configurations/grafana:/etc/grafana/provisioning/datasources
 
   prometheus:

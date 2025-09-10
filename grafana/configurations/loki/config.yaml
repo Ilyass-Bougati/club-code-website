@@ -1,17 +1,8 @@
-auth_enabled: true
+auth_enabled: false
 
 server:
   http_listen_port: 3100
   grpc_listen_port: 9096
-
-# Basic Auth credentials
-auth:
-  basic:
-    enabled: true
-    # username:password pairs, should be changed
-    users:
-      - username: admin
-        password: secretpassword
 
 common:
   instance_addr: 127.0.0.1

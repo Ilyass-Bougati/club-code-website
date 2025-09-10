@@ -7,6 +7,7 @@ import com.code.server.exception.NotFoundException;
 import com.code.server.repository.AreasOfInterestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,11 @@ public class AreasOfInterestServiceImp implements AreasOfInterestService{
     private final AreaOfInterestMapper areaOfInterestMapper;
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "allAreaOfInterestCache", key = "'ALL_AREAS_OF_INTEREST'")
+    }, put = {
+            @CachePut(value = "areasOfInterestCache", key = "#result.id")
+    })
     public AreaOfInterestDto save(AreaOfInterestDto areaOfInterestDto) {
      areaOfInterestDto.setId(null);
      return areaOfInterestMapper.toDTO(
@@ -34,6 +40,11 @@ public class AreasOfInterestServiceImp implements AreasOfInterestService{
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "allAreaOfInterestCache", key = "'ALL_AREAS_OF_INTEREST'")
+    }, put = {
+            @CachePut(value = "areasOfInterestCache", key = "#areaOfInterestDto.id")
+    })
     public AreaOfInterestDto update(AreaOfInterestDto areaOfInterestDto) {
         AreaOfInterest areaOfInterest=areasOfInterestRepository.findById(areaOfInterestDto.getId())
                 .orElseThrow(()-> new NotFoundException("Area not found"));
@@ -47,7 +58,7 @@ public class AreasOfInterestServiceImp implements AreasOfInterestService{
     @Override
     @Caching(evict = {
             @CacheEvict(value = "allAreaOfInterestCache", key = "'ALL_AREAS_OF_INTEREST'"),
-            @CacheEvict(value = "areaoOfInterestCache", key = "#uuid")
+            @CacheEvict(value = "areasOfInterestCache", key = "#uuid")
     })
     public void delete(UUID uuid) {
         areasOfInterestRepository.findById(uuid).orElseThrow(()->new NotFoundException("area of interest not found"));
@@ -56,7 +67,7 @@ public class AreasOfInterestServiceImp implements AreasOfInterestService{
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(value = "areaoOfInterestCache", key = "#uuid")
+    @Cacheable(value = "areasOfInterestCache", key = "#uuid")
     public AreaOfInterestDto findById(UUID uuid) {
      return areasOfInterestRepository.findById(uuid).map(areaOfInterestMapper::toDTO)
               .orElseThrow(() -> new NotFoundException("area of interest not found"));

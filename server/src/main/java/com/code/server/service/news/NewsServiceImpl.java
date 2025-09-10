@@ -43,7 +43,7 @@ public class NewsServiceImpl implements NewsService{
     @Caching(evict = {
             @CacheEvict(value = "allNewsCache", key = "'ALL_NEWS'")
     }, put = {
-            @CachePut(value = "newsCache", key = "#dto.id")
+            @CachePut(value = "newsCache", key = "#result.id")
     })
     public NewsDto save(NewsDto dto) {
         dto.setId(null);

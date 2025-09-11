@@ -4,18 +4,14 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { CalendarDays, ArrowLeft, Clock, Users, Award, Tag, FileText, Info } from "lucide-react"
-
+import { joinEventAction } from "@/app/(landingpage)/events/[id]/joinEvent";
 import { motion } from "motion/react"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 
 import { Event  } from "@/types/backendTypes"
 import { toast } from "sonner"; 
-
-
-
-
-
+import { useUser } from "@/hooks/use-user";
 
 const formatDate = (date: string | Date) =>
     new Date(date).toLocaleDateString("en-US", {
@@ -27,12 +23,12 @@ const formatDate = (date: string | Date) =>
 
 interface EventDetailProps {
     event: Event;
-    joinEventAction: (eventId: string) => Promise<{ success: boolean; error?: string }>;
+
 }
 
 
-export default function EventDetail({ event, joinEventAction }: EventDetailProps) {
- 
+export default function EventDetail({ event }: EventDetailProps) {
+    const { user, loading: userLoading } = useUser(); 
 
     const [mounted, setMounted] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -196,12 +192,15 @@ export default function EventDetail({ event, joinEventAction }: EventDetailProps
          
 
         
-    <Button onClick={handleJoin} disabled={loading}
-        className="w-full px-6 py-4 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground rounded-xl"
-      >
-      {loading ? "Joining..." : "Join Event"}
-          <ArrowLeft className="w-4 h-4 rotate-180" />
-    </Button>
+                                <Button
+                                    onClick={handleJoin}
+                                    disabled={loading || !user}
+                                    className="w-full px-6 py-4 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground rounded-xl"
+                                >
+                                    {loading ? "Joining..." : "Join Event"}
+                                    <ArrowLeft className="w-4 h-4 rotate-180" />
+                                </Button>
+
       
  
               </motion.div>

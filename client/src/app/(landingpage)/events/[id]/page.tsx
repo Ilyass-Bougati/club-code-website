@@ -1,7 +1,7 @@
 import { getEventById, getEvents } from "@/actions/events";
 import EventDetail from "@/components/events/event-detail";
 import RelatedEvents from "@/components/events/related-events";
-import { joinEventAction } from "@/app/(landingpage)/events/[id]/joinEvent";
+
 import React from "react";;
 interface EventPageProps {
     params: Promise<{ id: string }>;
@@ -29,7 +29,7 @@ export default async function EventIdPage({ params }: EventPageProps) {
 
         return (
             <main className="w-full flex-1 container mx-auto">
-                <EventDetail event={event} joinEventAction={joinEventAction} />
+                <EventDetail event={event}  />
 
                 <RelatedEvents
                     currentEventId={event.id!}

@@ -85,6 +85,9 @@ public class TokenService {
         if (!passwordEncoder.matches(loginRequest.getPassword(), userDetails.getPassword())) {
             throw new Unauthorized("Invalid Credentials");
         }
+        if (!userDetails.getMember().getActivated()) {
+            throw new Unauthorized("Account not active");
+        }
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
         return generateToken(authentication);

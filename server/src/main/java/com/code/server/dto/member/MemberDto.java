@@ -29,6 +29,8 @@ public class MemberDto {
     @NotBlank(message = "Member's phone number can't be empty or null")
     private String phoneNumber;
 
+    private Boolean activated;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 }

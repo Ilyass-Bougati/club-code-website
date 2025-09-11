@@ -81,6 +81,9 @@ public class Member {
     @Column(length = 1024)
     private String refreshToken;
 
+    @Builder.Default
+    private Boolean activated = false;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 }

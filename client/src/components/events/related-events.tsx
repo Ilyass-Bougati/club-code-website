@@ -2,16 +2,15 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CalendarDays, Info } from "lucide-react";
+import { CalendarDays  } from "lucide-react";
 import { motion } from "motion/react";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import events from "@/seed/events.json";
-import { cn } from "@/lib/utils";
+
 import { Link2 } from "lucide-react";
  import { Clock } from "lucide-react";
- 
-// Animation container
+import { Event } from "@/types/backendTypes";
 const container = {
   hidden: { opacity: 0 },
   show: {
@@ -22,7 +21,7 @@ const container = {
   },
 };
 
-// Format date utility
+
 const formatDate = (dateString: string) =>
   new Date(dateString).toLocaleDateString("en-US", {
     year: "numeric",
@@ -33,7 +32,9 @@ const formatDate = (dateString: string) =>
 
 
 interface RelatedEventsProps {
-  currentEventId: string;
+    currentEventId: string;
+    relatedEvents: Event[];
+    recentEvents: Event[];
 }
 
 export default function RelatedEvents({ currentEventId }: RelatedEventsProps) {
@@ -48,6 +49,7 @@ export default function RelatedEvents({ currentEventId }: RelatedEventsProps) {
     .filter((e) => e.id !== currentEventId)
     .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
     .slice(0, 5);
+
 
   const renderSection = (title: string, data: typeof events) => (
     <Card className="bg-card text-card-foreground border border-border hover:shadow-md transition-shadow duration-200 h-fit">

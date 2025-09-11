@@ -38,7 +38,7 @@ public class MemberEntityServiceImpl implements MemberEntityService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     @CacheEvict(value = "memberCache", key = "#email")
     public void activateMember(String email) {
         Member member = memberRepository.findByEmail(email)

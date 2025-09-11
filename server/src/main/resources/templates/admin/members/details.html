@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Details - Club Code Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link th:href="@{/css/admin.css}" rel="stylesheet">
+</head>
+<body class="bg-light">
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="#" th:href="@{/admin/dashboard}">
+            <i class="fas fa-code me-2"></i><span class="d-none d-sm-inline">Club Code Admin</span><span class="d-sm-none">Admin</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user-circle me-1"></i> Admin
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="https://code.sefault.com"><i class="fas fa-home me-2"></i>View Site</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#" th:href="@{/logout}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-lg-2 col-md-3 d-md-block bg-white sidebar shadow-sm" id="sidebar">
+            <div class="position-sticky pt-3">
+                <div class="d-flex justify-content-between align-items-center mb-3 d-md-none">
+                    <h6 class="mb-0 text-primary">Menu</h6>
+                    <button class="btn-close" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar"></button>
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/dashboard}">
+                            <i class="fas fa-tachometer-alt me-2 text-primary"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/news}">
+                            <i class="fas fa-newspaper me-2 text-success"></i>
+                            <span>News</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/events}">
+                            <i class="fas fa-calendar-alt me-2 text-warning"></i>
+                            <span>Events</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/office-members}">
+                            <i class="fas fa-users me-2 text-info"></i>
+                            <span>Office Members</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link active d-flex align-items-center py-2" href="#" th:href="@{/admin/members}">
+                            <i class="fas fa-user-graduate me-2 text-warning"></i>
+                            <span>Members</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/members/pending}">
+                            <i class="fas fa-user-clock me-2 text-info"></i>
+                            <span>Pending Activation</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/sponsors}">
+                            <i class="fas fa-handshake me-2 text-success"></i>
+                            <span>Sponsors</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/areas-of-interest}">
+                            <i class="fas fa-tags me-2 text-primary"></i>
+                            <span>Areas of Interest</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="col-lg-10 col-md-9 ms-sm-auto px-md-4 py-4">
+            <!-- Page Header -->
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center pb-2 mb-4 border-bottom">
+                <div class="mb-2 mb-sm-0">
+                    <h1 class="h2 text-primary">
+                        <i class="fas fa-user me-2"></i>Member Details
+                    </h1>
+                    <small class="text-muted">
+                        <span th:if="${isSuperAdmin}">
+                            <i class="fas fa-user-shield me-1"></i>You have SUPER_ADMIN privileges
+                        </span>
+                        <span th:unless="${isSuperAdmin}">
+                            <i class="fas fa-user-tie me-1"></i>You have ADMIN privileges
+                        </span>
+                    </small>
+                </div>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group me-2">
+                        <a href="#" th:href="@{/admin/members}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-1"></i>Back to Members
+                        </a>
+                        <a th:href="@{'/admin/members/' + ${member.id} + '/edit'}"
+                           class="btn btn-primary" title="Edit Member"
+                           th:if="${canEdit}">
+                            <i class="fas fa-edit me-1"></i>Edit Member
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alert Messages -->
+            <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle me-2"></i>
+                <span th:text="${success}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                <span th:text="${error}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <div class="row">
+                <!-- Member Information Card -->
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-user me-2"></i>Member Information
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold text-muted">Full Name</label>
+                                        <p class="form-control-plaintext" th:text="${member.firstName + ' ' + member.lastName}">John Doe</p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold text-muted">Email Address</label>
+                                        <p class="form-control-plaintext" th:text="${member.email}">john.doe@example.com</p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold text-muted">Phone Number</label>
+                                        <p class="form-control-plaintext" th:text="${member.phoneNumber}">+1234567890</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold text-muted">Major</label>
+                                        <p class="form-control-plaintext" th:text="${member.major}">Computer Science</p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold text-muted">Academic Year</label>
+                                        <p class="form-control-plaintext" th:text="${member.year + ' Year'}">3 Year</p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold text-muted">Registration Date</label>
+                                        <p class="form-control-plaintext" th:if="${member.createdAt != null}" th:text="${#temporals.format(member.createdAt, 'MMM dd, yyyy HH:mm')}">Jan 15, 2024 10:30</p>
+                                        <p class="form-control-plaintext text-muted" th:unless="${member.createdAt != null}">Not available</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Areas of Interest -->
+                    <div class="card border-0 shadow-sm mb-4" th:if="${member.areaOfInterests != null and !member.areaOfInterests.isEmpty()}">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-tags me-2"></i>Areas of Interest
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex flex-wrap gap-2">
+                                <span th:each="interest : ${member.areaOfInterests}" 
+                                      class="badge bg-info fs-6" 
+                                      th:text="${interest.name}">Web Development</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status and Actions Card -->
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-header bg-secondary text-white">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-info-circle me-2"></i>Status & Role
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold text-muted">Account Status</label>
+                                <div>
+                                    <span th:if="${member.activated}" class="badge bg-success fs-6">
+                                        <i class="fas fa-check-circle me-1"></i>Activated
+                                    </span>
+                                    <span th:unless="${member.activated}" class="badge bg-warning fs-6">
+                                        <i class="fas fa-clock me-1"></i>Pending Activation
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold text-muted">User Role</label>
+                                <div>
+                                    <span th:if="${member.role == T(com.code.server.enums.UserRole).SUPER_ADMIN}" class="badge bg-danger fs-6">
+                                        <i class="fas fa-user-shield me-1"></i>SUPER_ADMIN
+                                    </span>
+                                    <span th:if="${member.role == T(com.code.server.enums.UserRole).ADMIN}" class="badge bg-warning fs-6">
+                                        <i class="fas fa-user-tie me-1"></i>ADMIN
+                                    </span>
+                                    <span th:if="${member.role == T(com.code.server.enums.UserRole).USER}" class="badge bg-success fs-6">
+                                        <i class="fas fa-user me-1"></i>USER
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Admin Actions -->
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-warning text-dark">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-cogs me-2"></i>Admin Actions
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-grid gap-2">
+                                <!-- Activation Action -->
+                                <button type="button" class="btn btn-success"
+                                        th:data-activate-url="@{'/admin/members/' + ${member.id} + '/activate'}"
+                                        th:data-member-name="${member.firstName + ' ' + member.lastName}"
+                                        onclick="confirmActivate(this.dataset.activateUrl, this.dataset.memberName)"
+                                        th:if="${!member.activated and canActivate}">
+                                    <i class="fas fa-user-check me-1"></i>Activate Member
+                                </button>
+
+                                <!-- Edit Action -->
+                                <a th:href="@{'/admin/members/' + ${member.id} + '/edit'}"
+                                   class="btn btn-primary" th:if="${canEdit}">
+                                    <i class="fas fa-edit me-1"></i>Edit Member
+                                </a>
+
+                                <!-- Delete Action -->
+                                <button type="button" class="btn btn-danger"
+                                        th:data-delete-url="@{'/admin/members/' + ${member.id}}"
+                                        th:data-member-name="${member.firstName + ' ' + member.lastName}"
+                                        onclick="confirmDelete(this.dataset.deleteUrl, this.dataset.memberName)"
+                                        th:if="${canEdit}">
+                                    <i class="fas fa-trash me-1"></i>Delete Member
+                                </button>
+
+                                <!-- Role Change Action (SUPER_ADMIN only) -->
+                                <div th:if="${canChangeRole}" class="mt-3">
+                                    <label class="form-label fw-semibold text-muted">Change Role</label>
+                                    <div class="d-grid gap-1">
+                                        <button type="button" class="btn btn-outline-success btn-sm" 
+                                                th:if="${member.role != T(com.code.server.enums.UserRole).USER}"
+                                                th:data-role-url="@{'/admin/members/' + ${member.id} + '/role/USER'}"
+                                                th:data-member-name="${member.firstName + ' ' + member.lastName}"
+                                                onclick="confirmRoleChange(this.dataset.roleUrl, this.dataset.memberName, 'USER')">
+                                            <i class="fas fa-user me-1"></i>Set as USER
+                                        </button>
+                                        <button type="button" class="btn btn-outline-warning btn-sm"
+                                                th:if="${member.role != T(com.code.server.enums.UserRole).ADMIN}"
+                                                th:data-role-url="@{'/admin/members/' + ${member.id} + '/role/ADMIN'}"
+                                                th:data-member-name="${member.firstName + ' ' + member.lastName}"
+                                                onclick="confirmRoleChange(this.dataset.roleUrl, this.dataset.memberName, 'ADMIN')">
+                                            <i class="fas fa-user-tie me-1"></i>Set as ADMIN
+                                        </button>
+                                        <button type="button" class="btn btn-outline-danger btn-sm"
+                                                th:if="${member.role != T(com.code.server.enums.UserRole).SUPER_ADMIN}"
+                                                th:data-role-url="@{'/admin/members/' + ${member.id} + '/role/SUPER_ADMIN'}"
+                                                th:data-member-name="${member.firstName + ' ' + member.lastName}"
+                                                onclick="confirmRoleChange(this.dataset.roleUrl, this.dataset.memberName, 'SUPER_ADMIN')">
+                                            <i class="fas fa-user-shield me-1"></i>Set as SUPER_ADMIN
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Activation Confirmation Modal -->
+<div class="modal fade" id="activateModal" tabindex="-1" aria-labelledby="activateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="activateModalLabel">
+                    <i class="fas fa-user-check text-success me-2"></i>Confirm Activation
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to activate the member "<strong id="activateItemName"></strong>"?</p>
+                <p class="text-success small mb-0">
+                    <i class="fas fa-info-circle me-1"></i>
+                    This will allow the member to access their account.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="activateForm" method="post" style="display: inline;">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-user-check me-1"></i>Activate
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">
+                    <i class="fas fa-exclamation-triangle text-warning me-2"></i>Confirm Delete
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the member "<strong id="deleteItemName"></strong>"?</p>
+                <p class="text-danger small mb-0">
+                    <i class="fas fa-exclamation-circle me-1"></i>
+                    This action cannot be undone.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="post" style="display: inline;">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash me-1"></i>Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function confirmActivate(activateUrl, memberName) {
+        const activateForm = document.getElementById('activateForm');
+        activateForm.action = activateUrl;
+
+        document.getElementById('activateItemName').textContent = memberName;
+        new bootstrap.Modal(document.getElementById('activateModal')).show();
+    }
+    
+    function confirmDelete(deleteUrl, memberName) {
+        const deleteForm = document.getElementById('deleteForm');
+        deleteForm.action = deleteUrl;
+
+        document.getElementById('deleteItemName').textContent = memberName;
+        new bootstrap.Modal(document.getElementById('deleteModal')).show();
+    }
+    
+    function confirmRoleChange(roleUrl, memberName, newRole) {
+        if (confirm(`Are you sure you want to change "${memberName}" role to ${newRole}?`)) {
+            // For now, we'll just show an alert since role change functionality isn't implemented
+            alert('Role change functionality will be implemented in a future update.');
+        }
+    }
+    
+    // Responsive sidebar toggle for mobile
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebarToggle = document.querySelector('[data-bs-toggle="collapse"]');
+        const sidebar = document.getElementById('sidebar');
+        
+        if (sidebarToggle && sidebar) {
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('show');
+            });
+            
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth < 768 && 
+                    !sidebar.contains(e.target) && 
+                    !sidebarToggle.contains(e.target)) {
+                    sidebar.classList.remove('show');
+                }
+            });
+        }
+        
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 768) {
+                sidebar.classList.remove('show');
+            }
+        });
+    });
+</script>
+</body>
+</html>

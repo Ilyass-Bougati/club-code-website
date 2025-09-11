@@ -4,6 +4,7 @@ import com.code.server.entity.Member;
 import com.code.server.enums.UserRole;
 import com.code.server.exception.NotFoundException;
 import com.code.server.repository.MemberRepository;
+import com.code.server.service.member.MemberEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,12 +25,17 @@ public class AdminMemberController {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final MemberEntityService memberEntityService;
 
     @GetMapping
     public String list(Model model) {
         UserRole currentUserRole = getCurrentUserRole();
 
-        List<Member> members = memberRepository.findAll();
+        // Only show activated members in the main list
+        List<Member> members = memberRepository.findAll().stream()
+                .filter(member -> member.getActivated())
+                .toList();
+        
         model.addAttribute("members", members);
         model.addAttribute("isSuperAdmin", isSuperAdmin(currentUserRole));
         model.addAttribute("isAdmin", isAdmin(currentUserRole));
@@ -239,6 +245,67 @@ public class AdminMemberController {
         return "redirect:/admin/members";
     }
 
+    @GetMapping("/{id}")
+    public String details(@PathVariable UUID id, Model model, RedirectAttributes redirectAttributes) {
+        UserRole currentUserRole = getCurrentUserRole();
+
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Member not found"));
+
+        boolean canView = canManageMember(member, currentUserRole);
+
+        if (!canView) {
+            redirectAttributes.addFlashAttribute("error", "You don't have permission to view this member.");
+            return "redirect:/admin/members";
+        }
+
+        model.addAttribute("member", member);
+        model.addAttribute("isSuperAdmin", isSuperAdmin(currentUserRole));
+        model.addAttribute("isAdmin", isAdmin(currentUserRole));
+        model.addAttribute("currentUserRole", currentUserRole);
+        model.addAttribute("canEdit", canManageMember(member, currentUserRole));
+        model.addAttribute("canChangeRole", canChangeRole(member, currentUserRole));
+        model.addAttribute("canActivate", canActivateMember(member, currentUserRole));
+        return "admin/members/details";
+    }
+
+    @PostMapping("/{id}/activate")
+    public String activate(@PathVariable UUID id, RedirectAttributes redirectAttributes) {
+        UserRole currentUserRole = getCurrentUserRole();
+
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Member not found"));
+
+        if (!canActivateMember(member, currentUserRole)) {
+            redirectAttributes.addFlashAttribute("error", "You don't have permission to activate this member.");
+            return "redirect:/admin/members/pending";
+        }
+
+        try {
+            memberEntityService.activateMember(member.getEmail());
+            redirectAttributes.addFlashAttribute("success", "Member activated successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error activating member: " + e.getMessage());
+        }
+
+        return "redirect:/admin/members/pending";
+    }
+
+    @GetMapping("/pending")
+    public String pendingMembers(Model model) {
+        UserRole currentUserRole = getCurrentUserRole();
+
+        List<Member> pendingMembers = memberRepository.findAll().stream()
+                .filter(member -> !member.getActivated())
+                .toList();
+
+        model.addAttribute("members", pendingMembers);
+        model.addAttribute("isSuperAdmin", isSuperAdmin(currentUserRole));
+        model.addAttribute("isAdmin", isAdmin(currentUserRole));
+        model.addAttribute("currentUserRole", currentUserRole);
+        return "admin/members/pending";
+    }
+
     private boolean isSuperAdmin(UserRole currentUserRole) {
         return currentUserRole == UserRole.SUPER_ADMIN;
     }
@@ -275,6 +342,10 @@ public class AdminMemberController {
 
     private boolean canChangeRole(Member targetMember, UserRole currentUserRole) {
         return currentUserRole == UserRole.SUPER_ADMIN;
+    }
+
+    private boolean canActivateMember(Member targetMember, UserRole currentUserRole) {
+        return isAdmin(currentUserRole) && !targetMember.getActivated();
     }
 
     private UserRole[] getAvailableRoles(UserRole currentUserRole) {

@@ -3,6 +3,7 @@ package com.code.server.service.Image;
 import com.code.server.dto.image.ImageDto;
 import com.code.server.dto.image.ImageMapper;
 import com.code.server.entity.Image;
+import com.code.server.exception.CloudinaryException;
 import com.code.server.exception.NotFoundException;
 import com.code.server.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
@@ -82,7 +83,7 @@ public class ImageServiceImpl implements ImageService {
         if (suffix.equals("jpg") || suffix.equals("png")) {
             return save(uploadImageService.uploadImage(file));
         } else {
-            throw new RuntimeException("Unsupported image format");
+            throw new CloudinaryException("Unsupported image format");
         }
     }
 }

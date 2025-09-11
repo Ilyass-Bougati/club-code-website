@@ -2,6 +2,7 @@ package com.code.server.controller.admin;
 
 import com.code.server.entity.Member;
 import com.code.server.enums.UserRole;
+import com.code.server.exception.NotFoundException;
 import com.code.server.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -127,7 +128,7 @@ public class AdminMemberController {
         UserRole currentUserRole = getCurrentUserRole();
 
         Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Member not found"));
+                .orElseThrow(() -> new NotFoundException("Member not found"));
 
         boolean canEdit = canManageMember(member, currentUserRole);
 
@@ -156,7 +157,7 @@ public class AdminMemberController {
         UserRole currentUserRole = getCurrentUserRole();
 
         Member existingMember = memberRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Member not found"));
+                .orElseThrow(() -> new NotFoundException("Member not found"));
 
         if (!canManageMember(existingMember, currentUserRole)) {
             redirectAttributes.addFlashAttribute("error", "You don't have permission to update this member.");
@@ -221,7 +222,7 @@ public class AdminMemberController {
         UserRole currentUserRole = getCurrentUserRole();
 
         Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Member not found"));
+                .orElseThrow(() -> new NotFoundException("Member not found"));
 
         if (!canManageMember(member, currentUserRole)) {
             redirectAttributes.addFlashAttribute("error", "You don't have permission to delete this member.");

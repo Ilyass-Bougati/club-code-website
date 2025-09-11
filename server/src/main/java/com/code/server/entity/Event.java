@@ -18,7 +18,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "events")
+@Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Event {
     @Id
@@ -69,9 +69,10 @@ public class Event {
     @JoinColumn(name = "member_id", referencedColumnName = "id")
     private Member member;
 
+    @ManyToMany(mappedBy = "interestEvents", fetch = FetchType.LAZY)
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
-    private Set<Member> members;
+    @Builder.Default
+    private Set<Member> members = new HashSet<>();
 
     @NotNull
     private Boolean sponsored;

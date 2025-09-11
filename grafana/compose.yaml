@@ -1,0 +1,40 @@
+services:
+  loki:
+    image: grafana/loki:2.9.0
+    container_name: alexandre_loki
+    ports:
+      - "3100:3100"
+    command: -config.expand-env=true -config.file=/etc/loki/config.yaml
+    volumes:
+      - ./configurations/loki/config.yaml:/etc/loki/config.yaml
+      - ./configurations/loki/data:/loki
+
+  grafana:
+    image: grafana/grafana
+    container_name: alexandre_grafana
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USERNAME}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+    volumes:
+      - ./grafana/data:/home/data
+      - ./configurations/grafana:/etc/grafana/provisioning/datasources
+
+  prometheus:
+    image: prom/prometheus
+    container_name: alexandre_prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yaml"
+      - "--web.enable-remote-write-receiver"
+    ports:
+      - 9090:9090
+    restart: unless-stopped
+    volumes:
+      - ./configurations/prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+
+
+volumes:
+  prometheus_data:

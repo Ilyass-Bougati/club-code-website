@@ -11,6 +11,11 @@ spring:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/code}
     username: ${SPRING_DATASOURCE_USERNAME:postgres}
     password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+    hikari:
+      idle-timeout: 60000      # 1 minute (ms) before idle connection is closed
+      max-lifetime: 600000    # 10 minutes (ms) max lifetime of a connection
+      minimum-idle: 0          # no idle connections
+      maximum-pool-size: 10    # max connections in pool
 
   data:
     redis:
@@ -50,3 +55,16 @@ cloudinary:
 springdoc:
   api-docs:
     enabled: ${SWAGGER_UI:true}
+
+management:
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+      percentiles:
+        http.server.requests: 0.5, 0.95, 0.99
+        
+  endpoints:
+    web:
+      exposure:
+        include: health, prometheus

@@ -1,236 +1,231 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import { Card, CardContent } from '../ui/card';
-import { Code, Users, Rocket, Sparkles } from "lucide-react";
-import { HoverEffect } from '../ui/card-hover-effect';
-import { Features } from './why-us';
-import { Badge } from '../ui/badge';
-import { Activities } from './activities';
+import { motion } from "motion/react";
+import React from "react";
+import { Badge } from "../ui/badge";
+import { cn } from "@/lib/utils";
+import { Code, Rocket, Sparkles, Terminal, Users } from "lucide-react";
+import { Ripple } from "../effects/ripple";
 
+const cards = [
+  {
+    title: "C",
+    desc: "Coding workshops and hands-on projects to boost your programming skills.",
+    icon: Code,
+  },
+  {
+    title: "O",
+    desc: "Opportunities to collaborate in hackathons, competitions, and team projects.",
+    icon: Users,
+  },
+  {
+    title: "D",
+    desc: "Development guidance from senior students, mentors, and alumni.",
+    icon: Rocket,
+  },
+  {
+    title: "E",
+    desc: "Engaging events and community activities to connect with other tech enthusiasts.",
+    icon: Sparkles,
+  },
+];
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.4,
+    },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 15 },
+  show: { opacity: 1, y: 0 },
+};
 
 export default function About() {
-    const underlineVariants = {
-        hidden: { width: 0 },
-        visible: { width: "300px", transition: { duration: 1 } },
-    };
-
-
-    const cards = [
-        {
-            title: "C",
-            desc: "Coding workshops and hands-on projects to boost your programming skills.",
-            icon: Code,
-        },
-        {
-            title: "O",
-            desc: "Opportunities to collaborate in hackathons, competitions, and team projects.",
-            icon: Users,
-        },
-        {
-            title: "D",
-            desc: "Development guidance from senior students, mentors, and alumni.",
-            icon: Rocket,
-        },
-        {
-            title: "E",
-            desc: "Engaging events and community activities to connect with other tech enthusiasts.",
-            icon: Sparkles,
-        },
-    ];
-
-    const missions = [
-        {
-            title: "Learning",
-            description:
-                "Provide workshops, tutorials, and coding challenges for all skill levels.",
-        },
-        {
-            title: "Collaboration",
-            description:
-                "Encourage teamwork through hackathons, group projects, and study sessions.",
-        },
-        {
-            title: "Mentorship",
-            description:
-                "Connect students with seniors and alumni for guidance and career advice.",
-        },
-        {
-            title: "Innovation",
-            description:
-                "Promote creativity and problem-solving through real-world projects.",
-        },
-
-    ];
-
-    return (
-        <section className=" mx-auto px-4 py-20 max-w-7xl" id="about">
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5 }}
-                      className="mb-12 flex flex-col items-center justify-center space-y-4 text-center"
-                    >
-                      <Badge
-                        className="rounded-full px-4 py-1.5 text-sm font-medium shadow-sm"
-                        variant="secondary"
-                      >
-                        <span className="text-primary mr-1">✦</span> About CODE
-                      </Badge>
-            
-                      <h2 className="from-foreground to-foreground/80 bg-gradient-to-r bg-clip-text text-3xl font-bold tracking-tight text-transparent md:text-4xl">
-                        Powerful Customization Tools
-                      </h2>
-                      <p className="text-muted-foreground max-w-[800px] md:text-lg">
-                        All the tools you need to customize your shadcn/ui components and make them unique.
-                      </p>
-                    </motion.div>
-
-            {/* Title */}
-            {/*<div className="flex flex-col items-center">
-                <motion.h1
-                    className="text-4xl font-bold mb-2"
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                >
-                    About CODE
-                </motion.h1>
-
+  return (
+    <section
+      id="about"
+      className="bg-muted/35 relative isolate w-full overflow-hidden pt-20 md:pt-32"
+    >
+      <div className="relative isolate">
+        <div className="relative z-10 container mx-auto w-full px-4 md:px-6">
+          <div className="relative grid items-center gap-12 lg:grid-cols-2">
+            <div className="mx-auto max-w-2xl lg:mx-0">
+              <motion.div
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true }}
+                variants={container}
+                className="justify-left relative flex flex-col items-start gap-4"
+              >
                 <motion.div
-                    variants={underlineVariants}
-                    initial="hidden"
-                    animate="visible"
-                    className="h-1 bg-gradient-to-r from-primary mt-2"
-                    style={{ maxWidth: "300px" }}
-                />
-            </div> */}
-
-            <div className="flex flex-col-reverse md:flex-row items-center justify-around gap-2">
-
-                <motion.p
-                    className="text-lg leading-relaxed max-w-xl text-center md:text-left"
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.7 }}
-                    viewport={{ once: true }}
+                  variants={item}
+                  className="justify-left relative flex flex-col items-start gap-4"
                 >
-                    <span className="font-bold text-2xl">CODE</span> is a university club
-                    dedicated to nurturing programming skills, promoting collaboration, and
-                    creating real-world projects for students. <br />
-                    We organize <span className="font-semibold">workshops, hackathons, and mentorship programs </span>
-                    to help students grow in the world of tech.
-                </motion.p>
-
-                <motion.img
-                    src="/about.svg"
-                    alt="About img"
-                    className="w-64 h-64 md:w-80 md:h-80 object-contain"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.7, delay: 0.2 }}
-                    viewport={{ once: true }}
-                    whileHover={{
-                        scale: 1.1,
-                        rotate: 5,
-                        transition: { type: "spring", stiffness: 300 },
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                />
-
-            </div>
-
-            <div className='flex flex-col items-center mt-10'>
-                <motion.p
-                    className="text-xl leading-relaxed max-w-3xl mx-auto text-center "
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                >
-                    Why CODE ?
-                </motion.p>
-                <motion.div
-                    variants={underlineVariants}
-                    initial="hidden"
-                    animate="visible"
-                    className="h-1 bg-gradient-to-l from-primary mt-2"
-                    style={{ maxWidth: "150px" }}
-                />
-            </div>
-            <motion.p
-                className="text leading-relaxed max-w-4xl mx-auto text-center mt-2"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-            >
-                What The name of our club means
-            </motion.p>
-
-
-            <div className="mt-10 grid md:grid-cols-4 gap-6">
-                {cards.map((item, i) => (
-                    <motion.div
-                        key={i}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        whileHover={{ scale: 1.05, boxShadow: '0px 15px 25px rgba(0,0,0,0.2)' }}
-                        transition={{ duration: 0.2, delay: 0.2 * i }}
-                    >
-                        <Card className="h-full  hover:shadow-lg transition-shadow duration-200 hover:border-primary ">
-                            <CardContent className="flex flex-col items-center text-center">
-                                <div className="flex items-center justify-center gap-2 mb-4">
-                                    <item.icon className="w-6 h-6 text-secondary bg-primary rounded-b-4xl" />
-                                    <h2 className="text-2xl font-bold">{item.title}</h2>
-                                </div>
-                                <p className="text-base text-neutral-300">{item.desc}</p>
-                            </CardContent>
-                        </Card>
-                    </motion.div>
-                ))}
-            </div>
-
-            <div className='flex flex-col items-center mt-20'>
-                <motion.p
-                    className="text-xl leading-relaxed max-w-3xl mx-auto text-center "
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                >
-                    Our Mission
-
-                </motion.p>
-                <motion.div
-                    variants={underlineVariants}
-                    initial="hidden"
-                    animate="visible"
-                    className="h-1 bg-gradient-to-l from-primary mt-2"
-                    style={{ maxWidth: "150px" }}
-                />
-            </div>
-
-            <motion.p
-                className="text leading-relaxed max-w-4xl mx-auto text-center mt-2"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-            >
-                is to empower students to learn, experiment, and collaborate in technology
-            </motion.p>
-
-            <div className=" mx-auto ">
-
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.2, delay: 0.4 }}                >
-                    <HoverEffect items={missions} />
+                  {" "}
+                  <Badge
+                    className="rounded-full px-4 py-1.5 text-sm font-medium shadow-sm"
+                    variant="secondary"
+                  >
+                    <span className="text-primary mr-1">✦</span> About CODE
+                  </Badge>
                 </motion.div>
+
+                <motion.h2
+                  variants={item}
+                  className="bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-transparent"
+                >
+                  A university club for coding & collaboration
+                </motion.h2>
+                <motion.p
+                  variants={item}
+                  className="max-w-[800px] text-muted-foreground md:text-lg leading-relaxed"
+                >
+                  <span className="font-medium text-foreground font-serif">
+                    CODE
+                  </span>
+                  {"  "}
+                  is a student-driven club dedicated to nurturing programming
+                  skills, promoting collaboration, and building real-world
+                  projects. We organize{" "}
+                  <span className="font-medium text-foreground">
+                    workshops, hackathons, and mentorship programs
+                  </span>{" "}
+                  to empower students and help them grow in the world of
+                  technology.
+                </motion.p>
+                <motion.div
+                  variants={container}
+                  className="flex flex-wrap items-center gap-6"
+                >
+                  {["Workshops", "Hackathons", "Mentorship"].map((feature) => (
+                    <motion.div
+                      variants={item}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      key={feature}
+                      className="text-muted-foreground flex items-center gap-2 text-base font-medium cursor-pointer"
+                    >
+                      <Terminal className="text-primary size-6" />
+                      <span>{feature}</span>
+                    </motion.div>
+                  ))}
+                </motion.div>
+                <motion.div
+                  className="absolute inset-0 pointer-events-none z-0"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{
+                    duration: 1.5,
+                  }}
+                  style={{
+                    background:
+                      "radial-gradient(ellipse at 30% 70%, oklch(0.44 0 0), transparent 30%)",
+                    filter: "blur(80px)",
+                    mixBlendMode: "screen",
+                  }}
+                />
+              </motion.div>
             </div>
-            <Activities />
-            <Features />
 
-        </section>
-    );
+            <div className="relative hidden md:flex items-center justify-center">
+              <motion.img
+                variants={item}
+                src="/about.svg"
+                alt="About illustration"
+                className="w-[90%] max-w-[500px] object-contain drop-shadow-lg"
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{
+                  opacity: 1,
+                  scale: 1,
+                  y: [0, -10, 0],
+                  transition: {
+                    y: {
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    },
+                  },
+                }}
+                transition={{ duration: 0.7, delay: 0.2 }}
+                viewport={{ once: true }}
+                whileHover={{
+                  scale: 1.05,
+                  rotate: 3,
+                  transition: { type: "spring", stiffness: 250 },
+                }}
+                whileTap={{ scale: 0.97 }}
+              />
+              <Ripple />
+            </div>
+          </div>
+        </div>
+
+        <div className="relative mt-16 mx-auto grid divide-x divide-y divide-foreground/50 border-y border-foreground/50 sm:grid-cols-2 lg:grid-cols-4 container  w-full ">
+          {cards.map((card, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: i * 0.1 + 0.5 }}
+              className="relative z-10 flex flex-col items-center text-center space-y-4 p-10 
+                 transition-all duration-300 hover:shadow-xl hover:bg-muted/30"
+            >
+              <div
+                className="flex items-center justify-center w-16 h-16 rounded-2xl 
+                      bg-gradient-to-tr from-primary/20 via-primary/10 to-primary/30 
+                      text-primary shadow-md"
+              >
+                <card.icon className="size-8" />
+              </div>
+
+              <h3
+                className="text-3xl font-extrabold tracking-wider capitalize 
+                   bg-gradient-to-r from-primary to-foreground 
+                   bg-clip-text text-transparent drop-shadow-sm font-serif"
+              >
+                {card.title}
+              </h3>
+
+              <p className="text-muted-foreground leading-relaxed">
+                {card.desc}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+
+        <div
+          className={cn(
+            "-skew-12 mask-b-from-60% mask-l-from-40% mask-l-to-75%",
+            "absolute inset-0 -z-20 bg-[linear-gradient(to_right,rgba(from_var(--primary)_r_g_b_/_0.25)_1px,transparent_1px),linear-gradient(to_bottom,rgba(from_var(--primary)_r_g_b_/_0.25)_1px,transparent_1px)] bg-[size:2.5rem_2.5rem]"
+          )}
+        />
+
+        {/* Top Right - Primary */}
+        <div
+          className={cn(
+            "-skew-12 animate-pulse [mask-composite:intersect]",
+            "absolute inset-0 -z-20 bg-[linear-gradient(to_right,rgba(from_var(--primary)_r_g_b_/_0.20)_1px,transparent_1px),linear-gradient(to_bottom,rgba(from_var(--primary)_r_g_b_/_0.20)_1px,transparent_1px)] bg-[size:2.5rem_2.5rem]",
+            "[mask-image:linear-gradient(to_bottom,transparent_0%,transparent_25%,#000_25%,#000_50%,transparent_50%),linear-gradient(to_right,transparent_0%,transparent_50%,#000_50%,#000_100%)]"
+          )}
+        />
+
+        {/* Bottom Left - Muted */}
+        <div
+          className={cn(
+            "-skew-12",
+            "absolute inset-0 -z-20 bg-[linear-gradient(to_right,rgba(from_var(--muted)_r_g_b_/_0.25)_1px,transparent_1px),linear-gradient(to_bottom,rgba(from_var(--muted)_r_g_b_/_0.25)_1px,transparent_1px)] bg-[size:2.5rem_2.5rem]",
+            "[mask-image:linear-gradient(to_bottom,transparent_0%,transparent_50%,#000_50%,#000_75%,transparent_75%),linear-gradient(to_right,#000_0%,#000_50%,transparent_50%)]",
+            "[mask-composite:intersect]"
+          )}
+        />
+        {/* ----- Background effects ----- */}
+      </div>
+    </section>
+  );
 }
-

@@ -6,11 +6,11 @@
 ![redis](https://img.shields.io/badge/redis-%23DD0031.svg?&style=for-the-badge&logo=redis&logoColor=white)
 ![docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)
 
-<a href="https://github.com/Ilyass-Bougati/SkyBooker/graphs/contributors">
+<a href="https://github.com/Ilyass-Bougati/club-code-website/graphs/contributors">
   <p align="center">
   <img src="https://contrib.rocks/image?repo=Ilyass-Bougati/club-code-website" />
   </p>
 </a>
 
 
-*Code Club* is a student-led initiative at *FST Settat*, created by engineering students passionate about turning theory into practice. Our mission is to share knowledge, build skills, and collaborate through.
+*Code Club* is a student-led initiative at *FST Settat*, created by computer science students passionate about turning theory into practice. Our mission is to share knowledge, build skills, and collaborate through.

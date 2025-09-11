@@ -8,6 +8,10 @@ import com.code.server.exception.NotFoundException;
 import com.code.server.repository.ImageRepository;
 import com.code.server.repository.OfficeMemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,12 +29,22 @@ public class OfficeMemberServiceImp implements OfficeMemberService{
     private final ImageRepository imageRepository;
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "allOfficeMemberCache", key = "'ALL_OFFICE_MEMBERS'")
+    }, put = {
+            @CachePut(value = "officeMemberCache", key = "#result.id"),
+    })
     public OfficeMemberDto save(OfficeMemberDto officeMemberDto) {
         officeMemberDto.setId(null);
         return officeMemberMapper.toDTO(officeMemberRepository.save(officeMemberMapper.toEntity(officeMemberDto)));
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "allOfficeMemberCache", key = "'ALL_OFFICE_MEMBERS'")
+    }, put = {
+            @CachePut(value = "officeMemberCache", key = "#officeMemberDto.id"),
+    })
     public OfficeMemberDto update(OfficeMemberDto officeMemberDto) {
         OfficeMember officeMember=officeMemberRepository.findById(officeMemberDto.getId())
               .orElseThrow(() -> new NotFoundException("Member doesn't exist"));
@@ -59,6 +73,10 @@ public class OfficeMemberServiceImp implements OfficeMemberService{
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "officeMemberCache", key = "#uuid"),
+            @CacheEvict(value = "allOfficeMemberCache", key = "'ALL_OFFICE_MEMBERS'")
+    })
     public void delete(UUID uuid) {
         officeMemberRepository.findById(uuid)
                 .orElseThrow(()->new NotFoundException("member not found"));
@@ -67,6 +85,7 @@ public class OfficeMemberServiceImp implements OfficeMemberService{
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "officeMemberCache", key = "#uuid")
     public OfficeMemberDto findById(UUID uuid) {
         OfficeMember officeMember = officeMemberRepository.findById(uuid)
                 .orElseThrow(()->new NotFoundException("member not found"));
@@ -75,6 +94,7 @@ public class OfficeMemberServiceImp implements OfficeMemberService{
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "allOfficeMemberCache", key = "'ALL_OFFICE_MEMBERS'")
     public List<OfficeMemberDto> findAll() {
         return officeMemberRepository.findAll()
                 .stream()

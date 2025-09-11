@@ -14,6 +14,7 @@ public class MemberMapperImpl implements MemberMapper {
                 .firstName(member.getFirstName())
                 .lastName(member.getLastName())
                 .createdAt(member.getCreatedAt())
+                .activated(member.getActivated())
                 .build();
     }
 

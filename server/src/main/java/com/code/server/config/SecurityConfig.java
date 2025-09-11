@@ -97,5 +97,4 @@ public class SecurityConfig {
             servletContext.getSessionCookieConfig().setPath("/admin");
         };
     }
-
 }

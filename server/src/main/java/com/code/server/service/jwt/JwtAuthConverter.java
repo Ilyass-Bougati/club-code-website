@@ -1,6 +1,7 @@
 package com.code.server.service.jwt;
 
 import com.code.server.entity.Member;
+import com.code.server.exception.Unauthorized;
 import com.code.server.service.member.MemberEntityService;
 import com.code.server.service.member.security.CustomUserDetails;
 import org.springframework.core.convert.converter.Converter;
@@ -25,6 +26,9 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
     @Override
     public AbstractAuthenticationToken convert(@NonNull Jwt jwt) {
         Member member = memberEntityService.findByEmail(jwt.getSubject());
+        if (member == null || !member.getActivated()) {
+            throw new Unauthorized("Account doesn't exist or isn't activated");
+        }
         CustomUserDetails user = new CustomUserDetails(member);
         return new UsernamePasswordAuthenticationToken(user, "N/A", user.getAuthorities());
     }

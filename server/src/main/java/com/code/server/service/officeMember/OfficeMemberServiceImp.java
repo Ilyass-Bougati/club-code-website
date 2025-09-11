@@ -29,12 +29,22 @@ public class OfficeMemberServiceImp implements OfficeMemberService{
     private final ImageRepository imageRepository;
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "allOfficeMemberCache", key = "'ALL_OFFICE_MEMBERS'")
+    }, put = {
+            @CachePut(value = "officeMemberCache", key = "#result.id"),
+    })
     public OfficeMemberDto save(OfficeMemberDto officeMemberDto) {
         officeMemberDto.setId(null);
         return officeMemberMapper.toDTO(officeMemberRepository.save(officeMemberMapper.toEntity(officeMemberDto)));
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "allOfficeMemberCache", key = "'ALL_OFFICE_MEMBERS'")
+    }, put = {
+            @CachePut(value = "officeMemberCache", key = "#officeMemberDto.id"),
+    })
     public OfficeMemberDto update(OfficeMemberDto officeMemberDto) {
         OfficeMember officeMember=officeMemberRepository.findById(officeMemberDto.getId())
               .orElseThrow(() -> new NotFoundException("Member doesn't exist"));

@@ -38,6 +38,16 @@ public class MemberEntityServiceImpl implements MemberEntityService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    @CacheEvict(value = "memberCache", key = "#email")
+    public void activateMember(String email) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Member not found"));
+        member.setActivated(true);
+        memberRepository.save(member);
+    }
+
+    @Override
     public Member findByRefreshToken(String refreshToken) {
         return memberRepository.findByRefreshToken(refreshToken)
                 .orElseThrow(() -> new NotFoundException("Member not found"));

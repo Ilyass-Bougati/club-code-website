@@ -24,6 +24,7 @@ public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtCookieFilter jwtCookieFilter;
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     @Bean
     public SecurityFilterChain adminFilterChain(HttpSecurity http) throws Exception {
@@ -36,18 +37,22 @@ public class SecurityConfig {
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                         // admin login page and processing
                         .requestMatchers("/admin/login").permitAll()
-                        // everything else under admin requires ADMIN role
+                        // STAFF users can only access pending members page
+                        .requestMatchers("/admin/members/pending").hasAnyRole("ADMIN", "SUPER_ADMIN", "STAFF")
+                        // everything else under admin requires ADMIN or SUPER_ADMIN role only
                         .requestMatchers("/admin/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
                 )
                 .formLogin(form -> form
                         .loginPage("/admin/login")
                         .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/admin/dashboard", true)
+                        .successHandler(customAuthenticationSuccessHandler)
                         .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/admin/login?logout")
+                        .logoutSuccessUrl("/admin/login?logout=true")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
                         .permitAll()
                 )
                 // Allow sessions for form login

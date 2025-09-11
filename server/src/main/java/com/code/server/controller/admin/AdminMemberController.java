@@ -28,8 +28,13 @@ public class AdminMemberController {
     private final MemberEntityService memberEntityService;
 
     @GetMapping
-    public String list(Model model) {
+    public String list(Model model, RedirectAttributes redirectAttributes) {
         UserRole currentUserRole = getCurrentUserRole();
+
+        // STAFF users should only access pending page
+        if (isStaff(currentUserRole)) {
+            return "redirect:/admin/members/pending";
+        }
 
         // Only show activated members in the main list
         List<Member> members = memberRepository.findAll().stream()
@@ -46,6 +51,11 @@ public class AdminMemberController {
     @GetMapping("/new")
     public String createForm(Model model, RedirectAttributes redirectAttributes) {
         UserRole currentUserRole = getCurrentUserRole();
+
+        // STAFF users should only access pending page
+        if (isStaff(currentUserRole)) {
+            return "redirect:/admin/members/pending";
+        }
 
         if (!isAdmin(currentUserRole)) {
             redirectAttributes.addFlashAttribute("error", "Only ADMIN and SUPER_ADMIN users can create new members.");
@@ -132,6 +142,11 @@ public class AdminMemberController {
     @GetMapping("/{id}/edit")
     public String editForm(@PathVariable UUID id, Model model, RedirectAttributes redirectAttributes) {
         UserRole currentUserRole = getCurrentUserRole();
+
+        // STAFF users should only access pending page
+        if (isStaff(currentUserRole)) {
+            return "redirect:/admin/members/pending";
+        }
 
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Member not found"));
@@ -249,6 +264,11 @@ public class AdminMemberController {
     public String details(@PathVariable UUID id, Model model, RedirectAttributes redirectAttributes) {
         UserRole currentUserRole = getCurrentUserRole();
 
+        // STAFF users should only access pending page
+        if (isStaff(currentUserRole)) {
+            return "redirect:/admin/members/pending";
+        }
+
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Member not found"));
 
@@ -302,6 +322,7 @@ public class AdminMemberController {
         model.addAttribute("members", pendingMembers);
         model.addAttribute("isSuperAdmin", isSuperAdmin(currentUserRole));
         model.addAttribute("isAdmin", isAdmin(currentUserRole));
+        model.addAttribute("isStaff", isStaff(currentUserRole));
         model.addAttribute("currentUserRole", currentUserRole);
         return "admin/members/pending";
     }
@@ -312,6 +333,10 @@ public class AdminMemberController {
 
     private boolean isAdmin(UserRole currentUserRole) {
         return currentUserRole == UserRole.ADMIN || currentUserRole == UserRole.SUPER_ADMIN;
+    }
+
+    private boolean isStaff(UserRole currentUserRole) {
+        return currentUserRole == UserRole.STAFF;
     }
 
     private UserRole getCurrentUserRole() {
@@ -345,7 +370,7 @@ public class AdminMemberController {
     }
 
     private boolean canActivateMember(Member targetMember, UserRole currentUserRole) {
-        return isAdmin(currentUserRole) && !targetMember.getActivated();
+        return (isAdmin(currentUserRole) || isStaff(currentUserRole)) && !targetMember.getActivated();
     }
 
     private UserRole[] getAvailableRoles(UserRole currentUserRole) {

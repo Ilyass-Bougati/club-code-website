@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -26,9 +27,11 @@ public class AreaOfInterest {
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "areaOfInterests")
-    private Set<Event> events;
+    @Builder.Default
+    private Set<Event> events = new HashSet<>();;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
-    private Set<Member> members;
+    @Builder.Default
+    private Set<Member> members = new HashSet<>();
 }

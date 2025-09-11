@@ -33,6 +33,10 @@ public class CustomUserDetails implements UserDetails {
             staffGrantedAuthorities.add(new MemberGrantedAuthority("ADMIN"));
         }
 
+        if (member.getRole() == UserRole.STAFF) {
+            staffGrantedAuthorities.add(new MemberGrantedAuthority("STAFF"));
+        }
+
         return staffGrantedAuthorities;
     }
 

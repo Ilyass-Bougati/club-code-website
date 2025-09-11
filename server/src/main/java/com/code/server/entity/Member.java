@@ -65,6 +65,7 @@ public class Member {
     @Max(value = 10, message = "Number of years for a registration request can't be more than 10")
     private Integer year;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "events_area_of_interests",
@@ -74,6 +75,7 @@ public class Member {
     @Builder.Default
     private Set<AreaOfInterest> areaOfInterests = new HashSet<>();
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "members_interest_events",

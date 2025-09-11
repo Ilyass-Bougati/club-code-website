@@ -38,7 +38,7 @@ public class SecurityConfig {
                         // admin login page and processing
                         .requestMatchers("/admin/login").permitAll()
                         // STAFF users can only access pending members page
-                        .requestMatchers("/admin/members/pending").hasAnyRole("ADMIN", "SUPER_ADMIN", "STAFF")
+                        .requestMatchers("/admin/members/**").hasAnyRole("ADMIN", "SUPER_ADMIN", "STAFF")
                         // everything else under admin requires ADMIN or SUPER_ADMIN role only
                         .requestMatchers("/admin/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
                 )

@@ -61,7 +61,7 @@ export default function NewsDetail({ news }: { news: News }) {
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link href={`/news/${news.id}`}>{news.title}</Link>
+                <Link href={`/news/${news.id}`} className="text-foreground">{news.title}</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
           </BreadcrumbList>
@@ -71,7 +71,7 @@ export default function NewsDetail({ news }: { news: News }) {
       {/* News Card */}
       <div className="flex flex-col gap-8 md:gap-5 ">
         {/* Title */}
-        <motion.h1 variants={item} className="text-3xl md:text-4xl font-bold">
+        <motion.h1 variants={item} className="text-3xl md:text-4xl font-bold break-all">
           {news.title}
         </motion.h1>
 
@@ -109,7 +109,7 @@ export default function NewsDetail({ news }: { news: News }) {
         {/* Description */}
         <motion.p
           variants={item}
-          className="text-base text-muted-foreground leading-relaxed"
+          className="text-base text-muted-foreground leading-relaxed break-all"
         >
           {news.description}
         </motion.p>

@@ -16,7 +16,6 @@ const api = axios.create({
     Accept: "application/json",
   },
 });
-console.log("API BASE URL:", process.env.NEXT_PUBLIC_BACKEND_URL);
 
 
 // Response interceptor for handling 401 and token refresh

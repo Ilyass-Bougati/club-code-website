@@ -30,11 +30,11 @@ export default function NewsCard({ news }: { news: News }) {
           </div>
           <div className="md:col-span-4 xl:col-span-5">
             <Link href={`/news/${news.id}`} className="group">
-              <h1 className="text-2xl mb-2 font-medium  transition-colors duration-200  hover:text-primary/90">
+              <h1 className="text-2xl mb-2 font-medium  transition-colors duration-200  hover:text-primary/90 break-all">
                 {news.title}
               </h1>
             </Link>
-            <p className="text-base text-muted-foreground line-clamp-3 md:line-clamp-2  leading-relaxed">
+            <p className="text-base text-muted-foreground line-clamp-3 md:line-clamp-2  leading-relaxed break-all">
               {news.description}
             </p>
             <Link

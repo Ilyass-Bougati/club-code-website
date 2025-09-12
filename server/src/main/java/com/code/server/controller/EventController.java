@@ -36,6 +36,11 @@ public class EventController {
         memberService.registerMember(principal.getMember(), id);
     }
 
+    @PostMapping("/remove/{id}")
+    public void removeEvent(@AuthenticationPrincipal CustomUserDetails principal, @PathVariable UUID id){
+        memberService.removeMember(principal.getMember(), id);
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteEvent(@PathVariable UUID id){

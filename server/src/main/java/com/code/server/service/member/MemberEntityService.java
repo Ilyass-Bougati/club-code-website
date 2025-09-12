@@ -1,8 +1,11 @@
 package com.code.server.service.member;
 
+import com.code.server.entity.Event;
 import com.code.server.entity.Member;
 import com.code.server.service.CrudEntityService;
 
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public interface MemberEntityService extends CrudEntityService<Member, UUID> {
@@ -11,4 +14,5 @@ public interface MemberEntityService extends CrudEntityService<Member, UUID> {
     void addRefreshToken(String email, String refreshToken);
     void revokeRefreshToken(String email);
     void activateMember(String email);
+    Set<Event> getMemberJoinedEvents(String email);
 }

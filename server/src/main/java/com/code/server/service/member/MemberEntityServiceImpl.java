@@ -1,5 +1,6 @@
 package com.code.server.service.member;
 
+import com.code.server.entity.Event;
 import com.code.server.entity.Member;
 import com.code.server.exception.NotFoundException;
 import com.code.server.repository.MemberRepository;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 // TODO : This could be cached later
@@ -45,6 +48,12 @@ public class MemberEntityServiceImpl implements MemberEntityService {
                 .orElseThrow(() -> new NotFoundException("Member not found"));
         member.setActivated(true);
         memberRepository.save(member);
+    }
+
+    @Override
+    public Set<Event> getMemberJoinedEvents(String email) {
+        Member member = findByEmail(email);
+        return member.getInterestEvents();
     }
 
     @Override

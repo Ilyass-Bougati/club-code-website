@@ -10,4 +10,5 @@ import java.util.UUID;
 public interface MemberService extends CrudDtoService<UUID, MemberDto> {
     MemberDto register(MemberRegisterRequest request);
     void registerMember(Member member, UUID eventId);
+    void removeMember(Member member, UUID id);
 }

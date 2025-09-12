@@ -76,7 +76,7 @@ public class Member {
     private Set<AreaOfInterest> areaOfInterests = new HashSet<>();
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "members_interest_event",
             joinColumns = @JoinColumn(name = "member_id"),

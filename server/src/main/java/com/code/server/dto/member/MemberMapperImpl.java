@@ -1,10 +1,21 @@
 package com.code.server.dto.member;
 
+import com.code.server.entity.Event;
 import com.code.server.entity.Member;
+import com.code.server.service.event.EventEntityService;
+import com.code.server.service.event.EventService;
+import com.code.server.service.member.MemberEntityService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.stream.Collectors;
+
 @Service
+@RequiredArgsConstructor
 public class MemberMapperImpl implements MemberMapper {
+
+    private final MemberEntityService memberEntityService;
+
     @Override
     public MemberDto toDTO(Member member) {
         return MemberDto.builder()
@@ -15,6 +26,13 @@ public class MemberMapperImpl implements MemberMapper {
                 .lastName(member.getLastName())
                 .createdAt(member.getCreatedAt())
                 .activated(member.getActivated())
+                // returning the joined events
+                .joinedEvents(
+                        memberEntityService.getMemberJoinedEvents(member.getEmail())
+                                .stream()
+                                .map(Event::getId)
+                                .toList()
+                )
                 .build();
     }
 

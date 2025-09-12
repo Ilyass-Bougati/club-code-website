@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use client";
 
 import { Card } from "@/components/ui/card";
@@ -78,6 +79,83 @@ export default function EventDetail({ event }: EventDetailProps) {
     event.registrationOpen && new Date(event.registrationDeadline) > new Date();
 
   return (
+=======
+"use client"
+
+import { Card } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { CalendarDays, ArrowLeft, Clock, Users, Award, Tag, FileText, Info } from "lucide-react"
+
+import { motion } from "motion/react"
+import { useEffect, useState } from "react"
+import Link from "next/link"
+
+import { Event  } from "@/types/backendTypes"
+import { toast } from "sonner"; 
+
+
+
+
+
+
+const formatDate = (date: string | Date) =>
+    new Date(date).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
+
+
+interface EventDetailProps {
+    event: Event;
+    joinEventAction: (eventId: string) => Promise<{ success: boolean; error?: string }>;
+}
+
+
+export default function EventDetail({ event, joinEventAction }: EventDetailProps) {
+ 
+
+    const [mounted, setMounted] = useState(false);
+    const [loading, setLoading] = useState(false);
+    if (!event) {
+        return (
+            <div className="container mx-auto py-20 text-center">
+                <h2 className="text-2xl font-bold">Event not found</h2>
+                <p className="text-muted-foreground mt-2">
+                    {`The event you are looking for doesn't exist or could not be loaded.` }
+                </p>
+                <Link href="/events">
+                    <Button className="mt-4">Back to Events</Button>
+                </Link>
+            </div>
+        );
+    }
+    const handleJoin = async () => {
+        setLoading(true);
+        if (!event.id) {
+            toast.error("error ");
+            return;
+        }
+        const result = await joinEventAction(event.id);
+
+        if (result.success) {
+            toast.success("You successfully joined this event");
+        } else {
+            toast.error(result.error);
+        }
+        setLoading(false);
+    };
+
+
+
+
+
+  const isRegistrationAvailable = event.registrationOpen && new Date(event.registrationDeadline) > new Date()
+
+    return (
+
+>>>>>>> main
     <div className="container mx-auto py-10 min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
       <div className="container mx-auto px-4 py-8">
         <motion.div
@@ -87,6 +165,7 @@ export default function EventDetail({ event }: EventDetailProps) {
           className="mb-8"
         >
           <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+<<<<<<< HEAD
             <Link
               href="/events"
               className="hover:text-primary transition-colors"
@@ -94,23 +173,37 @@ export default function EventDetail({ event }: EventDetailProps) {
               Events
             </Link>
             <span>{" > "}</span>
+=======
+            <Link href="/events" className="hover:text-primary transition-colors">
+              Events
+            </Link>
+            <span>{' > '}</span>
+>>>>>>> main
             <span className="text-foreground font-medium">{event.title}</span>
           </div>
         </motion.div>
 
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
+<<<<<<< HEAD
+=======
+      
+>>>>>>> main
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
               className="relative overflow-hidden rounded-2xl shadow-2xl"
             >
+<<<<<<< HEAD
               <img
                 src={event.image.uri}
                 alt={event.title}
                 className="w-full h-96 object-cover"
               />
+=======
+              <img src={event.image.uri} alt={event.title} className="w-full h-96 object-cover" />
+>>>>>>> main
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4 right-4">
                 <div className="flex items-center gap-2 mb-2">
@@ -131,6 +224,7 @@ export default function EventDetail({ event }: EventDetailProps) {
                   Description
                 </h2>
                 <div className="prose prose-gray dark:prose-invert max-w-none">
+<<<<<<< HEAD
                   {event.description.split("\n\n").map((paragraph, index) => (
                     <p
                       key={index}
@@ -138,6 +232,10 @@ export default function EventDetail({ event }: EventDetailProps) {
                     >
                       {paragraph}
                     </p>
+=======
+                  {event.description.split('\n\n').map((paragraph, index) => (
+                    <p key={index} className="mb-4 text-muted-foreground leading-relaxed">{paragraph}</p>
+>>>>>>> main
                   ))}
                 </div>
               </Card>
@@ -155,12 +253,17 @@ export default function EventDetail({ event }: EventDetailProps) {
                 </h2>
                 <div className="flex flex-wrap gap-2">
                   {event.areaOfInterests.map((interest) => (
+<<<<<<< HEAD
                     <span
                       key={interest.id}
                       className="text-muted-foreground inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm bg-muted "
                     >
                       <span className="text-primary"> {"/> "}</span>{" "}
                       {interest.name}
+=======
+                    <span key={interest.id} className="text-muted-foreground inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm bg-muted ">
+                  <span className="text-primary">     {'/> '}</span> {interest.name}
+>>>>>>> main
                     </span>
                   ))}
                 </div>
@@ -183,29 +286,40 @@ export default function EventDetail({ event }: EventDetailProps) {
                   <div className="flex items-center gap-3">
                     <CalendarDays className="w-5 h-5 text-primary" />
                     <div>
+<<<<<<< HEAD
                       <p className="text-sm text-muted-foreground">
                         Published at
                       </p>
                       <p className="font-medium">
                         {formatDate(event.publishedAt)}
                       </p>
+=======
+                      <p className="text-sm text-muted-foreground">Published at</p>
+                      <p className="font-medium">{formatDate(event.publishedAt)}</p>
+>>>>>>> main
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
                     <Clock className="w-5 h-5 text-primary" />
                     <div>
+<<<<<<< HEAD
                       <p className="text-sm text-muted-foreground">
                         Registration deadline
                       </p>
                       <p className="font-medium">
                         {formatDate(event.registrationDeadline)}
                       </p>
+=======
+                      <p className="text-sm text-muted-foreground">Registration deadline</p>
+                      <p className="font-medium">{formatDate(event.registrationDeadline)}</p>
+>>>>>>> main
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <Users className="w-5 h-5 text-primary" />
                     <div>
                       <p className="text-sm text-muted-foreground">Status</p>
+<<<<<<< HEAD
                       <p
                         className={`font-medium ${
                           isRegistrationAvailable
@@ -216,6 +330,10 @@ export default function EventDetail({ event }: EventDetailProps) {
                         {isRegistrationAvailable
                           ? "Registration open"
                           : "Registration closed"}
+=======
+                      <p className={`font-medium ${isRegistrationAvailable ? 'text-success' : 'text-destructive'}`}>
+                        {isRegistrationAvailable ? "Registration open" : "Registration closed"}
+>>>>>>> main
                       </p>
                     </div>
                   </div>
@@ -229,6 +347,7 @@ export default function EventDetail({ event }: EventDetailProps) {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.7 }}
               >
+<<<<<<< HEAD
                 <Button
                   onClick={handleJoin}
                   disabled={loading || userLoading || !user}
@@ -240,6 +359,19 @@ export default function EventDetail({ event }: EventDetailProps) {
                   {loading ? "Joining..." : "Join Event"}
                   <ArrowLeft className="w-4 h-4 rotate-180" />
                 </Button>
+=======
+         
+
+        
+    <Button onClick={handleJoin} disabled={loading}
+        className="w-full px-6 py-4 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground rounded-xl"
+      >
+      {loading ? "Joining..." : "Join Event"}
+          <ArrowLeft className="w-4 h-4 rotate-180" />
+    </Button>
+      
+ 
+>>>>>>> main
               </motion.div>
             )}
 
@@ -256,12 +388,18 @@ export default function EventDetail({ event }: EventDetailProps) {
                   </h3>
                   <div className="grid grid-cols-1 gap-2">
                     {event.sponsors.map((sponsor) => (
+<<<<<<< HEAD
                       <div
                         key={sponsor.id}
                         className="rounded-xl border bg-muted/60 px-3 py-2 hover:bg-muted transition-colors w-full"
                       >
                         <div className="flex items-center gap-2 text-sm font-medium text-foreground whitespace-nowrap">
                           {"</> "} {sponsor.name}
+=======
+                      <div key={sponsor.id} className="rounded-xl border bg-muted/60 px-3 py-2 hover:bg-muted transition-colors w-full">
+                        <div className="flex items-center gap-2 text-sm font-medium text-foreground whitespace-nowrap">
+                          {'</> '} {sponsor.name}
+>>>>>>> main
                         </div>
                       </div>
                     ))}
@@ -272,6 +410,12 @@ export default function EventDetail({ event }: EventDetailProps) {
           </div>
         </div>
       </div>
+<<<<<<< HEAD
     </div>
   );
+=======
+  
+    </div>
+  )
+>>>>>>> main
 }

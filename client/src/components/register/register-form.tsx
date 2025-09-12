@@ -30,6 +30,7 @@ import { Checkbox } from "../ui/checkbox";
 import { Label } from "../ui/label";
 import Link from "next/link";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const areaOfInterestSchema = z.object({
     id: z.string().uuid().optional(),
@@ -51,11 +52,7 @@ const schema = z.object({
     email: z.string().email("Invalid email address").trim(),
     password: z
         .string()
-        .min(8, "Password must be at least 8 characters")
-        .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-        .regex(/[a-z]/, "Password must contain at least one lowercase letter")
-        .regex(/[0-9]/, "Password must contain at least one number")
-        .regex(/[^A-Za-z0-9]/, "Password must contain at least one special character"),
+        .min(8, "Password must be at least 8 characters"),
     phoneNumber: z
   .string()
   .regex(/^[0-9]{10}$/, "Le numéro doit contenir exactement 10 chiffres"),
@@ -112,12 +109,14 @@ export default function RegisterForm() {
         },
     });
 
+    const router = useRouter()
+
     const onSubmit = async (values: FormFields) => {
         try {
             const response = await registerAction(values);
             toast.success("Registration successful!");
             form.reset();
-            console.log("Registered successfully:", response);
+            router.push("/")
         } catch (err: unknown) {
             toast.error("Registration failed. Please try again.");
             console.error("Registration error:", err);

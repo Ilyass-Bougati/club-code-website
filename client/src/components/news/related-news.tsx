@@ -32,7 +32,7 @@ export default function RelatedNews({
       whileInView="show"
       viewport={{ once: true }}
       variants={container}
-      className="md:col-span-1 py-12"
+      className="md:col-span-1 py-12 border-t md:border-none"
     >
       <div className="sticky top-24 space-y-8">
         {/* Related News Section */}
@@ -62,7 +62,7 @@ export default function RelatedNews({
                       idx === 0 && "py-0 pb-2"
                     )}
                   >
-                    <p className="font-medium line-clamp-2">{item.title}</p>
+                    <p className="font-medium line-clamp-2 break-all">{item.title}</p>
                     <p className="text-sm text-muted-foreground">
                       {format(item.publishedAt, "MMM dd, yyyy")}
                     </p>
@@ -104,7 +104,7 @@ export default function RelatedNews({
                       idx === 0 && "py-0 pb-2"
                     )}
                   >
-                    <p className="font-medium line-clamp-2">{item.title}</p>
+                    <p className="font-medium line-clamp-2 break-all">{item.title}</p>
                     <p className="text-sm text-muted-foreground">
                       {format(item.publishedAt, "MMM dd, yyyy")}
                     </p>

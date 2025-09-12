@@ -96,9 +96,8 @@ public class MemberServiceImpl implements MemberService {
     public void registerMember(Member member, UUID eventId) {
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new NotFoundException("Event not found"));
-        Member newMember = memberRepository.findByEmail(member.getEmail())
+        Member newMember = memberRepository.findById(member.getId())
                 .orElseThrow(() -> new NotFoundException("Member not found"));
-        newMember.getInterestEvents().add(event);
 
         if (!newMember.getInterestEvents().contains(event)) {
             newMember.getInterestEvents().add(event);

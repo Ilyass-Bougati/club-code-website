@@ -1,7 +1,6 @@
 "use client";
 
 import { z } from "zod";
-
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,10 +20,12 @@ import api from "@/lib/axios";
 import { toast } from "sonner";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { Loading } from "../loading";
+import { useUser } from "@/hooks/use-user";
 
 const formSchema = z.object({
-  email: z.email(),
-  password: z.string().min(8),
+  email: z.email("Please enter a valid email address"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
 export function LoginForm({
@@ -38,7 +39,9 @@ export function LoginForm({
       password: "",
     },
   });
+
   const router = useRouter();
+  const { mutate } = useUser();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -53,22 +56,27 @@ export function LoginForm({
             "Content-Type": "application/json",
             Accept: "*/*",
           },
-          withCredentials: true, // important si API envoie refresh_token cookie
+          withCredentials: true, // important if API sends refresh_token cookie
         }
       );
 
-      if(!res.data){
-        toast.error("Erreur de connexion");
+      if (!res.data) {
+        toast.error("Login failed. Please try again.");
+        return;
       }
 
-      toast.success("Connexion réussie !");
-      router.push("/"); // redirection après login
+      // ✅ refresh user state
+      await mutate();
+
+      toast.success("Successfully logged in!");
+      router.push("/");
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
-        const message = error.response?.data?.message || "Erreur de connexion";
+        const message =
+          error.response?.data?.message || "Login failed. Please try again.";
         toast.error(message);
       } else {
-        toast.error("Erreur inconnue");
+        toast.error("An unexpected error occurred.");
       }
     }
   }
@@ -89,10 +97,11 @@ export function LoginForm({
                 <span className="sr-only">Code.</span>
               </Link>
               <h1 className="text-xl font-bold">Welcome to Code.</h1>
-              <p className="text-muted-foreground text-sm text-balance">
-                Enter your email below to login to your account
+              <p className="text-muted-foreground text-sm text-center">
+                Enter your email and password to log in to your account
               </p>
             </div>
+
             <div className="flex flex-col gap-4">
               <FormField
                 control={form.control}
@@ -112,6 +121,7 @@ export function LoginForm({
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="password"
@@ -125,17 +135,39 @@ export function LoginForm({
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full">
-                Login
+
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={form.formState.isSubmitting}
+              >
+                {form.formState.isSubmitting ? (
+                  <Loading className="text-primary-foreground" />
+                ) : (
+                  "Login"
+                )}
               </Button>
             </div>
           </div>
         </form>
       </Form>
-      <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
+
+      <div className="text-muted-foreground text-center text-xs">
         By clicking continue, you agree to our{" "}
-        <Link href="/terms-of-service">Terms of Service</Link> and{" "}
-        <Link href="/privacy-policy">Privacy Policy</Link>.
+        <Link
+          href="/terms-of-service"
+          className="underline underline-offset-4 hover:text-primary"
+        >
+          Terms of Service
+        </Link>{" "}
+        and{" "}
+        <Link
+          href="/privacy-policy"
+          className="underline underline-offset-4 hover:text-primary"
+        >
+          Privacy Policy
+        </Link>
+        .
       </div>
     </div>
   );

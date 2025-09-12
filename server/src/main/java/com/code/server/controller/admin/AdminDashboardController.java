@@ -2,10 +2,13 @@ package com.code.server.controller.admin;
 
 import com.code.server.dto.event.EventDto;
 import com.code.server.dto.news.NewsDto;
+import com.code.server.entity.Member;
+import com.code.server.enums.UserRole;
 import com.code.server.service.event.EventService;
 import com.code.server.service.news.NewsService;
 import com.code.server.service.officeMember.OfficeMemberService;
 import com.code.server.repository.MemberRepository;
+import com.code.server.utils.Registration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -15,8 +18,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -37,6 +42,12 @@ public class AdminDashboardController {
 
     @GetMapping({"", "/", "/dashboard"})
     public String dashboard(Model model) {
+        UserRole currentUserRole = getCurrentUserRole();
+        
+        // STAFF users should only access pending page
+        if (isStaff(currentUserRole)) {
+            return "redirect:/admin/members/pending";
+        }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = "Admin";
@@ -79,6 +90,9 @@ public class AdminDashboardController {
                 .collect(Collectors.toList());
 
         model.addAttribute("currentUserName", currentUserName);
+        model.addAttribute("isSuperAdmin", isSuperAdmin(currentUserRole));
+        model.addAttribute("isStaff", isStaff(currentUserRole));
+        model.addAttribute("registrationOpen", Registration.getRegistrationOpen());
         model.addAttribute("totalMembers", totalMembers);
         model.addAttribute("totalNews", totalNews);
         model.addAttribute("totalEvents", totalEvents);
@@ -106,6 +120,49 @@ public class AdminDashboardController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
                 .contentType(MediaType.parseMediaType("text/csv"))
                 .body(csv.toString());
+    }
+
+    @PostMapping("/toggle-registration")
+    public String toggleRegistration(RedirectAttributes redirectAttributes) {
+        UserRole currentUserRole = getCurrentUserRole();
+        
+        if (!isSuperAdmin(currentUserRole)) {
+            redirectAttributes.addFlashAttribute("error", "Only SUPER_ADMIN users can toggle registration.");
+            return "redirect:/admin/dashboard";
+        }
+        
+        Boolean currentStatus = Registration.getRegistrationOpen();
+        Boolean newStatus = (currentStatus == null || !currentStatus) ? true : false;
+        Registration.setRegistrationOpen(newStatus);
+        
+        String message = newStatus ? "Registration has been opened successfully!" : "Registration has been closed successfully!";
+        redirectAttributes.addFlashAttribute("success", message);
+        
+        return "redirect:/admin/dashboard";
+    }
+
+    private boolean isSuperAdmin(UserRole currentUserRole) {
+        return currentUserRole == UserRole.SUPER_ADMIN;
+    }
+
+    private boolean isStaff(UserRole currentUserRole) {
+        return currentUserRole == UserRole.STAFF;
+    }
+
+    private UserRole getCurrentUserRole() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getName() != null) {
+            String email = authentication.getName();
+            try {
+                return memberRepository.findByEmail(email)
+                        .map(Member::getRole)
+                        .orElse(UserRole.ADMIN);
+            } catch (Exception e) {
+                System.err.println("Error getting current user role: " + e.getMessage());
+                return UserRole.ADMIN;
+            }
+        }
+        return UserRole.ADMIN;
     }
 }
 

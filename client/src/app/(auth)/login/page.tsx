@@ -1,20 +1,27 @@
 "use client";
+
+import { redirect } from "next/navigation";
 import { LoginForm } from "@/components/auth/login-form";
 import { useUser } from "@/hooks/use-user";
-import { useRouter } from "next/navigation";
+import { Loading } from "@/components/loading";
 
 export default function LoginPage() {
-  const {user} = useUser();
-  const router = useRouter();
-
+  const { user, loading, error } = useUser();
   if (user) {
-    router.push("/");
+    redirect("/");
   }
+
+  if (loading) return <Loading />;
+
+  if (error) {
+    return (
+      <p className="text-red-500">Something went wrong. Please try again.</p>
+    );
+  }
+
   return (
-    <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
-      <div className="w-full max-w-sm">
-        <LoginForm />
-      </div>
+    <div className="w-full max-w-sm">
+      <LoginForm />
     </div>
   );
 }

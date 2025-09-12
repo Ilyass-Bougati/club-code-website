@@ -1,6 +1,7 @@
 package com.code.server.entity;
 
 import com.code.server.enums.UserRole;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -17,7 +18,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "members")
+@Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Member {
     @Id
@@ -27,6 +28,7 @@ public class Member {
 
     @Email
     @NotBlank
+    @Column(nullable = false, unique = true)
     private String email;
 
     @NotBlank
@@ -48,10 +50,12 @@ public class Member {
     @NotNull
     private UserRole role = UserRole.USER;
 
+    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy="member")
     private Set<Event> addedEvents = new HashSet<>();
 
+    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy="member")
     private Set<News> addedNews = new HashSet<>();
@@ -62,12 +66,22 @@ public class Member {
     private Integer year;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "events_area_of_interests",
+            joinColumns = @JoinColumn(name = "events_id"),
+            inverseJoinColumns = @JoinColumn(name = "area_of_interests_id")
+    )
     @Builder.Default
     private Set<AreaOfInterest> areaOfInterests = new HashSet<>();
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "members_interest_events",
+            joinColumns = @JoinColumn(name = "member_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id")
+    )
     @Builder.Default
     private Set<Event> interestEvents = new HashSet<>();
 
@@ -76,6 +90,9 @@ public class Member {
 
     @Column(length = 1024)
     private String refreshToken;
+
+    @Builder.Default
+    private Boolean activated = false;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

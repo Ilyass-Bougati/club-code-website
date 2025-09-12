@@ -10,4 +10,5 @@ public interface MemberEntityService extends CrudEntityService<Member, UUID> {
     Member findByRefreshToken(String refreshToken);
     void addRefreshToken(String email, String refreshToken);
     void revokeRefreshToken(String email);
+    void activateMember(String email);
 }

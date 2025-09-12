@@ -2,10 +2,12 @@ package com.code.server.controller;
 
 
 import com.code.server.dto.event.EventDto;
+import com.code.server.dto.event.PageCount;
 import com.code.server.service.event.EventService;
 import com.code.server.service.member.MemberService;
 import com.code.server.service.member.security.CustomUserDetails;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +41,7 @@ public class EventController {
     public void deleteEvent(@PathVariable UUID id){
         eventService.delete(id);
     }
+    
     @PutMapping("/{id}")
     public ResponseEntity<EventDto> updateEvent(@RequestBody @Valid EventDto eventDto){
         return ResponseEntity.ok(eventService.update(eventDto));
@@ -49,8 +52,13 @@ public class EventController {
 
     // TODO : test this later, it looks sketchy
     @GetMapping("/page/{page}")
-    public ResponseEntity<List<EventDto>> getAllEvents(@PathVariable Integer page){
-        return ResponseEntity.ok(eventService.getPage(page, pageSize));
+    public ResponseEntity<List<EventDto>> getAllEvents(@PathVariable @Min(value = 1, message = "Page can't be less than 1") Integer page){
+        return ResponseEntity.ok(eventService.getPage(page - 1, pageSize));
+    }
+
+    @GetMapping("/page/count")
+    public ResponseEntity<PageCount> getEventPageCount() {
+        return ResponseEntity.ok(eventService.getPageCount(pageSize));
     }
 
     @GetMapping("/{id}")

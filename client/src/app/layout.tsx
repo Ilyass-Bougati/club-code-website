@@ -100,24 +100,26 @@ export default async function RootLayout({
                 "rgba(255,100,0, 0.5)",
                 "transparent",
               ]}
-              className="border-b border-secondary"
+              className="border-b border-secondary flex flex-wrap  items-center justify-center pb-1 text-center break-all"
             >
-              <span>🎉 Registration is now open! Go to</span>
+              <span className="whitespace-nowrap">
+                🎉 Registration is now open! Go to
+              </span>
               <Link
-                className="mx-1 font-semibold underline"
+                className="mx-1 font-semibold underline whitespace-nowrap"
                 href="/register"
                 rel="noopener"
               >
                 the registration page
               </Link>
-              <span>to secure your spot.</span>
+              <span className="whitespace-nowrap">to secure your spot.</span>
             </Banner>
           )}
 
           {children}
 
           <Analytics />
-          <Toaster richColors position="top-right" />
+          <Toaster richColors  />
         </ThemeProvider>
       </body>
     </html>

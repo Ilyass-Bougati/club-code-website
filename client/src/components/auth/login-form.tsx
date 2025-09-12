@@ -18,7 +18,7 @@ import Logo from "../layouts/logo";
 import Link from "next/link";
 import api from "@/lib/axios";
 import { toast } from "sonner";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { Loading } from "../loading";
 import { useUser } from "@/hooks/use-user";
@@ -70,10 +70,11 @@ export function LoginForm({
 
       toast.success("Successfully logged in!");
       router.push("/");
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
+    } catch (err: unknown) {
+      toast.error("Server join event error:" + err);
+      if (err instanceof AxiosError) {
         const message =
-          error.response?.data?.message || "Login failed. Please try again.";
+          err.response?.data?.message || "Login failed. Please try again.";
         toast.error(message);
       } else {
         toast.error("An unexpected error occurred.");

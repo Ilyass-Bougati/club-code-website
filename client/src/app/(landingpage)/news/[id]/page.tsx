@@ -2,6 +2,7 @@
 import { getNews } from "@/actions/news";
 import NewsDetail from "@/components/news/news-detail";
 import RelatedNews from "@/components/news/related-news";
+import { Separator } from "@/components/ui/separator";
 import React from "react";
 
 interface NewsIdPageProps {

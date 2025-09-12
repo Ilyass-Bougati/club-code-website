@@ -34,8 +34,14 @@ export function useUser() {
     fetcher,
     {
       shouldRetryOnError: true,
-      dedupingInterval: 3600 * 1000, // 1h: évite les re-fetch répétés
-      revalidateOnFocus: false, // pas de revalidation au focus
+      dedupingInterval: 3600 * 1000, // 1h
+      revalidateOnFocus: false,
+      onError: (err: AxiosError) => {
+        // ⚡ ignorer les 403
+        if (err.response?.status === 403) return;
+        // sinon tu peux logger si tu veux
+        console.error("SWR error:", err);
+      },
     }
   );
 
@@ -46,3 +52,4 @@ export function useUser() {
     mutate,
   };
 }
+

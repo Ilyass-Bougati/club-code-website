@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Card } from "@/components/ui/card";
@@ -60,14 +61,12 @@ export default function EventDetail({ event }: EventDetailProps) {
       return { success: true, data: res.data };
     } catch (err: unknown) {
       toast.error("Server join event error:" + err);
-
       if (err instanceof AxiosError) {
         return {
           success: false,
           error: err.response?.data?.message || "Failed to join event",
         };
       }
-
       return { success: false, error: "Failed to join event" };
     } finally {
       setLoading(false);

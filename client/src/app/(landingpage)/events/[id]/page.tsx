@@ -1,12 +1,11 @@
 import { getEventById, getEvents } from "@/actions/events";
 import EventDetail from "@/components/events/event-detail";
 import RelatedEvents from "@/components/events/related-events";
-import React from "react";
-interface EventPageProps {
-  params: Promise<{ id: string }>;
-}
+
+import React from "react"
 
 export default async function EventIdPage({ params }: EventPageProps) {
+
   const { id } = await params;
 
   const event = await getEventById(id);

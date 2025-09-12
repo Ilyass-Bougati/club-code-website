@@ -3,6 +3,7 @@
 import useSWR from "swr";
 import api from "@/lib/axios";
 import type { AxiosError } from "axios";
+import { UUID } from "crypto";
 
 export interface User {
   id: string;
@@ -10,6 +11,8 @@ export interface User {
   firstName: string;
   lastName: string;
   phoneNumber: string;
+  activated: boolean;
+  joinedEvents: UUID[];
   createdAt: string;
 }
 
@@ -52,4 +55,3 @@ export function useUser() {
     mutate,
   };
 }
-

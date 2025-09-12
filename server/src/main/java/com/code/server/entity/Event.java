@@ -49,8 +49,8 @@ public class Event {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "events_area_of_interests",
-            joinColumns = @JoinColumn(name = "events_id"),
-            inverseJoinColumns = @JoinColumn(name = "area_of_interests_id")
+            joinColumns = @JoinColumn(name = "event_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "area_of_interest_id", referencedColumnName = "id")
     )
     private Set<AreaOfInterest> areaOfInterests = new HashSet<>();
 
@@ -59,9 +59,9 @@ public class Event {
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "events_sponsors",
-            joinColumns = @JoinColumn(name = "events_id"),
-            inverseJoinColumns = @JoinColumn(name = "sponsors_id")
+            name = "event_sponsors",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "sponsor_id")
     )
     private Set<Sponsor> sponsors = new HashSet<>();
 

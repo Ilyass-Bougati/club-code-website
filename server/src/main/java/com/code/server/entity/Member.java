@@ -68,8 +68,8 @@ public class Member {
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "events_area_of_interests",
-            joinColumns = @JoinColumn(name = "events_id"),
+            name = "event_area_of_interests",
+            joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "area_of_interests_id")
     )
     @Builder.Default
@@ -78,7 +78,7 @@ public class Member {
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "members_interest_events",
+            name = "members_interest_event",
             joinColumns = @JoinColumn(name = "member_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id")
     )

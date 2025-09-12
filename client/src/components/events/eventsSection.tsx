@@ -10,8 +10,6 @@ import { CalendarDays, Newspaper } from "lucide-react";
 import { Event } from "@/types/backendTypes"; 
 import Pagination from "./pagination";
 
-
-
 interface EventProps {
     events: Event[];
   currentPage: number;

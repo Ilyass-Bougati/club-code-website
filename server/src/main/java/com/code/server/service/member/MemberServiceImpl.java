@@ -6,6 +6,7 @@ import com.code.server.dto.member.MemberRegisterRequest;
 import com.code.server.entity.Event;
 import com.code.server.entity.Member;
 import com.code.server.exception.NotFoundException;
+import com.code.server.repository.EventRepository;
 import com.code.server.repository.MemberRepository;
 import com.code.server.service.areasOfInterest.AreasOfInterestEntityService;
 import com.code.server.service.event.EventEntityService;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+    private final EventRepository eventRepository;
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
     private final AreasOfInterestEntityService  areasOfInterestEntityService;
@@ -85,10 +87,24 @@ public class MemberServiceImpl implements MemberService {
         return memberMapper.toDTO(memberRepository.save(member));
     }
 
+    /**
+     * This function registers a user to an event
+     * @param member
+     * @param eventId
+     */
     @Override
     public void registerMember(Member member, UUID eventId) {
-        Event event = eventEntityService.findById(eventId);
-        member.getInterestEvents().add(event);
-        memberRepository.save(member);
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new NotFoundException("Event not found"));
+        Member newMember = memberRepository.findByEmail(member.getEmail())
+                .orElseThrow(() -> new NotFoundException("Member not found"));
+        newMember.getInterestEvents().add(event);
+
+        if (!newMember.getInterestEvents().contains(event)) {
+            newMember.getInterestEvents().add(event);
+            event.getMembers().add(newMember);
+
+            memberRepository.save(newMember);
+        }
     }
 }

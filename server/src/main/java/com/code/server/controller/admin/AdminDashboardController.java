@@ -42,6 +42,12 @@ public class AdminDashboardController {
 
     @GetMapping({"", "/", "/dashboard"})
     public String dashboard(Model model) {
+        UserRole currentUserRole = getCurrentUserRole();
+        
+        // STAFF users should only access pending page
+        if (isStaff(currentUserRole)) {
+            return "redirect:/admin/members/pending";
+        }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = "Admin";
@@ -50,8 +56,6 @@ public class AdminDashboardController {
             !"anonymousUser".equals(authentication.getName())) {
             currentUserName = authentication.getName();
         }
-        
-        UserRole currentUserRole = getCurrentUserRole();
         
         int totalOfficeMembers = officeMemberService.findAll().size();
         int totalRegularMembers = memberRepository.findAll().size();
@@ -87,6 +91,7 @@ public class AdminDashboardController {
 
         model.addAttribute("currentUserName", currentUserName);
         model.addAttribute("isSuperAdmin", isSuperAdmin(currentUserRole));
+        model.addAttribute("isStaff", isStaff(currentUserRole));
         model.addAttribute("registrationOpen", Registration.getRegistrationOpen());
         model.addAttribute("totalMembers", totalMembers);
         model.addAttribute("totalNews", totalNews);
@@ -138,6 +143,10 @@ public class AdminDashboardController {
 
     private boolean isSuperAdmin(UserRole currentUserRole) {
         return currentUserRole == UserRole.SUPER_ADMIN;
+    }
+
+    private boolean isStaff(UserRole currentUserRole) {
+        return currentUserRole == UserRole.STAFF;
     }
 
     private UserRole getCurrentUserRole() {

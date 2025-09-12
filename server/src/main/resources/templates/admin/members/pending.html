@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pending Members - Club Code Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link th:href="@{/css/admin.css}" rel="stylesheet">
+</head>
+<body class="bg-light">
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container-fluid">
+<<<<<<< HEAD
+        <a class="navbar-brand fw-bold" href="#" th:href="@{/admin/dashboard}">
+=======
+        <a class="navbar-brand fw-bold" href="#" th:href="${isStaff} ? '#' : @{/admin/dashboard}">
+>>>>>>> main
+            <i class="fas fa-code me-2"></i><span class="d-none d-sm-inline">Club Code Admin</span><span class="d-sm-none">Admin</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user-circle me-1"></i>
+                        <span th:if="${isStaff}">Staff</span>
+                        <span th:unless="${isStaff}">Admin</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="https://code.sefault.com"><i class="fas fa-home me-2"></i>View Site</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#" th:href="@{/logout}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-lg-2 col-md-3 d-md-block bg-white sidebar shadow-sm" id="sidebar">
+            <div class="position-sticky pt-3">
+                <div class="d-flex justify-content-between align-items-center mb-3 d-md-none">
+                    <h6 class="mb-0 text-primary">Menu</h6>
+                    <button class="btn-close" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar"></button>
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2" th:unless="${isStaff}">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/dashboard}">
+                            <i class="fas fa-tachometer-alt me-2 text-primary"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2" th:unless="${isStaff}">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/news}">
+                            <i class="fas fa-newspaper me-2 text-success"></i>
+                            <span>News</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2" th:unless="${isStaff}">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/events}">
+                            <i class="fas fa-calendar-alt me-2 text-warning"></i>
+                            <span>Events</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2" th:unless="${isStaff}">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/office-members}">
+                            <i class="fas fa-users me-2 text-info"></i>
+                            <span>Office Members</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2" th:unless="${isStaff}">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/members}">
+                            <i class="fas fa-user-graduate me-2 text-warning"></i>
+                            <span>Members</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link active d-flex align-items-center py-2" href="#" th:href="@{/admin/members/pending}">
+                            <i class="fas fa-user-clock me-2 text-info"></i>
+                            <span>Pending Activation</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2" th:unless="${isStaff}">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/sponsors}">
+                            <i class="fas fa-handshake me-2 text-success"></i>
+                            <span>Sponsors</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2" th:unless="${isStaff}">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/areas-of-interest}">
+                            <i class="fas fa-tags me-2 text-primary"></i>
+                            <span>Areas of Interest</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="col-lg-10 col-md-9 ms-sm-auto px-md-4 py-4">
+            <!-- Page Header -->
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center pb-2 mb-4 border-bottom">
+                <div class="mb-2 mb-sm-0">
+                    <h1 class="h2 text-info">
+                        <i class="fas fa-user-clock me-2"></i>Pending Member Activation
+                    </h1>
+                    <small class="text-muted">
+                        <span th:if="${isSuperAdmin}">
+                            <i class="fas fa-user-shield me-1"></i>You have SUPER_ADMIN privileges - Can activate all members
+                        </span>
+                        <span th:if="${isAdmin and !isSuperAdmin}">
+                            <i class="fas fa-user-tie me-1"></i>You have ADMIN privileges - Can activate USER members
+                        </span>
+                        <span th:if="${isStaff}">
+                            <i class="fas fa-user-cog me-1"></i>You have STAFF privileges - Can activate pending members
+                        </span>
+                    </small>
+                </div>
+                <div class="btn-toolbar mb-2 mb-md-0" th:unless="${isStaff}">
+                    <div class="btn-group me-2">
+                        <a href="#" th:href="@{/admin/members}" class="btn btn-outline-primary">
+                            <i class="fas fa-arrow-left me-1"></i>Back to Members
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alert Messages -->
+            <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert" id="successAlert">
+                <i class="fas fa-check-circle me-2"></i>
+                <span th:text="${success}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert" id="errorAlert">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                <span th:text="${error}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <!-- Activation Info -->
+            <div class="alert alert-info" role="alert">
+                <i class="fas fa-info-circle me-2"></i>
+                <strong>Member Activation:</strong>
+                These members have registered but their accounts are not yet activated.
+                Once activated, they will be able to access their accounts and use the platform.
+            </div>
+
+            <!-- Pending Members Table -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div th:if="${members != null and !#lists.isEmpty(members)}">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-warning">
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col" class="d-none d-lg-table-cell">Email</th>
+                                    <th scope="col" class="d-none d-xl-table-cell">Phone</th>
+                                    <th scope="col" class="d-none d-md-table-cell">Major</th>
+                                    <th scope="col" class="d-none d-md-table-cell">Year</th>
+                                    <th scope="col" class="d-none d-lg-table-cell">Registration Date</th>
+                                    <th scope="col" class="d-none d-md-table-cell">Role</th>
+                                    <th scope="col" class="text-center">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="member : ${members}">
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div th:class="${'rounded-circle d-flex align-items-center justify-content-center text-white me-3' +
+                                                             (member.role == T(com.code.server.enums.UserRole).SUPER_ADMIN ? ' bg-danger' :
+                                                              member.role == T(com.code.server.enums.UserRole).ADMIN ? ' bg-warning' : 
+                                                              member.role == T(com.code.server.enums.UserRole).STAFF ? ' bg-info' : ' bg-success')}"
+                                                 style="width: 40px; height: 40px;">
+                                                <i th:class="${member.role == T(com.code.server.enums.UserRole).SUPER_ADMIN ? 'fas fa-user-shield' :
+                                                             member.role == T(com.code.server.enums.UserRole).ADMIN ? 'fas fa-user-tie' : 
+                                                             member.role == T(com.code.server.enums.UserRole).STAFF ? 'fas fa-user-cog' : 'fas fa-user-clock'}"></i>
+                                            </div>
+                                            <div class="min-w-0">
+                                                <div class="fw-semibold text-truncate" th:text="${member.firstName + ' ' + member.lastName}">Member Name</div>
+                                                <small class="text-muted">
+                                                    <span th:if="${member.role == T(com.code.server.enums.UserRole).SUPER_ADMIN}" class="text-danger">SUPER_ADMIN - Pending</span>
+                                                    <span th:if="${member.role == T(com.code.server.enums.UserRole).ADMIN}" class="text-warning">ADMIN - Pending</span>
+                                                    <span th:if="${member.role == T(com.code.server.enums.UserRole).USER}" class="text-success">USER - Pending</span>
+                                                    <span th:if="${member.role == T(com.code.server.enums.UserRole).STAFF}" class="text-info">STAFF - Pending</span>
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="d-none d-lg-table-cell">
+                                        <span class="text-truncate d-block" th:text="${member.email}">email@example.com</span>
+                                    </td>
+                                    <td class="d-none d-xl-table-cell">
+                                        <span th:text="${member.phoneNumber}">Phone Number</span>
+                                    </td>
+                                    <td class="d-none d-md-table-cell">
+                                        <span class="badge bg-info" th:text="${member.major}">Major</span>
+                                    </td>
+                                    <td class="d-none d-md-table-cell">
+                                        <span class="badge bg-secondary" th:text="${member.year + ' Year'}">Year</span>
+                                    </td>
+                                    <td class="d-none d-lg-table-cell">
+                                        <span th:if="${member.createdAt != null}" th:text="${#temporals.format(member.createdAt, 'MMM dd, yyyy')}">Date</span>
+                                        <span th:unless="${member.createdAt != null}" class="text-muted">-</span>
+                                    </td>
+                                    <td class="d-none d-md-table-cell">
+                                        <span th:if="${member.role == T(com.code.server.enums.UserRole).SUPER_ADMIN}" class="badge bg-danger">
+                                            <i class="fas fa-user-shield me-1"></i>SUPER_ADMIN
+                                        </span>
+                                        <span th:if="${member.role == T(com.code.server.enums.UserRole).ADMIN}" class="badge bg-warning">
+                                            <i class="fas fa-user-tie me-1"></i>ADMIN
+                                        </span>
+                                        <span th:if="${member.role == T(com.code.server.enums.UserRole).USER}" class="badge bg-success">
+                                            <i class="fas fa-user me-1"></i>USER
+                                        </span>
+                                        <span th:if="${member.role == T(com.code.server.enums.UserRole).STAFF}" class="badge bg-info">
+                                            <i class="fas fa-user-cog me-1"></i>STAFF
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="btn-group btn-group-sm flex-wrap" role="group">
+                                            <a th:href="@{'/admin/members/' + ${member.id}}"
+<<<<<<< HEAD
+                                               class="btn btn-outline-info" title="View Details">
+=======
+                                               class="btn btn-outline-info" title="View Details" th:unless="${isStaff}">
+>>>>>>> main
+                                                <i class="fas fa-eye"></i><span class="d-none d-sm-inline ms-1">View</span>
+                                            </a>
+                                            <button type="button" class="btn btn-outline-success"
+                                                    th:data-activate-url="@{'/admin/members/' + ${member.id} + '/activate'}"
+                                                    th:data-member-name="${member.firstName + ' ' + member.lastName}"
+                                                    onclick="confirmActivate(this.dataset.activateUrl, this.dataset.memberName)"
+                                                    title="Activate">
+                                                <i class="fas fa-user-check"></i><span class="d-none d-sm-inline ms-1">Activate</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div th:if="${members == null or #lists.isEmpty(members)}" class="text-center py-5">
+                        <i class="fas fa-user-check fa-4x text-success mb-4 opacity-25"></i>
+                        <h4 class="text-muted mb-3">No pending members</h4>
+                        <p class="text-muted mb-4">All registered members have been activated.</p>
+                        <a href="#" th:href="@{/admin/members}" class="btn btn-primary" th:unless="${isStaff}">
+                            <i class="fas fa-arrow-left me-1"></i>Back to Members
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Activation Confirmation Modal -->
+<div class="modal fade" id="activateModal" tabindex="-1" aria-labelledby="activateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="activateModalLabel">
+                    <i class="fas fa-user-check text-success me-2"></i>Confirm Activation
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to activate the member "<strong id="activateItemName"></strong>"?</p>
+                <p class="text-success small mb-0">
+                    <i class="fas fa-info-circle me-1"></i>
+                    This will allow the member to access their account.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="activateForm" method="post" style="display: inline;">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-user-check me-1"></i>Activate
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function confirmActivate(activateUrl, memberName) {
+        const activateForm = document.getElementById('activateForm');
+        activateForm.action = activateUrl;
+
+        document.getElementById('activateItemName').textContent = memberName;
+        new bootstrap.Modal(document.getElementById('activateModal')).show();
+    }
+
+    // Responsive sidebar toggle for mobile
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebarToggle = document.querySelector('[data-bs-toggle="collapse"]');
+        const sidebar = document.getElementById('sidebar');
+
+        if (sidebarToggle && sidebar) {
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('show');
+            });
+
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth < 768 &&
+                    !sidebar.contains(e.target) &&
+                    !sidebarToggle.contains(e.target)) {
+                    sidebar.classList.remove('show');
+                }
+            });
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 768) {
+                sidebar.classList.remove('show');
+            }
+        });
+
+        // Auto-hide success message and refresh page after activation
+        const successAlert = document.getElementById('successAlert');
+        if (successAlert) {
+            // Auto-hide the success message after 3 seconds
+            setTimeout(function() {
+                const alert = new bootstrap.Alert(successAlert);
+                alert.close();
+            }, 3000);
+
+            // Refresh the page after 2 seconds to show updated list
+            setTimeout(function() {
+                window.location.reload();
+            }, 2000);
+        }
+    });
+</script>
+</body>
+</html>

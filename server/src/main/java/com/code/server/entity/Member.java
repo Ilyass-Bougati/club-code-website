@@ -66,12 +66,22 @@ public class Member {
     private Integer year;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "events_area_of_interests",
+            joinColumns = @JoinColumn(name = "events_id"),
+            inverseJoinColumns = @JoinColumn(name = "area_of_interests_id")
+    )
     @Builder.Default
     private Set<AreaOfInterest> areaOfInterests = new HashSet<>();
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "members_interest_events",
+            joinColumns = @JoinColumn(name = "member_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id")
+    )
     @Builder.Default
     private Set<Event> interestEvents = new HashSet<>();
 

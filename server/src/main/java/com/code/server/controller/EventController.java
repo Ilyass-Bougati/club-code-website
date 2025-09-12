@@ -41,6 +41,7 @@ public class EventController {
     public void deleteEvent(@PathVariable UUID id){
         eventService.delete(id);
     }
+    
     @PutMapping("/{id}")
     public ResponseEntity<EventDto> updateEvent(@RequestBody @Valid EventDto eventDto){
         return ResponseEntity.ok(eventService.update(eventDto));

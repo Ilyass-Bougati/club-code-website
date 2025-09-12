@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Card } from "@/components/ui/card";
@@ -39,7 +38,7 @@ interface EventDetailProps {
 
 export default function EventDetail({ event }: EventDetailProps) {
   const [loading, setLoading] = useState(false);
-  const { user, loading: userLoading } = useUser();
+  const { user, loading: userLoading, mutate } = useUser();
   if (!event) {
     return (
       <div className="container mx-auto py-20 text-center">
@@ -58,6 +57,7 @@ export default function EventDetail({ event }: EventDetailProps) {
       setLoading(true);
       const res = await api.post(`/api/v1/event/register/${event.id}`);
       toast.success("You have successfully joined the event!");
+      mutate();
       return { success: true, data: res.data };
     } catch (err: unknown) {
       toast.error("Server join event error:" + err);
@@ -73,8 +73,32 @@ export default function EventDetail({ event }: EventDetailProps) {
     }
   };
 
+  const handleCancel = async () => {
+    try {
+      setLoading(true);
+      const res = await api.post(`/api/v1/event/remove/${event.id}`);
+      toast.success("You have successfully cancelled your registration!");
+      mutate();
+      return { success: true, data: res.data };
+    } catch (error: unknown) {
+      toast.error("Server cancel event error: " + error);
+      if (error instanceof AxiosError) {
+        return {
+          success: false,
+          error:
+            error.response?.data?.message || "Failed to cancel registration",
+        };
+      }
+      return { success: false, error: "Failed to cancel registration" };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const isRegistrationAvailable =
     event.registrationOpen && new Date(event.registrationDeadline) > new Date();
+
+  const isRegistrationAlready = user?.joinedEvents.includes(event.id!);
 
   return (
     <div className="container mx-auto py-10 min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
@@ -228,17 +252,31 @@ export default function EventDetail({ event }: EventDetailProps) {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.7 }}
               >
-                <Button
-                  onClick={handleJoin}
-                  disabled={loading || userLoading || !user}
-                  className={cn(
-                    "w-full px-6 py-4 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground rounded-xl cursor-pointer",
-                    !user && "cursor-not-allowed"
-                  )}
-                >
-                  {loading ? "Joining..." : "Join Event"}
-                  <ArrowLeft className="w-4 h-4 rotate-180" />
-                </Button>
+                {isRegistrationAlready ? (
+                  <Button
+                    onClick={handleCancel}
+                    disabled={loading || userLoading}
+                    variant={"destructive"}
+                    className={cn(
+                      "w-full px-6 py-4  rounded-xl cursor-pointer"
+                    )}
+                  >
+                    {loading ? "Cancelling..." : "Cancel Registration"}
+                    <ArrowLeft className="w-4 h-4 rotate-180" />
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={handleJoin}
+                    disabled={loading || userLoading || !user}
+                    className={cn(
+                      "w-full px-6 py-4 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground rounded-xl cursor-pointer",
+                      !user && "cursor-not-allowed"
+                    )}
+                  >
+                    {loading ? "Joining..." : "Join Event"}
+                    <ArrowLeft className="w-4 h-4 rotate-180" />
+                  </Button>
+                )}
               </motion.div>
             )}
 

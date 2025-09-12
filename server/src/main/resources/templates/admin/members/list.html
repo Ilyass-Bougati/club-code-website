@@ -76,6 +76,12 @@
                         </a>
                     </li>
                     <li class="nav-item mb-2">
+                        <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/members/pending}">
+                            <i class="fas fa-user-clock me-2 text-info"></i>
+                            <span>Pending Activation</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
                         <a class="nav-link d-flex align-items-center py-2" href="#" th:href="@{/admin/sponsors}">
                             <i class="fas fa-handshake me-2 text-success"></i>
                             <span>Sponsors</span>
@@ -113,6 +119,9 @@
                         <a href="#" th:href="@{/admin/members/new}" class="btn btn-success">
                             <i class="fas fa-plus me-1"></i>Add Member
                         </a>
+                        <a href="#" th:href="@{/admin/members/pending}" class="btn btn-info">
+                            <i class="fas fa-user-clock me-1"></i>Pending Activation
+                        </a>
                     </div>
                 </div>
             </div>
@@ -134,10 +143,10 @@
                 <i class="fas fa-info-circle me-2"></i>
                 <strong>Role Management:</strong> 
                 <span th:if="${isSuperAdmin}">
-                    You have SUPER_ADMIN privileges and can manage all members (USER, ADMIN, SUPER_ADMIN).
+                    You have SUPER_ADMIN privileges and can manage all members (USER, ADMIN, SUPER_ADMIN, STAFF).
                 </span>
                 <span th:unless="${isSuperAdmin}">
-                    You have ADMIN privileges and can manage USER members only. You cannot manage ADMIN or SUPER_ADMIN members.
+                    You have ADMIN privileges and can manage USER and STAFF members. You cannot manage ADMIN or SUPER_ADMIN members.
                 </span>
             </div>
 
@@ -271,6 +280,11 @@
                                         </td>
                                         <td class="text-center">
                                             <div class="btn-group btn-group-sm flex-wrap" role="group">
+                                                <a th:href="@{'/admin/members/' + ${member.id}}"
+                                                   class="btn btn-outline-info" title="View Details"
+                                                   th:if="${isSuperAdmin}">
+                                                    <i class="fas fa-eye"></i><span class="d-none d-sm-inline ms-1">View</span>
+                                                </a>
                                                 <a th:href="@{'/admin/members/' + ${member.id} + '/edit'}"
                                                    class="btn btn-outline-primary" title="Edit"
                                                    th:if="${isSuperAdmin}">
@@ -282,6 +296,99 @@
                                                         onclick="confirmDelete(this.dataset.deleteUrl, this.dataset.memberName)"
                                                         title="Delete"
                                                         th:if="${isSuperAdmin}">
+                                                    <i class="fas fa-trash"></i><span class="d-none d-sm-inline ms-1">Delete</span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- STAFF Members Section -->
+                        <div class="mb-4">
+                            <h5 class="text-info mb-3">
+                                <i class="fas fa-user-cog me-2"></i>STAFF Members
+                            </h5>
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-info">
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col" class="d-none d-lg-table-cell">Email</th>
+                                        <th scope="col" class="d-none d-xl-table-cell">Phone</th>
+                                        <th scope="col" class="d-none d-md-table-cell">Major</th>
+                                        <th scope="col" class="d-none d-md-table-cell">Year</th>
+                                        <th scope="col" class="d-none d-lg-table-cell">Joined Date</th>
+                                        <th scope="col" class="d-none d-md-table-cell">Status</th>
+                                        <th scope="col" class="text-center">
+                                            Actions
+                                            <span th:if="${isSuperAdmin}" class="badge bg-danger ms-1">SUPER_ADMIN</span>
+                                            <span th:unless="${isSuperAdmin}" class="badge bg-warning ms-1">ADMIN</span>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="member : ${members}" th:if="${member.role == T(com.code.server.enums.UserRole).STAFF}">
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="bg-info rounded-circle d-flex align-items-center justify-content-center text-white me-3"
+                                                     style="width: 40px; height: 40px;">
+                                                    <i class="fas fa-user-cog"></i>
+                                                </div>
+                                                <div class="min-w-0">
+                                                    <div class="fw-semibold text-truncate" th:text="${member.firstName + ' ' + member.lastName}">Member Name</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="d-none d-lg-table-cell">
+                                            <span class="text-truncate d-block" th:text="${member.email}">email@example.com</span>
+                                        </td>
+                                        <td class="d-none d-xl-table-cell">
+                                            <span th:text="${member.phoneNumber}">Phone Number</span>
+                                        </td>
+                                        <td class="d-none d-md-table-cell">
+                                            <span class="badge bg-info" th:text="${member.major}">Major</span>
+                                        </td>
+                                        <td class="d-none d-md-table-cell">
+                                            <span class="badge bg-secondary" th:text="${member.year + ' Year'}">Year</span>
+                                        </td>
+                                        <td class="d-none d-lg-table-cell">
+                                            <span th:if="${member.createdAt != null}" th:text="${#temporals.format(member.createdAt, 'MMM dd, yyyy')}">Date</span>
+                                            <span th:unless="${member.createdAt != null}" class="text-muted">-</span>
+                                        </td>
+                                        <td class="d-none d-md-table-cell">
+                                            <span th:if="${member.activated}" class="badge bg-success">
+                                                <i class="fas fa-check-circle me-1"></i>Active
+                                            </span>
+                                            <span th:unless="${member.activated}" class="badge bg-warning">
+                                                <i class="fas fa-clock me-1"></i>Pending
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="btn-group btn-group-sm flex-wrap" role="group">
+                                                <a th:href="@{'/admin/members/' + ${member.id}}"
+                                                   class="btn btn-outline-info" title="View Details" th:if="${isSuperAdmin}">
+                                                    <i class="fas fa-eye"></i><span class="d-none d-sm-inline ms-1">View</span>
+                                                </a>
+                                                <a th:href="@{'/admin/members/' + ${member.id} + '/edit'}"
+                                                   class="btn btn-outline-primary" title="Edit" th:if="${isSuperAdmin}">
+                                                    <i class="fas fa-edit"></i><span class="d-none d-sm-inline ms-1">Edit</span>
+                                                </a>
+<!--                                                <button type="button" class="btn btn-outline-success"-->
+<!--                                                        th:data-activate-url="@{'/admin/members/' + ${member.id} + '/activate'}"-->
+<!--                                                        th:data-member-name="${member.firstName + ' ' + member.lastName}"-->
+<!--                                                        onclick="confirmActivate(this.dataset.activateUrl, this.dataset.memberName)"-->
+<!--                                                        title="Activate"-->
+<!--                                                        th:if="${!member.activated}">-->
+<!--                                                    <i class="fas fa-user-check"></i><span class="d-none d-sm-inline ms-1">Activate</span>-->
+<!--                                                </button>-->
+                                                <button type="button" class="btn btn-outline-danger"
+                                                        th:data-delete-url="@{'/admin/members/' + ${member.id}}"
+                                                        th:data-member-name="${member.firstName + ' ' + member.lastName}"
+                                                        onclick="confirmDelete(this.dataset.deleteUrl, this.dataset.memberName)"
+                                                        title="Delete" th:if="${isSuperAdmin}">
                                                     <i class="fas fa-trash"></i><span class="d-none d-sm-inline ms-1">Delete</span>
                                                 </button>
                                             </div>
@@ -307,6 +414,7 @@
                                         <th scope="col" class="d-none d-md-table-cell">Major</th>
                                         <th scope="col" class="d-none d-md-table-cell">Year</th>
                                         <th scope="col" class="d-none d-lg-table-cell">Joined Date</th>
+                                        <th scope="col" class="d-none d-md-table-cell">Status</th>
                                         <th scope="col" class="text-center">
                                             Actions
                                             <span th:if="${isSuperAdmin}" class="badge bg-danger ms-1">SUPER_ADMIN</span>
@@ -343,12 +451,32 @@
                                             <span th:if="${member.createdAt != null}" th:text="${#temporals.format(member.createdAt, 'MMM dd, yyyy')}">Date</span>
                                             <span th:unless="${member.createdAt != null}" class="text-muted">-</span>
                                         </td>
+                                        <td class="d-none d-md-table-cell">
+                                            <span th:if="${member.activated}" class="badge bg-success">
+                                                <i class="fas fa-check-circle me-1"></i>Active
+                                            </span>
+                                            <span th:unless="${member.activated}" class="badge bg-warning">
+                                                <i class="fas fa-clock me-1"></i>Pending
+                                            </span>
+                                        </td>
                                         <td class="text-center">
                                             <div class="btn-group btn-group-sm flex-wrap" role="group">
+                                                <a th:href="@{'/admin/members/' + ${member.id}}"
+                                                   class="btn btn-outline-info" title="View Details">
+                                                    <i class="fas fa-eye"></i><span class="d-none d-sm-inline ms-1">View</span>
+                                                </a>
                                                 <a th:href="@{'/admin/members/' + ${member.id} + '/edit'}"
                                                    class="btn btn-outline-primary" title="Edit">
                                                     <i class="fas fa-edit"></i><span class="d-none d-sm-inline ms-1">Edit</span>
                                                 </a>
+                                                <button type="button" class="btn btn-outline-success"
+                                                        th:data-activate-url="@{'/admin/members/' + ${member.id} + '/activate'}"
+                                                        th:data-member-name="${member.firstName + ' ' + member.lastName}"
+                                                        onclick="confirmActivate(this.dataset.activateUrl, this.dataset.memberName)"
+                                                        title="Activate"
+                                                        th:if="${!member.activated}">
+                                                    <i class="fas fa-user-check"></i><span class="d-none d-sm-inline ms-1">Activate</span>
+                                                </button>
                                                 <button type="button" class="btn btn-outline-danger"
                                                         th:data-delete-url="@{'/admin/members/' + ${member.id}}"
                                                         th:data-member-name="${member.firstName + ' ' + member.lastName}"
@@ -410,6 +538,35 @@
     </div>
 </div>
 
+<!-- Activation Confirmation Modal -->
+<div class="modal fade" id="activateModal" tabindex="-1" aria-labelledby="activateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="activateModalLabel">
+                    <i class="fas fa-user-check text-success me-2"></i>Confirm Activation
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to activate the member "<strong id="activateItemName"></strong>"?</p>
+                <p class="text-success small mb-0">
+                    <i class="fas fa-info-circle me-1"></i>
+                    This will allow the member to access their account.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="activateForm" method="post" style="display: inline;">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-user-check me-1"></i>Activate
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     function confirmDelete(deleteUrl, memberName) {
@@ -418,6 +575,14 @@
 
         document.getElementById('deleteItemName').textContent = memberName;
         new bootstrap.Modal(document.getElementById('deleteModal')).show();
+    }
+    
+    function confirmActivate(activateUrl, memberName) {
+        const activateForm = document.getElementById('activateForm');
+        activateForm.action = activateUrl;
+
+        document.getElementById('activateItemName').textContent = memberName;
+        new bootstrap.Modal(document.getElementById('activateModal')).show();
     }
     
     // Responsive sidebar toggle for mobile

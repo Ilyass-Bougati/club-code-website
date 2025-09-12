@@ -1,0 +1,10 @@
+# This should use environment variables
+scrape_configs:
+  - job_name: code_backend
+    honor_timestamps: true
+    scrape_interval: 30s
+    scrape_timeout: 30s
+    metrics_path: /actuator/prometheus
+    scheme: https
+    static_configs:
+      - targets: ['api.code.sefault.com']

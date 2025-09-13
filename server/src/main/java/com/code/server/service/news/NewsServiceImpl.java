@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,10 +70,10 @@ public class NewsServiceImpl implements NewsService{
     @Transactional(readOnly = true)
     @Cacheable(value = "allNewsCache", key = "'ALL_NEWS'")
     public List<NewsDto> getAllNews() {
-        return newsRepository.findAll()
+        return newsRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"))
                 .stream()
                 .map(newsMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
 

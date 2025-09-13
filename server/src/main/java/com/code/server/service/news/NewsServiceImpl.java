@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -70,10 +71,10 @@ public class NewsServiceImpl implements NewsService{
     @Transactional(readOnly = true)
     @Cacheable(value = "allNewsCache", key = "'ALL_NEWS'")
     public List<NewsDto> getAllNews() {
-        return newsRepository.findAll(Sort.by(Sort.Direction.DESC, "publishedAt"))
+        return new ArrayList<>(newsRepository.findAll(Sort.by(Sort.Direction.DESC, "publishedAt"))
                 .stream()
                 .map(newsMapper::toDTO)
-                .toList();
+                .toList());
     }
 
 

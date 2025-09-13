@@ -86,9 +86,13 @@ export default function EventsSection({ events, currentPage, totalPages }: Event
                                                 className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
                                             />
                                             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/70 via-background/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                                            <div className="absolute top-3 left-3 bg-secondary text-white px-2 py-1 rounded">
+                                            <div className="absolute top-3 left-3 bg-accent text-white px-2 py-1 rounded-full text-xs dark:bg-primary">
                                                 {event.eventType}
                                             </div>
+
+
+
+                                         
 
                                             <div className="absolute bottom-3 left-3 z-10 opacity-0 translate-y-2 transition-all duration-200 group-hover:opacity-100 group-hover:translate-y-0">
                                                 <Button size="sm" variant={buttonVariant}>
@@ -97,8 +101,10 @@ export default function EventsSection({ events, currentPage, totalPages }: Event
                                             </div>
                                         </div>
                                         <CardHeader>
-                                            <CardTitle className="group-hover:text-primary transition-colors text-lg min-h-[3.5rem] leading-tight">
+                                         
+                                            <CardTitle className="group-hover:text-primary transition-colors text-lg leading-tight line-clamp-3">
                                                 {truncateTitle(event.title, 60)}
+
                                             </CardTitle>
                                         </CardHeader>
                                         <CardContent className="text-sm text-muted-foreground space-y-2">
@@ -119,7 +125,7 @@ export default function EventsSection({ events, currentPage, totalPages }: Event
                         ))}
                     </div>
 
-                    {numpages && <Pagination currentPage={currentPage} totalPages={totalPages} />}
+                <Pagination currentPage={currentPage} totalPages={totalPages} />
                 </>
             ) : (
                 <div className="text-center py-20 text-muted-foreground">

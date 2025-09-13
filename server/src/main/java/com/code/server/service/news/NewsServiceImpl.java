@@ -70,7 +70,7 @@ public class NewsServiceImpl implements NewsService{
     @Transactional(readOnly = true)
     @Cacheable(value = "allNewsCache", key = "'ALL_NEWS'")
     public List<NewsDto> getAllNews() {
-        return newsRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"))
+        return newsRepository.findAll(Sort.by(Sort.Direction.DESC, "publishedAt"))
                 .stream()
                 .map(newsMapper::toDTO)
                 .toList();

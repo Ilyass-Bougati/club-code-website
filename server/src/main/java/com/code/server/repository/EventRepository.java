@@ -16,7 +16,7 @@ import java.util.UUID;
 public interface EventRepository extends JpaRepository<Event, UUID> {
     @Transactional(readOnly = true)
     @Query(
-            value = "SELECT * FROM event WHERE event.published = true ORDER BY event.published_at LIMIT :limit OFFSET :offset",
+            value = "SELECT * FROM event WHERE event.published = true ORDER BY event.published_at DESC LIMIT :limit OFFSET :offset",
             nativeQuery = true
     )
     List<Event> getPage(@Param("limit") Integer limit, @Param("offset") Integer offset);

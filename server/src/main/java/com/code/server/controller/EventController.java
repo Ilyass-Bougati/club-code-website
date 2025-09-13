@@ -53,7 +53,7 @@ public class EventController {
     }
 
     // This is the page size used in getAllEvents
-    private final static Integer pageSize = 20;
+    private final static Integer pageSize = 9;
 
     // TODO : test this later, it looks sketchy
     @GetMapping("/page/{page}")
